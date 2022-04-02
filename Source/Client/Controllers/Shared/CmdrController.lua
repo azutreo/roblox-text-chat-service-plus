@@ -19,15 +19,15 @@ local ReplicatedStorage: ReplicatedStorage = game:GetService("ReplicatedStorage"
 -- KNIT AND DEPENDENCIES --
 ---------------------------
 
-local Knit: table = require(ReplicatedStorage.Packages.Knit)
-local Cmdr: table = require(ReplicatedStorage:WaitForChild("CmdrClient"))
-local CmdrUtil: table = require(Knit.SharedModules.CmdrUtil)
+local Knit = require(ReplicatedStorage.Packages.Knit)
+local Cmdr = require(ReplicatedStorage:WaitForChild("CmdrClient"))
+local CmdrUtil = require(Knit.SharedModules.CmdrUtil)
 
 ----------------------------
 -- CREATE KNIT CONTROLLER --
 ----------------------------
 
-local MyCmdrController: table = Knit.CreateController {
+local MyCmdrController = Knit.CreateController {
 	Name = "CmdrController"
 }
 

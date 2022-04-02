@@ -20,15 +20,15 @@ local Players: Players = game:GetService("Players")
 -- KNIT AND DEPENDENCIES --
 ---------------------------
 
-local Knit: table = require(ReplicatedStorage.Packages.Knit)
-local DataStore2: table = require(Knit.ServerModules.DataStore2)
-local Signal: table = require(Knit.SharedPackages.Signal)
+local Knit = require(ReplicatedStorage.Packages.Knit)
+local DataStore2 = require(Knit.ServerModules.DataStore2)
+local Signal = require(Knit.SharedPackages.Signal)
 
 -------------------------
 -- CREATE KNIT SERVICE --
 -------------------------
 
-local MyMarketplaceService: table = Knit.CreateService {
+local MyMarketplaceService = Knit.CreateService {
 	Name = "MarketplaceService",
 	Client = {
 		Value = Knit.CreateProperty({})
@@ -61,7 +61,7 @@ type ReceiptInfo = {
 -- PRIVATE FUNCTIONS --
 -----------------------
 
-local function CheckAlreadyProcessed(purchases: table, purchaseId: string): boolean
+local function CheckAlreadyProcessed(purchases, purchaseId: string): boolean
 	for _, purchase in ipairs(purchases) do
 		if purchase.PurchaseId == purchaseId then
 			return true
@@ -71,7 +71,7 @@ local function CheckAlreadyProcessed(purchases: table, purchaseId: string): bool
 	return false
 end
 
-local function ProcessReceipt(self: table, receiptInfo: ReceiptInfo): Enum.ProductPurchaseDecision
+local function ProcessReceipt(self, receiptInfo: ReceiptInfo): Enum.ProductPurchaseDecision
 	local playerId: number = receiptInfo.PlayerId
 	local purchaseId: string = receiptInfo.PurchaseId
 	local productId: number = receiptInfo.ProductId
@@ -82,7 +82,7 @@ local function ProcessReceipt(self: table, receiptInfo: ReceiptInfo): Enum.Produ
 		return Enum.ProductPurchaseDecision.NotProcessedYet
 	end
 
-	local purchases: table = self:Get(player)
+	local purchases = self:Get(player)
 
 	if CheckAlreadyProcessed(purchases, purchaseId) then
 		return Enum.ProductPurchaseDecision.PurchaseGranted
@@ -102,10 +102,10 @@ local function ProcessReceipt(self: table, receiptInfo: ReceiptInfo): Enum.Produ
 	return Enum.ProductPurchaseDecision.PurchaseGranted
 end
 
-local function OnPlayerAdded(self: table, player: Player): nil
+local function OnPlayerAdded(self, player: Player): nil
 	assert(Knit.SharedUtil:GetIsPlayerValid(player), "Player must be a Player Instance")
 
-	local function OnUpdate(value: table): nil
+	local function OnUpdate(value): nil
 		if #value <= 0 then
 			return
 		end

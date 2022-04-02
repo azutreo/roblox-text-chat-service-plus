@@ -12,7 +12,7 @@
 -- CREATE MODULE --
 -------------------
 
-local ClientConfig: table = {}
+local ClientConfig = {}
 
 ----------------
 -- PROPERTIES --

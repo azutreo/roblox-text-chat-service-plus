@@ -19,16 +19,15 @@ local MarketplaceService: MarketplaceService = game:GetService("MarketplaceServi
 -- KNIT AND DEPENDENCIES --
 ---------------------------
 
-local Knit: table = require(ReplicatedStorage.Packages.Knit)
-local Signal: table = require(Knit.SharedPackages.Signal)
-local GamePassModule: table = require(Knit.SharedModules.RobloxApi.GamePassModule)
-local TrustModule: table = require(Knit.SharedModules.TrustModule)
+local Knit = require(ReplicatedStorage.Packages.Knit)
+local Signal = require(Knit.SharedPackages.Signal)
+local GamePassModule = require(Knit.SharedModules.RobloxApi.GamePassModule)
 
 -------------------------
 -- CREATE KNIT SERVICE --
 -------------------------
 
-local MyGamePassService: table = Knit.CreateService {
+local MyGamePassService = Knit.CreateService {
 	Name = "GamePassService",
 	Client = {
 		Value = Knit.CreateProperty({})
@@ -48,17 +47,15 @@ local MyGamePassService: table = Knit.CreateService {
 -- PRIVATE FUNCTIONS --
 -----------------------
 
-local function OnPlayerAdded(self: table, player: Player): nil
+local function OnPlayerAdded(self, player: Player): nil
 	local playerPasses = {}
 
-	local playerTrust = TrustModule:GetTrustForPlayer(player)
-
-	for _, pass: table in ipairs(GamePassModule.Passes) do
+	for _, pass in ipairs(GamePassModule.Passes) do
 		if not Knit.SharedUtil:GetIsPlayerValid(player) then
 			break
 		end
 
-		local hasPass = (playerTrust.Name == "Staff") or MarketplaceService:UserOwnsGamePassAsync(player.UserId, pass.PassId)
+		local hasPass = MarketplaceService:UserOwnsGamePassAsync(player.UserId, pass.PassId)
 		playerPasses[pass.Identifier] = hasPass
 	end
 

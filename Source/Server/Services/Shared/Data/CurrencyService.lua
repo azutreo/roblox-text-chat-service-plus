@@ -18,14 +18,14 @@ local ReplicatedStorage: ReplicatedStorage = game:GetService("ReplicatedStorage"
 -- KNIT AND DEPENDENCIES --
 ---------------------------
 
-local Knit: table = require(ReplicatedStorage.Packages.Knit)
-local DataStore2: table = require(Knit.ServerModules.DataStore2)
+local Knit = require(ReplicatedStorage.Packages.Knit)
+local DataStore2 = require(Knit.ServerModules.DataStore2)
 
 -------------------------
 -- CREATE KNIT SERVICE --
 -------------------------
 
-local MyCurrencyService: table = Knit.CreateService {
+local MyCurrencyService = Knit.CreateService {
 	Name = "CurrencyService",
 	Client = {
 		Value = Knit.CreateProperty(0)
@@ -47,7 +47,7 @@ local DEFAULT_VALUE = 1000
 -- PRIVATE FUNCTIONS --
 -----------------------
 
-local function OnPlayerAdded(self: table, player: Player): nil
+local function OnPlayerAdded(self, player: Player): nil
 	assert(Knit.SharedUtil:GetIsPlayerValid(player), "Player must be a Player Instance")
 
 	local function OnUpdate(value: number): nil

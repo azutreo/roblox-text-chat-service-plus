@@ -18,20 +18,20 @@ local ReplicatedStorage: ReplicatedStorage = game:GetService("ReplicatedStorage"
 -- KNIT AND DEPENDENCIES --
 ---------------------------
 
-local TableUtil: table = require(ReplicatedStorage.Packages.TableUtil)
+local TableUtil = require(ReplicatedStorage.Packages.TableUtil)
 
 ------------------
 -- CREATE CLASS --
 ------------------
 
-local KnitClass: table = {}
+local KnitClass = {}
 KnitClass.__index = KnitClass
 
 ------------------------
 -- PRIVATE PROPERTIES --
 ------------------------
 
-local Objects: table = {}
+local Objects = {}
 local IndexCount: number = 0
 
 -----------------------
@@ -42,7 +42,7 @@ local IndexCount: number = 0
 -- PRIVATE FUNCTIONS --
 -----------------------
 
-local function SetupClass(self: table, original: table?): table
+local function SetupClass(self, original?)
 	setmetatable(self, original or KnitClass)
 	table.insert(Objects, self)
 
@@ -56,7 +56,7 @@ end
 -- NEW CLASS INSTANCE FUNCTION --
 ---------------------------------
 
-function KnitClass.new(original: table?): table
+function KnitClass.new(original?)
 	return SetupClass(original or {}, nil)
 end
 
@@ -66,7 +66,7 @@ end
 
 function KnitClass:Destroy(): boolean
 	local function GetModule()
-		for index: number, module: table in ipairs(Objects) do
+		for index: number, module in ipairs(Objects) do
 			if module._Index == self._Index then
 				return index
 			end
@@ -84,8 +84,8 @@ function KnitClass:Destroy(): boolean
 	return true
 end
 
-function KnitClass:Clone(original: table?): table
-	local clone: table = TableUtil.Copy(self, true)
+function KnitClass:Clone(original?)
+	local clone = TableUtil.Copy(self, true)
 
 	return SetupClass(clone, original)
 end

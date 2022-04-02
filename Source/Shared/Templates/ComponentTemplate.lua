@@ -18,14 +18,14 @@ local ReplicatedStorage: ReplicatedStorage = game:GetService("ReplicatedStorage"
 -- KNIT AND DEPENDENCIES --
 ---------------------------
 
-local Knit: table = require(ReplicatedStorage.Packages.Knit)
-local Component: table = require(Knit.SharedPackages.Component)
+local Knit = require(ReplicatedStorage.Packages.Knit)
+local Component = require(Knit.SharedPackages.Component)
 
 ----------------------
 -- CREATE COMPONENT --
 ----------------------
 
-local MyNameComponent: table = Component.new({
+local MyNameComponent = Component.new({
 	Tag = "NameComponent",
 	RenderPriority = Enum.RenderPriority.Last.Value
 })

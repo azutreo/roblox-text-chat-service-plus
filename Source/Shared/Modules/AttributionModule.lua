@@ -18,13 +18,13 @@ local ReplicatedStorage: ReplicatedStorage = game:GetService("ReplicatedStorage"
 -- KNIT AND DEPENDENCIES --
 ---------------------------
 
-local Knit: table = require(ReplicatedStorage.Packages.Knit)
+local Knit = require(ReplicatedStorage.Packages.Knit)
 
 -------------------
 -- CREATE MODULE --
 -------------------
 
-local MyAttributionModule: table = {}
+local MyAttributionModule = {}
 
 ------------------------
 -- PRIVATE PROPERTIES --

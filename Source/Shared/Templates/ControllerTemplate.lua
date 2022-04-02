@@ -18,13 +18,13 @@ local ReplicatedStorage: ReplicatedStorage = game:GetService("ReplicatedStorage"
 -- KNIT AND DEPENDENCIES --
 ---------------------------
 
-local Knit: table = require(ReplicatedStorage.Packages.Knit)
+local Knit = require(ReplicatedStorage.Packages.Knit)
 
 ----------------------------
 -- CREATE KNIT CONTROLLER --
 ----------------------------
 
-local MyNameController: table = Knit.CreateController {
+local MyNameController = Knit.CreateController {
 	Name = "NameController",
 }
 

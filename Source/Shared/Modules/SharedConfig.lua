@@ -12,7 +12,7 @@
 -- CREATE MODULE --
 -------------------
 
-local SharedConfig: table = {}
+local SharedConfig = {}
 
 ----------------
 -- PROPERTIES --

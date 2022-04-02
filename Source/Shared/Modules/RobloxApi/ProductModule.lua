@@ -18,13 +18,13 @@ local ReplicatedStorage: ReplicatedStorage = game:GetService("ReplicatedStorage"
 -- KNIT AND DEPENDENCIES --
 ---------------------------
 
-local Knit: table = require(ReplicatedStorage.Packages.Knit)
+local Knit = require(ReplicatedStorage.Packages.Knit)
 
 -------------------
 -- CREATE MODULE --
 -------------------
 
-local MyProductModule: table = {}
+local MyProductModule = {}
 
 ------------------------
 -- PRIVATE PROPERTIES --
@@ -42,7 +42,7 @@ export type Product = {
 	Name: string,
 	Identifier: string,
 	ProductId: number,
-	ProductType: table,
+	ProductType,
 	ExtraData: {any}
 }
 

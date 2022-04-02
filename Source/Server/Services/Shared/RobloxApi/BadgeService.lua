@@ -19,15 +19,15 @@ local BadgeService = game:GetService("BadgeService")
 -- KNIT AND DEPENDENCIES --
 ---------------------------
 
-local Knit: table = require(ReplicatedStorage.Packages.Knit)
-local Signal: table = require(Knit.SharedPackages.Signal)
-local BadgeModule: table = require(Knit.SharedModules.RobloxApi.BadgeModule)
+local Knit = require(ReplicatedStorage.Packages.Knit)
+local Signal = require(Knit.SharedPackages.Signal)
+local BadgeModule = require(Knit.SharedModules.RobloxApi.BadgeModule)
 
 -------------------------
 -- CREATE KNIT SERVICE --
 -------------------------
 
-local MyBadgeService: table = Knit.CreateService {
+local MyBadgeService = Knit.CreateService {
 	Name = "BadgeService",
 	Client = {
 		Value = Knit.CreateProperty({})
@@ -39,10 +39,10 @@ local MyBadgeService: table = Knit.CreateService {
 -- PRIVATE PROPERTIES --
 ------------------------
 
-local function OnPlayerAdded(self: table, player: Player): nil
+local function OnPlayerAdded(self, player: Player): nil
 	local playerBadges = {}
 
-	for _, badge: table in ipairs(BadgeModule.Badges) do
+	for _, badge in ipairs(BadgeModule.Badges) do
 		if not Knit.SharedUtil:GetIsPlayerValid(player) then
 			break
 		end
@@ -92,7 +92,7 @@ function MyBadgeService:AwardBadge(player: Player, identifier: string)
 		return
 	end
 
-	local badge: table = BadgeModule:GetBadgeByIdentifier(identifier)
+	local badge = BadgeModule:GetBadgeByIdentifier(identifier)
 	if not badge then
 		return
 	end

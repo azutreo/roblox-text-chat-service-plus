@@ -18,14 +18,14 @@ local ReplicatedStorage: ReplicatedStorage = game:GetService("ReplicatedStorage"
 -- KNIT AND DEPENDENCIES --
 ---------------------------
 
-local Knit: table = require(ReplicatedStorage.Packages.Knit)
-local CheckCanRunCommands: table = require(Knit.SharedModules.CmdrUtil.CheckCanRunCommands)
+local Knit = require(ReplicatedStorage.Packages.Knit)
+local CheckCanRunCommands = require(Knit.SharedModules.CmdrUtil.CheckCanRunCommands)
 
 -------------------
 -- CREATE MODULE --
 -------------------
 
-local CmdrUtil: table = {}
+local CmdrUtil = {}
 
 ---------------
 -- CONSTANTS --

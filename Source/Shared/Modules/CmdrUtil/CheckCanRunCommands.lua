@@ -19,8 +19,8 @@ local Players: Players = game:GetService("Players")
 -- KNIT AND DEPENDENCIES --
 ---------------------------
 
-local Knit: table = require(ReplicatedStorage.Packages.Knit)
-local GroupModule: table = require(Knit.SharedModules.RobloxApi.GroupModule)
+local Knit = require(ReplicatedStorage.Packages.Knit)
+local GroupModule = require(Knit.SharedModules.RobloxApi.GroupModule)
 
 ---------------
 -- CONSTANTS --

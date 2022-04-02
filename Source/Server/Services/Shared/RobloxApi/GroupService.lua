@@ -18,15 +18,15 @@ local ReplicatedStorage: ReplicatedStorage = game:GetService("ReplicatedStorage"
 -- KNIT AND DEPENDENCIES --
 ---------------------------
 
-local Knit: table = require(ReplicatedStorage.Packages.Knit)
-local Signal: table = require(Knit.SharedPackages.Signal)
-local GroupModule: table = require(Knit.SharedModules.RobloxApi.GroupModule)
+local Knit = require(ReplicatedStorage.Packages.Knit)
+local Signal = require(Knit.SharedPackages.Signal)
+local GroupModule = require(Knit.SharedModules.RobloxApi.GroupModule)
 
 -------------------------
 -- CREATE KNIT SERVICE --
 -------------------------
 
-local MyGroupService: table = Knit.CreateService {
+local MyGroupService = Knit.CreateService {
 	Name = "GroupService",
 	Client = {
 		Value = Knit.CreateProperty({})
@@ -46,10 +46,10 @@ local MyGroupService: table = Knit.CreateService {
 -- PRIVATE FUNCTIONS --
 -----------------------
 
-local function OnPlayerAdded(self: table, player: Player): nil
+local function OnPlayerAdded(self, player: Player): nil
 	local playerGroups = {}
 
-	for _, group: table in ipairs(GroupModule.Groups) do
+	for _, group in ipairs(GroupModule.Groups) do
 		if not Knit.SharedUtil:GetIsPlayerValid(player) then
 			break
 		end

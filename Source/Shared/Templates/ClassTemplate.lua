@@ -18,14 +18,14 @@ local ReplicatedStorage: ReplicatedStorage = game:GetService("ReplicatedStorage"
 -- KNIT AND DEPENDENCIES --
 ---------------------------
 
-local Knit: table = require(ReplicatedStorage.Packages.Knit)
-local KnitClass: table = require(ReplicatedStorage.Modules.KnitClass)
+local Knit = require(ReplicatedStorage.Packages.Knit)
+local KnitClass = require(ReplicatedStorage.Modules.KnitClass)
 
 ------------------
 -- CREATE CLASS --
 ------------------
 
-local MyNameClass: table = {}
+local MyNameClass = {}
 MyNameClass.__index = MyNameClass
 setmetatable(MyNameClass, KnitClass)
 
@@ -45,8 +45,8 @@ setmetatable(MyNameClass, KnitClass)
 -- NEW CLASS INSTANCE FUNCTION --
 ---------------------------------
 
-function MyNameClass.new(): table
-	local self: table = KnitClass.new({}, MyNameClass)
+function MyNameClass.new()
+	local self = KnitClass.new({}, MyNameClass)
 
 	return self
 end

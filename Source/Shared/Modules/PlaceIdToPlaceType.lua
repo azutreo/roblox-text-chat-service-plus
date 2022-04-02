@@ -15,13 +15,13 @@
 -- CREATE MODULE --
 -------------------
 
-local PlaceIdToPlaceType: table = {}
+local PlaceIdToPlaceType = {}
 
 ------------------------
 -- PRIVATE PROPERTIES --
 ------------------------
 
-local Places: table = {}
+local Places = {}
 
 -- Game
 Places["Game.PROD"] = {

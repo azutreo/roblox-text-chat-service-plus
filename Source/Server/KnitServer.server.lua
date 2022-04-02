@@ -19,7 +19,7 @@ local ServerStorage: ServerStorage = game:GetService("ServerStorage")
 -- LOAD AND INITIALIZE KNIT --
 ------------------------------
 
-local Knit: table = require(ReplicatedStorage.Packages.Knit)
+local Knit = require(ReplicatedStorage.Packages.Knit)
 local Services: Folder = script.Parent.Services
 local Components: Folder = script.Parent.Components
 
@@ -39,7 +39,7 @@ Knit.SharedUtil = require(Knit.SharedModules.SharedUtil)
 Knit.ServerUtil = require(Knit.ServerModules.ServerUtil)
 
 -- Get place type for subfolder selection
-local PlaceIdToPlaceType: table = require(Knit.SharedModules.PlaceIdToPlaceType)
+local PlaceIdToPlaceType = require(Knit.SharedModules.PlaceIdToPlaceType)
 Knit.PlaceType = PlaceIdToPlaceType[game.PlaceId]
 
 -----------------------

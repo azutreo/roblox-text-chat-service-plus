@@ -20,14 +20,14 @@ local ServerStorage: ServerStorage = game:GetService("ServerStorage")
 -- KNIT AND DEPENDENCIES --
 ---------------------------
 
-local Knit: table = require(ReplicatedStorage.Packages.Knit)
-local Cmdr: table = require(Knit.ServerPackages.Cmdr)
+local Knit = require(ReplicatedStorage.Packages.Knit)
+local Cmdr = require(Knit.ServerPackages.Cmdr)
 
 -------------------------
 -- CREATE KNIT SERVICE --
 -------------------------
 
-local MyCmdrService: table = Knit.CreateService {
+local MyCmdrService = Knit.CreateService {
 	Name = "CmdrService",
 	Client = {}
 }

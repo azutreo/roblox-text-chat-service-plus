@@ -19,13 +19,13 @@ local Players: Players = game:GetService("Players")
 -- KNIT AND DEPENDENCIES --
 ---------------------------
 
-local Knit: table = require(ReplicatedStorage.Packages.Knit)
+local Knit = require(ReplicatedStorage.Packages.Knit)
 
 -------------------
 -- CREATE MODULE --
 -------------------
 
-local SharedUtil: table = {}
+local SharedUtil = {}
 
 ------------------------
 -- PRIVATE PROPERTIES --
@@ -36,7 +36,7 @@ type Function = (...any) -> ()
 type Callback = {
 	Callback: Function,
 	Arguments: {any},
-	Self: table
+	Self
 }
 
 local playerAddedFunctions: {Callback} = {}
@@ -123,7 +123,7 @@ function SharedUtil:GetPlayerByUserId(userId: number): Player?
 	return player
 end
 
-function SharedUtil:WrapPlayerAdded(callback: Function, this: table, ...): nil
+function SharedUtil:WrapPlayerAdded(callback: Function, this, ...): nil
 	assert(typeof(callback) == "function", "Must be a function")
 	assert(typeof(this) == "table", "Must pass through a self table for callback")
 
@@ -138,7 +138,7 @@ function SharedUtil:WrapPlayerAdded(callback: Function, this: table, ...): nil
 	end
 end
 
-function SharedUtil:WrapPlayerRemoving(callback: Function, this: table, ...): nil
+function SharedUtil:WrapPlayerRemoving(callback: Function, this, ...): nil
 	assert(typeof(callback) == "function", "Must be a function")
 	assert(typeof(this) == "table", "Must pass through a self table for callback")
 
@@ -149,7 +149,7 @@ function SharedUtil:WrapPlayerRemoving(callback: Function, this: table, ...): ni
 	})
 end
 
-function SharedUtil:WrapCharacterAdded(callback: Function, this: table, ...): nil
+function SharedUtil:WrapCharacterAdded(callback: Function, this, ...): nil
 	assert(typeof(callback) == "function", "Must be a function")
 	assert(typeof(this) == "table", "Must pass through a self table for callback")
 
@@ -191,7 +191,7 @@ function SharedUtil:WeldModel(parent: Instance, rootPart: BasePart): nil
 	end
 end
 
-function SharedUtil:YieldPropertyLoaded(player: Player, callback: Function, this: table)
+function SharedUtil:YieldPropertyLoaded(player: Player, callback: Function, this)
 	assert(self:GetIsPlayerValid(player), "Player must be a Player Instance")
 	assert(typeof(callback) == "function", "Callback must be a function")
 	assert(typeof(this) == "table", "Must pass through a self table for callback")

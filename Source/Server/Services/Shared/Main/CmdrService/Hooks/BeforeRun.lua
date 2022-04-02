@@ -18,8 +18,8 @@ local ReplicatedStorage: ReplicatedStorage = game:GetService("ReplicatedStorage"
 -- KNIT AND DEPENDENCIES --
 ---------------------------
 
-local Knit: table = require(ReplicatedStorage.Packages.Knit)
-local CmdrUtil: table = require(Knit.SharedModules.CmdrUtil)
+local Knit = require(ReplicatedStorage.Packages.Knit)
+local CmdrUtil = require(Knit.SharedModules.CmdrUtil)
 
 ------------------------
 -- PRIVATE PROPERTIES --
@@ -29,7 +29,7 @@ local CmdrUtil: table = require(Knit.SharedModules.CmdrUtil)
 -- PRIVATE FUNCTIONS --
 -----------------------
 
-local function CheckCanRunCommands(context: table): any
+local function CheckCanRunCommands(context): any
 	local canRunCommands: boolean = CmdrUtil:CheckCanRunCommands(context.Executor.UserId)
 
 	if not canRunCommands then

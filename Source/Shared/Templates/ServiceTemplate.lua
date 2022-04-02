@@ -18,13 +18,13 @@ local ReplicatedStorage: ReplicatedStorage = game:GetService("ReplicatedStorage"
 -- KNIT AND DEPENDENCIES --
 ---------------------------
 
-local Knit: table = require(ReplicatedStorage.Packages.Knit)
+local Knit = require(ReplicatedStorage.Packages.Knit)
 
 -------------------------
 -- CREATE KNIT SERVICE --
 -------------------------
 
-local MyNameService: table = Knit.CreateService {
+local MyNameService = Knit.CreateService {
 	Name = "NameService",
 	Client = {}
 }
