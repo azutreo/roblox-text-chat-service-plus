@@ -1,4 +1,0 @@
-std = "roblox+std"
-
-[rules]
-shadowing = "allow"

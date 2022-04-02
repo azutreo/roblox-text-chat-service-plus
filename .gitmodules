@@ -1,6 +1,0 @@
-[submodule "Source/Server/Modules/DataStore2"]
-	path = Source/Server/Modules/DataStore2
-	url = git@github.com:Kampfkarren/Roblox.git
-[submodule "Source/Shared/Modules/ZonePlus"]
-	path = Source/Shared/Modules/ZonePlus
-	url = git@github.com:1ForeverHD/ZonePlus.git
