@@ -218,9 +218,9 @@ MyChatColorModule.References.Badges = {
 MyChatColorModule.References.Teams = {
 
 	{
-		ReferenceName = "VIP",
+		ReferenceName = "Random for Testing Purposes",
 
-		TeamName = "VIP",
+		TeamName = "Random Team for Testing Purposes",
 		IsOnTeam = true
 	},
 
