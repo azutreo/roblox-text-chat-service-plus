@@ -61,23 +61,24 @@ local function OnIncomingMessage(message: TextChatMessage): TextChatMessagePrope
 
 	local player: Player = Players:GetPlayerByUserId(message.TextSource.UserId)
 
-	local prefix = PrefixModule:GetPrefixForPlayer(player)
-	local nameColor: Color3? = NameColorModule:GetNameColorForPlayer(player)
-	local chatColor: Color3? = ChatColorModule:GetChatColorForPlayer(player)
+	local prefix: {any}? = PrefixModule:GetPrefixForPlayer(player)
+	local nameColor: {any}? = NameColorModule:GetNameColorForPlayer(player)
+	local chatColor: {any}? = ChatColorModule:GetChatColorForPlayer(player)
 
 	properties.PrefixText = string.format(FORMAT_NAME, message.PrefixText)
 
-	if typeof(nameColor) == "Color3" then
-		properties.PrefixText = string.format(FORMAT_NAME_COLOR, nameColor:ToHex(), properties.PrefixText)
+	if typeof(nameColor) == "table" and typeof(nameColor.NameColor) == "Color3" then
+		properties.PrefixText = string.format(FORMAT_NAME_COLOR, nameColor.NameColor:ToHex(), properties.PrefixText)
 	end
 
-	if typeof(prefix) == "table" and prefix.NotDefault then
+	if typeof(prefix) == "table" and typeof(prefix.TagText) == "string" and typeof(prefix.TagColor) == "Color3" then
 		properties.PrefixText = string.format(FORMAT_PREFIX, prefix.TagColor:ToHex(), prefix.TagText, properties.PrefixText)
 	end
 
-	--[[if typeof(chatColor) == "Color3" then
-		properties.Text = string.format(FORMAT_CHAT_COLOR, chatColor:ToHex(), message.Text)
-	end]]
+	-- THIS IS VERY BROKEN. DISABLED BY DEFAULT. ENABLE IN ChatColorModule IF YOU WANT TO TRY IT.
+	if typeof(chatColor) == "table" and typeof(chatColor.ChatColor) == "Color3" then
+		properties.Text = string.format(FORMAT_CHAT_COLOR, chatColor.ChatColor:ToHex(), message.Text)
+	end
 
 	return properties
 end

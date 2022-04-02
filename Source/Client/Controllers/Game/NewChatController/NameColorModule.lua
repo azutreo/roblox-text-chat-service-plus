@@ -21,6 +21,7 @@ local Players = game:GetService("Players")
 
 -- Commented since this is going to the public
 -- local Knit = require(ReplicatedStorage.Packages.Knit)
+local UtilModule = require(script.Parent.UtilModule)
 
 -------------------
 -- CREATE MODULE --
@@ -32,7 +33,13 @@ local MyNameColorModule = {}
 -- PRIVATE PROPERTIES --
 ------------------------
 
-local NAME_COLORS: { Color3 } = {
+local IS_ENABLED: boolean = true
+
+local COLOR_DEFAULT: Color3 = Color3.fromRGB(170, 170, 170)
+-- Set to false if you want to use COLOR_DEFAULT if the player doesn't have an assigned name color
+local USE_ROBLOX_NAME_COLOR: boolean = true
+
+local ROBLOX_NAME_COLORS: { Color3 } = {
 	Color3.new(253/255, 41/255, 67/255), -- BrickColor.new("Bright red").Color,
 	Color3.new(1/255, 162/255, 255/255), -- BrickColor.new("Bright blue").Color,
 	Color3.new(2/255, 184/255, 87/255), -- BrickColor.new("Earth green").Color,
@@ -42,21 +49,222 @@ local NAME_COLORS: { Color3 } = {
 	BrickColor.new("Light reddish violet").Color,
 	BrickColor.new("Brick yellow").Color,
 }
+local ROBLOX_COLOR_OFFSET: number = 0
 
-local COLOR_OFFSET: number = 0
-local COLOR_WHITE: Color3 = Color3.fromRGB(255, 255, 255)
+export type NameColor = {
+	NameColor: Color3,
+	Priority: number
+}
 
-local playerNameColorCache = {}
+local robloxNameColorCache = {}
 
 -----------------------
 -- PUBLIC PROPERTIES --
 -----------------------
 
+MyNameColorModule.Options = {
+
+	["Owner"] = {
+		NameColor = Color3.fromHex("#af4448"), -- Dark pastel red
+
+		Priority = 1
+	},
+
+	["Administrator"] = {
+		NameColor = Color3.fromHex("#e57373"), -- Light pastel red
+
+		Priority = 2
+	},
+
+	["Developer"] = {
+		NameColor = Color3.fromHex("#64b5f6"), -- Light pastel blue
+
+		Priority = 3
+	},
+
+	["Moderator"] = {
+		NameColor = Color3.fromHex("#81c784"), -- Light pastel green
+
+		Priority = 4
+	},
+
+	["Contributor"] = {
+		NameColor = Color3.fromHex("#f06292"), -- Light pastel magenta
+
+		Priority = 5
+	},
+
+	["Roblox Staff"] = {
+		NameColor = Color3.fromHex("#e57373"), -- Light pastel red
+
+		Priority = 6
+	},
+
+	["Roblox Intern"] = {
+		NameColor = Color3.fromHex("#e57373"), -- Light pastel red
+
+		Priority = 7
+	},
+
+	["Roblox Star"] = {
+		NameColor = Color3.fromHex("#ffb74d"), -- Light pastel orange
+
+		Priority = 8
+	},
+
+	["Tester"] = {
+		NameColor = Color3.fromRGB(172, 137, 228), -- Roblox QA Valiant Pink (estimated)
+
+		Priority = 9
+	},
+
+	["VIP"] = {
+		NameColor = Color3.fromHex("#ffd54f"), -- Light pastel amber
+
+		Priority = 10
+	},
+
+	["Group Member"] = {
+		NameColor = Color3.fromHex("#9e9e9e"), -- Light grey
+
+		Priority = 11
+	}
+
+}
+
+MyNameColorModule.References = {}
+
+MyNameColorModule.References.Players = {
+
+	{
+		ReferenceName = "Contributor",
+
+		UserId = 9221415,
+		IsPlayer = true
+	},
+
+}
+
+MyNameColorModule.References.Passes = {
+
+	{
+		ReferenceName = "VIP",
+
+		GamePassId = 37639178, -- Put your VIP pass id here
+		HasPass = true
+	},
+
+}
+
+MyNameColorModule.References.Groups = {
+
+	{
+		ReferenceName = "Owner",
+
+		GroupId = 14477910,
+		Rank = 255,
+		ComparrisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+	},
+
+	{
+		ReferenceName = "Administrator",
+
+		GroupId = 14477910,
+		Rank = 250,
+		ComparrisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+	},
+
+	{
+		ReferenceName = "Developer",
+
+		GroupId = 14477910,
+		Rank = 225,
+		ComparrisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+	},
+
+	{
+		ReferenceName = "Contributor",
+
+		GroupId = 14477910,
+		Rank = 200,
+		ComparrisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+	},
+
+	{
+		ReferenceName = "Moderator",
+
+		GroupId = 14477910,
+		Rank = 175,
+		ComparrisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+	},
+
+	{
+		ReferenceName = "Tester",
+
+		GroupId = 14477910,
+		Rank = 150,
+		ComparrisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+	},
+
+	{
+		ReferenceName = "Member",
+
+		GroupId = 14477910,
+		Rank = 1,
+		ComparrisonType = UtilModule.GroupComparisonType.IS_IN_GROUP
+	},
+
+}
+
+MyNameColorModule.References.Badges = {
+
+	{
+		ReferenceName = "VIP",
+
+		BadgeId = 9249849654,
+		HasBadge = true,
+	},
+
+}
+
+MyNameColorModule.References.Teams = {
+
+	{
+		ReferenceName = "VIP",
+
+		TeamName = "VIP",
+		IsOnTeam = true
+	},
+
+}
+
+MyNameColorModule.References.CollectionTags = {
+
+	{
+		ReferenceName = "VIP",
+
+		CollectionTagName = "VIP",
+		HasTag = true,
+	},
+
+}
+
+MyNameColorModule.References.Attributes = {
+
+	{
+		ReferenceName = "VIP",
+
+		AttributeName = "IsVIP",
+		AttributeValue = true,
+	},
+
+}
+
 -----------------------
 -- PRIVATE FUNCTIONS --
 -----------------------
 
-local function GetNameValue(playerName: string): number
+local function GetRobloxNameValue(playerName: string): number
 	local value: number = 0
 
 	for index = 1, #playerName do
@@ -77,18 +285,18 @@ local function GetNameValue(playerName: string): number
 	return value
 end
 
-local function ComputeNameColor(playerName: string): Color3
-	return NAME_COLORS[((GetNameValue(playerName) + COLOR_OFFSET) % #NAME_COLORS) + 1]
+local function ComputeRobloxNameColor(playerName: string): Color3
+	return ROBLOX_NAME_COLORS[((GetRobloxNameValue(playerName) + ROBLOX_COLOR_OFFSET) % #ROBLOX_NAME_COLORS) + 1]
 end
 
 local function OnPlayerAdded(player: Player): nil
-	playerNameColorCache[player] = ComputeNameColor(player.Name)
+	robloxNameColorCache[player] = ComputeRobloxNameColor(player.Name)
 
 	return nil
 end
 
 local function OnPlayerRemoving(player: Player): nil
-	playerNameColorCache[player] = nil
+	robloxNameColorCache[player] = nil
 
 	return nil
 end
@@ -97,32 +305,56 @@ end
 -- PUBLIC FUNCTIONS --
 ----------------------
 
-function MyNameColorModule:GetNameColorForPlayer(player: Player): Color3
-	if not player then
-		return COLOR_WHITE
+function MyNameColorModule:GetNameColorForPlayer(player: Player): NameColor
+	if not IS_ENABLED then
+		return nil
+	end
+
+	if not UtilModule:CheckIsPlayerValid(player) then
+		return {
+			NameColor = COLOR_DEFAULT
+		}
 	end
 
 	if typeof(player.Team) ~= "nil" then
 		return player.TeamColor.Color
 	end
 
-	if not playerNameColorCache[player] then
-		playerNameColorCache[player] = ComputeNameColor(player.Name)
+	local nameColor = UtilModule:CompareReferences(player, MyNameColorModule.References, MyNameColorModule.Options)
+
+	if typeof(nameColor) == "table" then
+		return nameColor
 	end
 
-	return playerNameColorCache[player]
+	if not USE_ROBLOX_NAME_COLOR then
+		return {
+			NameColor = COLOR_DEFAULT
+		}
+	end
+
+	if not robloxNameColorCache[player] then
+		robloxNameColorCache[player] = ComputeRobloxNameColor(player.Name)
+	end
+
+	return {
+		NameColor = robloxNameColorCache[player]
+	}
 end
 
 ---------------------------
 -- MODULE INITIALIZATION --
 ---------------------------
 
-Players.PlayerAdded:Connect(OnPlayerAdded)
-Players.PlayerRemoving:Connect(OnPlayerRemoving)
+-- Commented for public module
+-- Knit.OnStart:andThen(function()
+	Players.PlayerAdded:Connect(OnPlayerAdded)
+	Players.PlayerRemoving:Connect(OnPlayerRemoving)
 
-for _, player: Player in ipairs(Players:GetPlayers()) do
-	task.spawn(OnPlayerAdded, player)
-end
+	for _, player: Player in ipairs(Players:GetPlayers()) do
+		task.spawn(OnPlayerAdded, player)
+	end
+-- end):catch(warn)
+
 
 -------------------
 -- RETURN MODULE --

@@ -20,6 +20,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 -- Commented since this is going to the public
 -- local Knit = require(ReplicatedStorage.Packages.Knit)
+local UtilModule = require(script.Parent.UtilModule)
 
 -------------------
 -- CREATE MODULE --
@@ -31,149 +32,130 @@ local MyPrefixModule = {}
 -- CONSTANTS --
 ---------------
 
+local IS_ENABLED: boolean = true
+
+local USE_DEFAULT_PREFIX: boolean = false
+
+-- Cheating here. Bare with me. I'm tired. And I'm rushing.
+export type Prefix = {
+	TagText: string,
+	TagColor: Color3,
+
+	Priority: number
+}
+
+local PREFIX_DEFAULT: Prefix = {
+	TagText = "[Player]",
+	TagColor = Color3.fromHex("#ffffff"),
+	Priority = -1
+}
+
 ------------------------
 -- PRIVATE PROPERTIES --
 ------------------------
-
-local GroupComparisonType = {
-	IS_NOT_IN_GROUP = 0,
-	IS_IN_GROUP = 1,
-	NOT_EQUAL_TO = 2,
-	EQUAL_TO = 3,
-	LESS_THAN = 4,
-	LESS_THAN_OR_EQUAL_TO = 5,
-	GREATER_THAN = 6,
-	GREATER_THAN_OR_EQUAL_TO = 7,
-}
-
-export type Prefix = {
-	TagText: string,
-	TagColor: Color3
-}
-
-export type PlayerPrefix = {
-	PrefixName: string,
-
-	UserId: number,
-	IsPlayer: boolean -- if true, gives prefix if matches; if false, then gives prefix if it DOESN'T match
-}
-
-export type PassPrefix = {
-	PrefixName: string,
-
-	GamePassId: number,
-	HasPass: boolean -- if true, gives prefix if matches; if false, then gives prefix if it DOESN'T match
-}
-
-export type GroupPrefix = {
-	PrefixName: string,
-
-	GroupId: number,
-	Rank: number,
-	ComparrisonType: number
-}
-
-export type BadgePrefix = {
-	PrefixName: string,
-
-	BadgeId: number,
-	HasBadge: boolean -- if true, gives prefix if matches; if false, then gives prefix if it DOESN'T match
-}
-
-export type CollectionTagPrefix = {
-	PrefixName: string,
-
-	CollectionTagName: string,
-	HasTag: boolean -- if true, gives prefix if matches; if false, then gives prefix if it DOESN'T match
-}
-
-export type AttributePrefix = {
-	PrefixName: string,
-
-	AttributeName: string,
-	AttributeValue: any -- value to match to
-}
 
 -----------------------
 -- PUBLIC PROPERTIES --
 -----------------------
 
-MyPrefixModule.Prefixes = {}
-
-MyPrefixModule.PrefixList = {
+MyPrefixModule.Options = {
 
 	["Owner"] = {
 		TagText = "[Owner]",
 		TagColor = Color3.fromHex("#af4448"), -- Dark pastel red
+
+		Priority = 1
 	},
 
 	["Administrator"] = {
 		TagText = "[Admin]",
 		TagColor = Color3.fromHex("#e57373"), -- Light pastel red
+
+		Priority = 2
 	},
 
 	["Developer"] = {
 		TagText = "[Dev]",
 		TagColor = Color3.fromHex("#64b5f6"), -- Light pastel blue
+
+		Priority = 3
 	},
 
 	["Moderator"] = {
 		TagText = "[Mod]",
 		TagColor = Color3.fromHex("#81c784"), -- Light pastel green
+
+		Priority = 4
 	},
 
 	["Contributor"] = {
 		TagText = "[Contributor]",
 		TagColor = Color3.fromHex("#f06292"), -- Light pastel magenta
+
+		Priority = 5
 	},
 
 	["Roblox Staff"] = {
 		TagText = "[Roblox]",
 		TagColor = Color3.fromHex("#e57373"), -- Light pastel red
+
+		Priority = 6
 	},
 
 	["Roblox Intern"] = {
 		TagText = "[Roblox]",
 		TagColor = Color3.fromHex("#e57373"), -- Light pastel red
+
+		Priority = 7
 	},
 
 	["Roblox Star"] = {
 		TagText = "[Star]",
 		TagColor = Color3.fromHex("#ffb74d"), -- Light pastel orange
+
+		Priority = 8
 	},
 
 	["Tester"] = {
 		TagText = "[Tester]",
 		TagColor = Color3.fromRGB(172, 137, 228), -- Roblox QA Valiant Pink (estimated)
+
+		Priority = 9
 	},
 
 	["VIP"] = {
 		TagText = "[VIP]",
 		TagColor = Color3.fromHex("#ffd54f"), -- Light pastel amber
+
+		Priority = 10
 	},
 
 	["Group Member"] = {
 		TagText = "[Member]",
 		TagColor = Color3.fromHex("#9e9e9e"), -- Light grey
+
+		Priority = 11
 	}
 
 }
 
-MyPrefixModule.Prefixes.Players = {
+MyPrefixModule.References = {}
+
+MyPrefixModule.References.Players = {
 
 	{
-		PrefixName = "Contributor",
+		ReferenceName = "Contributor",
 
-		PlayerId = 9221415,
+		UserId = 9221415,
 		IsPlayer = true
 	},
 
 }
 
-MyPrefixModule.Prefixes.Passes = {
+MyPrefixModule.References.Passes = {
 
 	{
-		PrefixName = "VIP",
+		ReferenceName = "VIP",
 
 		GamePassId = 37639178, -- Put your VIP pass id here
 		HasPass = true
@@ -181,95 +163,106 @@ MyPrefixModule.Prefixes.Passes = {
 
 }
 
-MyPrefixModule.Prefixes.Groups = {
+MyPrefixModule.References.Groups = {
 
 	{
-		PrefixName = "Owner",
+		ReferenceName = "Owner",
 
 		GroupId = 14477910,
 		Rank = 255,
-		ComparrisonType = GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+		ComparrisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
-		PrefixName = "Administrator",
+		ReferenceName = "Administrator",
 
 		GroupId = 14477910,
 		Rank = 250,
-		ComparrisonType = GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+		ComparrisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
-		PrefixName = "Developer",
+		ReferenceName = "Developer",
 
 		GroupId = 14477910,
 		Rank = 225,
-		ComparrisonType = GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+		ComparrisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
-		PrefixName = "Contributor",
+		ReferenceName = "Contributor",
 
 		GroupId = 14477910,
 		Rank = 200,
-		ComparrisonType = GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+		ComparrisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
-		PrefixName = "Moderator",
+		ReferenceName = "Moderator",
 
 		GroupId = 14477910,
 		Rank = 175,
-		ComparrisonType = GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+		ComparrisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
-		PrefixName = "Tester",
+		ReferenceName = "Tester",
 
 		GroupId = 14477910,
 		Rank = 150,
-		ComparrisonType = GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+		ComparrisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
-		PrefixName = "Member",
+		ReferenceName = "Member",
 
 		GroupId = 14477910,
 		Rank = 1,
-		ComparrisonType = GroupComparisonType.IS_IN_GROUP
+		ComparrisonType = UtilModule.GroupComparisonType.IS_IN_GROUP
 	},
 
 }
 
-MyPrefixModule.Prefixes.Badges = {
+MyPrefixModule.References.Badges = {
 
 	{
-		PrefixName = "VIP",
+		ReferenceName = "VIP",
 
 		BadgeId = 9249849654,
-		HasBadge = true,
+		HasBadge = true
 	},
 
 }
 
-MyPrefixModule.Prefixes.CollectionTags = {
+MyPrefixModule.References.Teams = {
 
 	{
-		PrefixName = "VIP",
+		ReferenceName = "VIP",
+
+		TeamName = "VIP",
+		IsOnTeam = true
+	},
+
+}
+
+MyPrefixModule.References.CollectionTags = {
+
+	{
+		ReferenceName = "VIP",
 
 		CollectionTagName = "VIP",
-		HasTag = true,
+		HasTag = true
 	},
 
 }
 
-MyPrefixModule.Prefixes.Attributes = {
+MyPrefixModule.References.Attributes = {
 
 	{
-		PrefixName = "VIP",
+		ReferenceName = "VIP",
 
 		AttributeName = "IsVIP",
-		AttributeValue = true,
+		AttributeValue = true
 	},
 
 }
@@ -283,14 +276,17 @@ MyPrefixModule.Prefixes.Attributes = {
 ----------------------
 
 function MyPrefixModule:GetPrefixForPlayer(player: Player): Prefix
-	local prefix = {
-		TagText = "DEV",
-		TagColor = Color3.fromHex("#64b5f6")
-	}
+	if not IS_ENABLED then
+		return nil
+	end
 
-	prefix.NotDefault = true
+	local prefix = UtilModule:CompareReferences(player, MyPrefixModule.References, MyPrefixModule.Options)
 
-	return prefix
+	if typeof(prefix) == "table" then
+		return prefix
+	end
+
+	return USE_DEFAULT_PREFIX and PREFIX_DEFAULT or nil
 end
 
 ---------------------------
