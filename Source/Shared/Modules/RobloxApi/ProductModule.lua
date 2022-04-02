@@ -42,7 +42,7 @@ export type Product = {
 	Name: string,
 	Identifier: string,
 	ProductId: number,
-	ProductType,
+	ProductType: number,
 	ExtraData: {any}
 }
 

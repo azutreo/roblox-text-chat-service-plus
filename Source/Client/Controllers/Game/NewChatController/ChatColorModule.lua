@@ -154,7 +154,7 @@ MyChatColorModule.References.Groups = {
 
 		GroupId = 14477910,
 		Rank = 255,
-		ComparrisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
@@ -162,7 +162,7 @@ MyChatColorModule.References.Groups = {
 
 		GroupId = 14477910,
 		Rank = 250,
-		ComparrisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
@@ -170,7 +170,7 @@ MyChatColorModule.References.Groups = {
 
 		GroupId = 14477910,
 		Rank = 225,
-		ComparrisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
@@ -178,7 +178,7 @@ MyChatColorModule.References.Groups = {
 
 		GroupId = 14477910,
 		Rank = 200,
-		ComparrisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
@@ -186,7 +186,7 @@ MyChatColorModule.References.Groups = {
 
 		GroupId = 14477910,
 		Rank = 175,
-		ComparrisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
@@ -194,7 +194,7 @@ MyChatColorModule.References.Groups = {
 
 		GroupId = 14477910,
 		Rank = 150,
-		ComparrisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
@@ -202,7 +202,7 @@ MyChatColorModule.References.Groups = {
 
 		GroupId = 14477910,
 		Rank = 1,
-		ComparrisonType = UtilModule.GroupComparisonType.IS_IN_GROUP
+		ComparisonType = UtilModule.GroupComparisonType.IS_IN_GROUP
 	},
 
 }
