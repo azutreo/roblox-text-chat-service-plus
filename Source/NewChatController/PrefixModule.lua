@@ -106,8 +106,8 @@ MyPrefixModule.Options = {
 		Priority = 7
 	},
 
-	["Roblox Star"] = {
-		TagText = "[Star]",
+	["Content Creator"] = {
+		TagText = "[Content Creator]",
 		TagColor = Color3.fromHex("#ffb74d"), -- Light pastel orange
 
 		Priority = 8
