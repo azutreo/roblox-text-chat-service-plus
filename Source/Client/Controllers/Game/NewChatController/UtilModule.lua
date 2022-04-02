@@ -2,9 +2,9 @@
 
 	UtilModule
 	- Shared/Modules
-	Nicholas Foreman
+	Azutreo : Nicholas Foreman
 
-	Description of Module
+	Utility functions to be used by the script and other modules
 
 --]]
 

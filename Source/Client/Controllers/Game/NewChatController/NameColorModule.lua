@@ -4,7 +4,8 @@
 	- Shared/Modules
 	Azutreo : Nicholas Foreman
 
-	Uses the old Roblox method of getting name color for classic purposes
+	A list of options and how to assign them for name colors
+	Uses the old Roblox method of getting name color for classic purposes if desired
 
 --]]
 

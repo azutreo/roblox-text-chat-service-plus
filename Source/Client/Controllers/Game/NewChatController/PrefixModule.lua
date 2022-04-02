@@ -4,7 +4,7 @@
 	- Shared/Modules
 	Azutreo : Nicholas Foreman
 
-	Description of Module
+	A list of options and how to assign them for prefixes
 
 --]]
 

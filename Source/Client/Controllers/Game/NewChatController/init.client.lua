@@ -4,7 +4,7 @@
 	- Client/Shared
 	Azutreo : Nicholas Foreman
 
-	Handles prefixes and name colors for the new TextChatService
+	Handles prefixes, name colors, and chat colors for the new TextChatService
 
 --]]
 

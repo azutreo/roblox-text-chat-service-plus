@@ -4,7 +4,9 @@
 	- Shared/Modules
 	Azutreo : Nicholas Foreman
 
-	Description of Module
+	A list of options and how to assign them for chat colors
+	Doesn't work well with the new Roblox chat system YET due to chat bubbles
+	Any additional assistance apprecaited :D
 
 --]]
 
