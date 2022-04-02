@@ -60,6 +60,10 @@ local function OnIncomingMessage(message: TextChatMessage): TextChatMessagePrope
 		return properties
 	end
 
+	if message.Status ~= Enum.TextChatMessageStatus.Success then
+		return properties
+	end
+
 	local player: Player = Players:GetPlayerByUserId(message.TextSource.UserId)
 	if not UtilModule:CheckIsPlayerValid(player) then
 		return properties
