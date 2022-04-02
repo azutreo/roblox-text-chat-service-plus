@@ -30,19 +30,15 @@ local UtilModule = require(script.Parent.UtilModule)
 
 local MyChatColorModule = {}
 
----------------
--- CONSTANTS --
----------------
+------------------------
+-- PRIVATE PROPERTIES --
+------------------------
 
 -- Roblox bubble chat does not support this very well due to rich text, so...
 -- I wouldn't enable it unless you have your own solution :D
 local IS_ENABLED: boolean = false
 
 local COLOR_DEFAULT: Color3 = Color3.fromRGB(170, 170, 170)
-
-------------------------
--- PRIVATE PROPERTIES --
-------------------------
 
 export type ChatColor = {
 	ChatColor: Color3,

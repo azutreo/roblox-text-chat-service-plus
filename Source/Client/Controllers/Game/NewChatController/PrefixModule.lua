@@ -28,9 +28,9 @@ local UtilModule = require(script.Parent.UtilModule)
 
 local MyPrefixModule = {}
 
----------------
--- CONSTANTS --
----------------
+------------------------
+-- PRIVATE PROPERTIES --
+------------------------
 
 local IS_ENABLED: boolean = true
 
@@ -49,10 +49,6 @@ local PREFIX_DEFAULT: Prefix = {
 	TagColor = Color3.fromHex("#ffffff"),
 	Priority = -1
 }
-
-------------------------
--- PRIVATE PROPERTIES --
-------------------------
 
 -----------------------
 -- PUBLIC PROPERTIES --
