@@ -36,13 +36,18 @@ local MyNameColorModule = {}
 
 local IS_ENABLED: boolean = true
 
-local COLOR_DEFAULT: Color3 = Color3.fromRGB(170, 170, 170)
--- Set to false if you want to use COLOR_DEFAULT if the player doesn't have an assigned name color
-local USE_ROBLOX_NAME_COLOR: boolean = true
 -- Set to false if you don't want to use a player's team color when they don't have a name color
 local USE_TEAM_COLOR: boolean = true
+-- Set to false if you want to use COLOR_DEFAULT if the player doesn't have an assigned name color
+local USE_CLASSIC_ROBLOX_NAME_COLOR: boolean = true
 
-local ROBLOX_NAME_COLORS: { Color3 } = {
+-- Default name color to be used if there is none assigned,
+-- if they are not on a team or using team color is false,
+-- and if using classic roblox name colors is false
+local COLOR_DEFAULT: Color3 = Color3.fromRGB(170, 170, 170)
+
+-- Used to classic roblox name colors
+local CLASSIC_ROBLOX_NAME_COLORS: { Color3 } = {
 	Color3.new(253/255, 41/255, 67/255), -- BrickColor.new("Bright red").Color,
 	Color3.new(1/255, 162/255, 255/255), -- BrickColor.new("Bright blue").Color,
 	Color3.new(2/255, 184/255, 87/255), -- BrickColor.new("Earth green").Color,
@@ -52,13 +57,14 @@ local ROBLOX_NAME_COLORS: { Color3 } = {
 	BrickColor.new("Light reddish violet").Color,
 	BrickColor.new("Brick yellow").Color,
 }
-local ROBLOX_COLOR_OFFSET: number = 0
+local CLASSIC_ROBLOX_COLOR_OFFSET: number = 0
 
 export type NameColor = {
 	NameColor: Color3,
 	Priority: number
 }
 
+-- Caching classic roblox name colors for efficiency so the algorithm isn't being run every message 🧍‍♀️
 local robloxNameColorCache = {}
 
 -----------------------
@@ -143,132 +149,6 @@ MyNameColorModule.Options = {
 
 MyNameColorModule.References = {}
 
-MyNameColorModule.References.Players = {
-
-	{
-		ReferenceName = "Contributor",
-
-		UserId = 9221415,
-		IsPlayer = true
-	},
-
-}
-
-MyNameColorModule.References.Passes = {
-
-	{
-		ReferenceName = "VIP",
-
-		GamePassId = 37639178, -- Put your VIP pass id here
-		HasPass = true
-	},
-
-}
-
-MyNameColorModule.References.Groups = {
-
-	{
-		ReferenceName = "Owner",
-
-		GroupId = 14477910,
-		Rank = 255,
-		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
-	},
-
-	{
-		ReferenceName = "Administrator",
-
-		GroupId = 14477910,
-		Rank = 250,
-		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
-	},
-
-	{
-		ReferenceName = "Developer",
-
-		GroupId = 14477910,
-		Rank = 225,
-		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
-	},
-
-	{
-		ReferenceName = "Contributor",
-
-		GroupId = 14477910,
-		Rank = 200,
-		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
-	},
-
-	{
-		ReferenceName = "Moderator",
-
-		GroupId = 14477910,
-		Rank = 175,
-		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
-	},
-
-	{
-		ReferenceName = "Tester",
-
-		GroupId = 14477910,
-		Rank = 150,
-		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
-	},
-
-	{
-		ReferenceName = "Member",
-
-		GroupId = 14477910,
-		Rank = 1,
-		ComparisonType = UtilModule.GroupComparisonType.IS_IN_GROUP
-	},
-
-}
-
-MyNameColorModule.References.Badges = {
-
-	{
-		ReferenceName = "VIP",
-
-		BadgeId = 9249849654,
-		HasBadge = true
-	},
-
-}
-
-MyNameColorModule.References.Teams = {
-
-	{
-		ReferenceName = "Random for Testing Purposes",
-
-		TeamName = "Random Team for Testing Purposes",
-		IsOnTeam = true
-	},
-
-}
-
-MyNameColorModule.References.CollectionTags = {
-
-	{
-		ReferenceName = "VIP",
-
-		CollectionTagName = "VIP",
-		HasTag = true
-	},
-
-}
-
-MyNameColorModule.References.Attributes = {
-
-	{
-		ReferenceName = "VIP",
-
-		AttributeName = "IsVIP",
-		AttributeValue = true
-	},
-
-}
-
 -----------------------
 -- PRIVATE FUNCTIONS --
 -----------------------
@@ -295,7 +175,7 @@ local function GetRobloxNameValue(playerName: string): number
 end
 
 local function ComputeRobloxNameColor(playerName: string): Color3
-	return ROBLOX_NAME_COLORS[((GetRobloxNameValue(playerName) + ROBLOX_COLOR_OFFSET) % #ROBLOX_NAME_COLORS) + 1]
+	return CLASSIC_ROBLOX_NAME_COLORS[((GetRobloxNameValue(playerName) + CLASSIC_ROBLOX_COLOR_OFFSET) % #CLASSIC_ROBLOX_NAME_COLORS) + 1]
 end
 
 local function OnPlayerAdded(player: Player): nil
@@ -339,7 +219,7 @@ function MyNameColorModule:GetNameColorForPlayer(player: Player): NameColor?
 		}
 	end
 
-	if not USE_ROBLOX_NAME_COLOR then
+	if not USE_CLASSIC_ROBLOX_NAME_COLOR then
 		return {
 			NameColor = COLOR_DEFAULT,
 			Priority = 0

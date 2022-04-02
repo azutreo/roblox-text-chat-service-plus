@@ -38,7 +38,8 @@ local MyChatColorModule = {}
 -- I wouldn't enable it unless you have your own solution :D
 local IS_ENABLED: boolean = false
 
-local COLOR_DEFAULT: Color3 = Color3.fromRGB(170, 170, 170)
+-- Default chat color to be used if there is not one assigned to a player
+local COLOR_DEFAULT: Color3 = Color3.fromRGB(255, 255, 255)
 
 export type ChatColor = {
 	ChatColor: Color3,

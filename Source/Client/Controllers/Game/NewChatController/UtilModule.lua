@@ -22,7 +22,8 @@ local BadgeService = game:GetService("BadgeService")
 -- KNIT AND DEPENDENCIES --
 ---------------------------
 
-local Knit = require(ReplicatedStorage.Packages.Knit)
+-- Commented since this is going to the public
+-- local Knit = require(ReplicatedStorage.Packages.Knit)
 
 -------------------
 -- CREATE MODULE --
@@ -192,7 +193,7 @@ local function CheckHasPass(player: Player, reference: PassReference): boolean?
 		playerCache[player].IsUpdating = true
 
 		local success, _hasPass = pcall(function()
-			return true -- MarketplaceService:UserOwnsGamePassAsync(player.UserId, reference.GamePassId)
+			return MarketplaceService:UserOwnsGamePassAsync(player.UserId, reference.GamePassId)
 		end)
 
 		if not success then

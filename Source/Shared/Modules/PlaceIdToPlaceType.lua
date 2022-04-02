@@ -46,5 +46,5 @@ return {
 	[9249503006] = Places["Game.PROD"],
 
 	-- Development
-	-- [] = Places["Game.DEV"],
+	[9249849654] = Places["Game.DEV"],
 }

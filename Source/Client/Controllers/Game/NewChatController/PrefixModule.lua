@@ -34,20 +34,21 @@ local MyPrefixModule = {}
 
 local IS_ENABLED: boolean = true
 
+-- Set to true if you want to enable a prefix being used when none is already assigned to the player
 local USE_DEFAULT_PREFIX: boolean = false
 
--- Cheating here. Bare with me. I'm tired. And I'm rushing.
+-- Default prefix to be used if enabled and there is not one assigned to the player already
+local PREFIX_DEFAULT: Prefix = {
+	TagText = "[Player]",
+	TagColor = Color3.fromHex("#ffffff"),
+	Priority = 0
+}
+
 export type Prefix = {
 	TagText: string,
 	TagColor: Color3,
 
 	Priority: number
-}
-
-local PREFIX_DEFAULT: Prefix = {
-	TagText = "[Player]",
-	TagColor = Color3.fromHex("#ffffff"),
-	Priority = 0
 }
 
 -----------------------
