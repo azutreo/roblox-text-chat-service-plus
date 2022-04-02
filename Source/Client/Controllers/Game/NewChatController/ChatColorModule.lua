@@ -255,14 +255,15 @@ MyChatColorModule.References.Attributes = {
 -- PUBLIC FUNCTIONS --
 ----------------------
 
-function MyChatColorModule:GetChatColorForPlayer(player: Player): ChatColor
+function MyChatColorModule:GetChatColorForPlayer(player: Player): ChatColor?
 	if not IS_ENABLED then
 		return nil
 	end
 
 	if not UtilModule:CheckIsPlayerValid(player) then
 		return {
-			NameColor = COLOR_DEFAULT
+			NameColor = COLOR_DEFAULT,
+			Priority = 0
 		}
 	end
 
@@ -273,7 +274,8 @@ function MyChatColorModule:GetChatColorForPlayer(player: Player): ChatColor
 	end
 
 	return {
-		NameColor = COLOR_DEFAULT
+		NameColor = COLOR_DEFAULT,
+		Priority = 0
 	}
 end
 

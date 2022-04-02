@@ -47,7 +47,7 @@ export type Prefix = {
 local PREFIX_DEFAULT: Prefix = {
 	TagText = "[Player]",
 	TagColor = Color3.fromHex("#ffffff"),
-	Priority = -1
+	Priority = 0
 }
 
 -----------------------
@@ -271,7 +271,7 @@ MyPrefixModule.References.Attributes = {
 -- PUBLIC FUNCTIONS --
 ----------------------
 
-function MyPrefixModule:GetPrefixForPlayer(player: Player): Prefix
+function MyPrefixModule:GetPrefixForPlayer(player: Player): Prefix?
 	if not IS_ENABLED then
 		return nil
 	end

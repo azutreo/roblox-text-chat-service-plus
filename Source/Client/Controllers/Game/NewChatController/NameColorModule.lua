@@ -39,6 +39,8 @@ local IS_ENABLED: boolean = true
 local COLOR_DEFAULT: Color3 = Color3.fromRGB(170, 170, 170)
 -- Set to false if you want to use COLOR_DEFAULT if the player doesn't have an assigned name color
 local USE_ROBLOX_NAME_COLOR: boolean = true
+-- Set to false if you don't want to use a player's team color when they don't have a name color
+local USE_TEAM_COLOR: boolean = true
 
 local ROBLOX_NAME_COLORS: { Color3 } = {
 	Color3.new(253/255, 41/255, 67/255), -- BrickColor.new("Bright red").Color,
@@ -129,6 +131,12 @@ MyNameColorModule.Options = {
 		NameColor = Color3.fromHex("#9e9e9e"), -- Light grey
 
 		Priority = 11
+	},
+
+	["Random for Testing Purposes"] = {
+		NameColor = Color3.fromHex("#f06292"), -- Light pastel magenta
+
+		Priority = 12
 	}
 
 }
@@ -231,9 +239,9 @@ MyNameColorModule.References.Badges = {
 MyNameColorModule.References.Teams = {
 
 	{
-		ReferenceName = "VIP",
+		ReferenceName = "Random for Testing Purposes",
 
-		TeamName = "VIP",
+		TeamName = "Random Team for Testing Purposes",
 		IsOnTeam = true
 	},
 
@@ -306,19 +314,16 @@ end
 -- PUBLIC FUNCTIONS --
 ----------------------
 
-function MyNameColorModule:GetNameColorForPlayer(player: Player): NameColor
+function MyNameColorModule:GetNameColorForPlayer(player: Player): NameColor?
 	if not IS_ENABLED then
 		return nil
 	end
 
 	if not UtilModule:CheckIsPlayerValid(player) then
 		return {
-			NameColor = COLOR_DEFAULT
+			NameColor = COLOR_DEFAULT,
+			Priority = 0
 		}
-	end
-
-	if typeof(player.Team) ~= "nil" then
-		return player.TeamColor.Color
 	end
 
 	local nameColor = UtilModule:CompareReferences(player, MyNameColorModule.References, MyNameColorModule.Options)
@@ -327,9 +332,17 @@ function MyNameColorModule:GetNameColorForPlayer(player: Player): NameColor
 		return nameColor
 	end
 
+	if USE_TEAM_COLOR and typeof(player.Team) ~= "nil" then
+		return {
+			NameColor = player.TeamColor.Color,
+			Priority = 0
+		}
+	end
+
 	if not USE_ROBLOX_NAME_COLOR then
 		return {
-			NameColor = COLOR_DEFAULT
+			NameColor = COLOR_DEFAULT,
+			Priority = 0
 		}
 	end
 
@@ -338,7 +351,8 @@ function MyNameColorModule:GetNameColorForPlayer(player: Player): NameColor
 	end
 
 	return {
-		NameColor = robloxNameColorCache[player]
+		NameColor = robloxNameColorCache[player],
+		Priority = 0
 	}
 end
 
