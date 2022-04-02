@@ -22,6 +22,7 @@ local TextChatService = game:GetService("TextChatService")
 
 -- Commented since this is going to the public
 -- local Knit = require(ReplicatedStorage.Packages.Knit)
+local UtilModule = require(script.UtilModule)
 local PrefixModule = require(script.PrefixModule)
 local NameColorModule = require(script.NameColorModule)
 local ChatColorModule = require(script.ChatColorModule)
@@ -60,6 +61,9 @@ local function OnIncomingMessage(message: TextChatMessage): TextChatMessagePrope
 	end
 
 	local player: Player = Players:GetPlayerByUserId(message.TextSource.UserId)
+	if not UtilModule:CheckIsPlayerValid(player) then
+		return properties
+	end
 
 	local prefix: {any}? = PrefixModule:GetPrefixForPlayer(player)
 	local nameColor: {any}? = NameColorModule:GetNameColorForPlayer(player)

@@ -223,7 +223,7 @@ MyNameColorModule.References.Badges = {
 		ReferenceName = "VIP",
 
 		BadgeId = 9249849654,
-		HasBadge = true,
+		HasBadge = true
 	},
 
 }
@@ -245,7 +245,7 @@ MyNameColorModule.References.CollectionTags = {
 		ReferenceName = "VIP",
 
 		CollectionTagName = "VIP",
-		HasTag = true,
+		HasTag = true
 	},
 
 }
@@ -256,7 +256,7 @@ MyNameColorModule.References.Attributes = {
 		ReferenceName = "VIP",
 
 		AttributeName = "IsVIP",
-		AttributeValue = true,
+		AttributeValue = true
 	},
 
 }

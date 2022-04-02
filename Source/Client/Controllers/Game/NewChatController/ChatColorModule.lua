@@ -213,7 +213,7 @@ MyChatColorModule.References.Badges = {
 		ReferenceName = "VIP",
 
 		BadgeId = 9249849654,
-		HasBadge = true,
+		HasBadge = true
 	},
 
 }
@@ -235,7 +235,7 @@ MyChatColorModule.References.CollectionTags = {
 		ReferenceName = "VIP",
 
 		CollectionTagName = "VIP",
-		HasTag = true,
+		HasTag = true
 	},
 
 }
@@ -246,7 +246,7 @@ MyChatColorModule.References.Attributes = {
 		ReferenceName = "VIP",
 
 		AttributeName = "IsVIP",
-		AttributeValue = true,
+		AttributeValue = true
 	},
 
 }
