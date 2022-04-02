@@ -4,4 +4,4 @@ This script adds prefixes, name colors, and chat colors (in the future) to the n
 
 This is rushed, so it's not the best code out there. Also the documentation sucks. I'll get to it one day.
 
-Model link: [https://www.roblox.com/users/9221415/profile](Model)
+Roblox Library Model Link: [https://www.roblox.com/library/9263079051/NewChatController](https://www.roblox.com/library/9263079051/NewChatController)
