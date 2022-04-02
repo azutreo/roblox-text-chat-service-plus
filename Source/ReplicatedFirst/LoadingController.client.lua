@@ -34,11 +34,13 @@ if TeleportGui then
 	loadingGui.Parent = PlayerGui
 	loadingGui.Enabled = true
 else
-	local LoadingGui: ScreenGui = script.Parent:WaitForChild("LoadingGui")
+	local LoadingGui: ScreenGui = script.Parent:FindFirstChild("LoadingGui")
 
-	loadingGui = LoadingGui:Clone()
-	loadingGui.Parent = PlayerGui
-	loadingGui.Enabled = true
+	if LoadingGui then
+		loadingGui = LoadingGui:Clone()
+		loadingGui.Parent = PlayerGui
+		loadingGui.Enabled = true
+	end
 end
 
 task.wait()
@@ -83,7 +85,7 @@ local LoadingController = Knit.CreateController {
 -------------------------------------
 
 function LoadingController:KnitStart()
-	task.wait(1)
+	-- task.wait(1)
 
 	if not game:IsLoaded() then
 		game.Loaded:Wait()

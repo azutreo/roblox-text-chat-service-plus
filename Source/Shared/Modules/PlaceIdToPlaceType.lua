@@ -43,7 +43,7 @@ Places["Game.DEV"] = {
 
 return {
 	-- Production
-	-- [] = Places["Game.PROD"],
+	[9249503006] = Places["Game.PROD"],
 
 	-- Development
 	-- [] = Places["Game.DEV"],

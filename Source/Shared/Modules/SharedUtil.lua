@@ -36,7 +36,7 @@ type Function = (...any) -> ()
 type Callback = {
 	Callback: Function,
 	Arguments: {any},
-	Self
+	Self: {any}
 }
 
 local playerAddedFunctions: {Callback} = {}

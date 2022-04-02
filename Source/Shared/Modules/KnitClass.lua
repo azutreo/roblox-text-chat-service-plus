@@ -42,7 +42,7 @@ local IndexCount: number = 0
 -- PRIVATE FUNCTIONS --
 -----------------------
 
-local function SetupClass(self, original?)
+local function SetupClass(self, original: {any}?)
 	setmetatable(self, original or KnitClass)
 	table.insert(Objects, self)
 
@@ -56,7 +56,7 @@ end
 -- NEW CLASS INSTANCE FUNCTION --
 ---------------------------------
 
-function KnitClass.new(original?)
+function KnitClass.new(original: {any}?)
 	return SetupClass(original or {}, nil)
 end
 
@@ -84,7 +84,7 @@ function KnitClass:Destroy(): boolean
 	return true
 end
 
-function KnitClass:Clone(original?)
+function KnitClass:Clone(original: {any}?)
 	local clone = TableUtil.Copy(self, true)
 
 	return SetupClass(clone, original)
