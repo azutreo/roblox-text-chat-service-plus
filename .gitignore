@@ -1,0 +1,10 @@
+# Project place file
+/FNAF Online.rbxlx
+
+# Roblox Studio lock files
+/*.rbxlx.lock
+/*.rbxl.lock
+
+# Wally
+Packages/
+ServerPackages/
