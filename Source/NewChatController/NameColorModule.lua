@@ -149,6 +149,132 @@ MyNameColorModule.Options = {
 
 MyNameColorModule.References = {}
 
+MyNameColorModule.References.Players = {
+
+	{
+		ReferenceName = "Contributor",
+
+		UserId = 9221415,
+		IsPlayer = true
+	},
+
+}
+
+MyNameColorModule.References.Passes = {
+
+	{
+		ReferenceName = "VIP",
+
+		GamePassId = 37639178, -- Put your VIP pass id here
+		HasPass = true
+	},
+
+}
+
+MyNameColorModule.References.Groups = {
+
+	{
+		ReferenceName = "Owner",
+
+		GroupId = 14477910,
+		Rank = 255,
+		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+	},
+
+	{
+		ReferenceName = "Administrator",
+
+		GroupId = 14477910,
+		Rank = 250,
+		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+	},
+
+	{
+		ReferenceName = "Developer",
+
+		GroupId = 14477910,
+		Rank = 225,
+		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+	},
+
+	{
+		ReferenceName = "Contributor",
+
+		GroupId = 14477910,
+		Rank = 200,
+		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+	},
+
+	{
+		ReferenceName = "Moderator",
+
+		GroupId = 14477910,
+		Rank = 175,
+		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+	},
+
+	{
+		ReferenceName = "Tester",
+
+		GroupId = 14477910,
+		Rank = 150,
+		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+	},
+
+	{
+		ReferenceName = "Member",
+
+		GroupId = 14477910,
+		Rank = 1,
+		ComparisonType = UtilModule.GroupComparisonType.IS_IN_GROUP
+	},
+
+}
+
+MyNameColorModule.References.Badges = {
+
+	{
+		ReferenceName = "VIP",
+
+		BadgeId = 9249849654,
+		HasBadge = true
+	},
+
+}
+
+MyNameColorModule.References.Teams = {
+
+	{
+		ReferenceName = "Random for Testing Purposes",
+
+		TeamName = "Random Team for Testing Purposes",
+		IsOnTeam = true
+	},
+
+}
+
+MyNameColorModule.References.CollectionTags = {
+
+	{
+		ReferenceName = "VIP",
+
+		CollectionTagName = "VIP",
+		HasTag = true
+	},
+
+}
+
+MyNameColorModule.References.Attributes = {
+
+	{
+		ReferenceName = "VIP",
+
+		AttributeName = "IsVIP",
+		AttributeValue = true
+	},
+
+}
+
 -----------------------
 -- PRIVATE FUNCTIONS --
 -----------------------
