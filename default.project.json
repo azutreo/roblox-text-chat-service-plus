@@ -1,6 +1,6 @@
 {
-	"name": "NewChatController",
+	"name": "TextChatService+",
 	"tree": {
-		"$path": "Source/NewChatController"
+		"$path": "Source/TextChatService+"
 	}
 }
