@@ -53,6 +53,7 @@ function SystemMessageHandler:Sending(message, properties)
 
 	properties.Text = string.format(
 		Configuration.SystemMessage.TextFormat,
+		Configuration.SystemMessage.ChatColor.Color:ToHex(),
 		string.rep("_", #message.Text)
 	)
 
@@ -68,7 +69,7 @@ function SystemMessageHandler:Success(message, properties)
 
 	properties.Text = string.format(
 		Configuration.SystemMessage.TextFormat,
-		Configuration.SystemMessage.ChatColor.Color,
+		Configuration.SystemMessage.ChatColor.Color:ToHex(),
 		message.Text
 	)
 
