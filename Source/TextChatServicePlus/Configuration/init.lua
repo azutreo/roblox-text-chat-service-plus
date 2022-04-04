@@ -59,8 +59,8 @@ Configuration.SystemMessage.TextFormat = "<font color='%s'>%s</font>"
 
 Configuration.SystemMessage.Prefix = {
 	Name = "System",
-	TagText = "[System]",
-	TagColor = Color3.fromHex("#af4448")
+	Text = "[System]",
+	Color = Color3.fromHex("#af4448")
 }
 
 Configuration.SystemMessage.ChatColor = {

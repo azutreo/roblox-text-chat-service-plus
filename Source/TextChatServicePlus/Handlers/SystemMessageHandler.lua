@@ -47,8 +47,8 @@ local SystemMessageHandler = {}
 function SystemMessageHandler:Sending(message, properties)
 	properties.PrefixText = string.format(
 		Configuration.SystemMessage.PrefixTextFormat,
-		Configuration.SystemMessage.Prefix.TagColor:ToHex(),
-		Configuration.SystemMessage.Prefix.TagText
+		Configuration.SystemMessage.Prefix.Color:ToHex(),
+		Configuration.SystemMessage.Prefix.Text
 	)
 
 	properties.Text = string.format(
@@ -62,12 +62,13 @@ end
 function SystemMessageHandler:Success(message, properties)
 	properties.PrefixText = string.format(
 		Configuration.SystemMessage.PrefixTextFormat,
-		Configuration.SystemMessage.Prefix.TagColor:ToHex(),
-		Configuration.SystemMessage.Prefix.TagText
+		Configuration.SystemMessage.Prefix.Color:ToHex(),
+		Configuration.SystemMessage.Prefix.Text
 	)
 
 	properties.Text = string.format(
 		Configuration.SystemMessage.TextFormat,
+		Configuration.SystemMessage.ChatColor.Color,
 		message.Text
 	)
 
