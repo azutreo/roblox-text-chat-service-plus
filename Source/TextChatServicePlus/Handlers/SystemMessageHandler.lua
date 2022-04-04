@@ -45,15 +45,31 @@ local SystemMessageHandler = {}
 ----------------------
 
 function SystemMessageHandler:Sending(message, properties)
-	properties.PrefixText = Configuration.SystemMessagePrefix
-	properties.Text = string.format(Configuration.SystemMessageFormat, string.rep("_", #message.Text))
+	properties.PrefixText = string.format(
+		Configuration.SystemMessage.PrefixTextFormat,
+		Configuration.SystemMessage.Prefix.TagColor,
+		Configuration.SystemMessage.Prefix.TagText
+	)
+
+	properties.Text = string.format(
+		Configuration.SystemMessage.TextFormat,
+		string.rep("_", #message.Text)
+	)
 
 	return properties
 end
 
 function SystemMessageHandler:Success(message, properties)
-	properties.PrefixText = Configuration.SystemMessagePrefix
-	properties.Text = string.format(Configuration.SystemMessageFormat, message.Text)
+	properties.PrefixText = string.format(
+		Configuration.SystemMessage.PrefixTextFormat,
+		Configuration.SystemMessage.Prefix.TagColor,
+		Configuration.SystemMessage.Prefix.TagText
+	)
+
+	properties.Text = string.format(
+		Configuration.SystemMessage.TextFormat,
+		message.Text
+	)
 
 	return properties
 end

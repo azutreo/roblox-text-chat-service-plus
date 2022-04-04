@@ -128,7 +128,7 @@ end
 ----------------------
 
 function PlayerMessageHandler:Sending(message, properties)
-	properties.PrefixText = string.format(Configuration.NameFormat, message.PrefixText)
+	properties.PrefixText = string.format(Configuration.PlayerMessage.NameFormat, message.PrefixText)
 	properties.Text = string.rep("_", #message.Text)
 
 	return properties
@@ -144,19 +144,35 @@ function PlayerMessageHandler:Success(message, properties)
 	local nameColor = GetNameColorForPlayer(player)
 	local chatColor = GetChatColorForPlayer(player)
 
-	properties.PrefixText = string.format(Configuration.NameFormat, message.PrefixText)
+	properties.PrefixText = string.format(
+		Configuration.PlayerMessage.NameFormat,
+		message.PrefixText
+	)
 
 	if typeof(nameColor) == "table" and typeof(nameColor.NameColor) == "Color3" then
-		properties.PrefixText = string.format(Configuration.NameColorFormat, nameColor.NameColor:ToHex(), properties.PrefixText)
+		properties.PrefixText = string.format(
+			Configuration.PlayerMessage.NameColorFormat,
+			nameColor.NameColor:ToHex(),
+			properties.PrefixText
+		)
 	end
 
 	if typeof(prefix) == "table" and typeof(prefix.TagText) == "string" and typeof(prefix.TagColor) == "Color3" then
-		properties.PrefixText = string.format(Configuration.PrefixFormat, prefix.TagColor:ToHex(), prefix.TagText, properties.PrefixText)
+		properties.PrefixText = string.format(
+			Configuration.PlayerMessage.PrefixFormat,
+			prefix.TagColor:ToHex(),
+			prefix.TagText,
+			properties.PrefixText
+		)
 	end
 
 	-- THIS IS VERY BROKEN. DISABLED BY DEFAULT. ENABLE IN ChatColorModule IF YOU WANT TO TRY IT.
 	if typeof(chatColor) == "table" and typeof(chatColor.ChatColor) == "Color3" then
-		properties.Text = string.format(Configuration.ChatColorFormat, chatColor.ChatColor:ToHex(), message.Text)
+		properties.Text = string.format(
+			Configuration.PlayerMessage.TextFormat,
+			chatColor.ChatColor:ToHex(),
+			message.Text
+		)
 	end
 
 	message.TextChannel:DisplaySystemMessage(message.Text)

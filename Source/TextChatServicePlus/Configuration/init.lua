@@ -34,20 +34,39 @@ local Configuration = {}
 -- PUBLIC PROPERTIES --
 -----------------------
 
-Configuration.Version = "1.1.0" -- do not edit <3
+-- Global configuration
 
-Configuration.SystemMessageFormat = "%s"
-Configuration.SystemMessagePrefix = "<font color='#af4448'><b>[System]</b></font>"
-
-Configuration.NameFormat = "[%s]"
-
-Configuration.PrefixFormat = "<font color='#%s'><b>%s</b></font> %s"
-Configuration.NameColorFormat = "<font color='#%s'>%s</font>"
-Configuration.ChatColorFormat = "<font color='#%s'>%s</font>"
+Configuration.Version = "1.1.0"
 
 Configuration.Prefixes = require(script.Prefixes)
 Configuration.NameColors = require(script.NameColors)
 Configuration.ChatColors = require(script.ChatColors)
+
+-- Player messages
+Configuration.PlayerMessage = {}
+
+Configuration.PlayerMessage.NameFormat = "[%s]"
+
+Configuration.PlayerMessage.PrefixFormat = "<font color='#%s'><b>%s</b></font> %s"
+Configuration.PlayerMessage.NameColorFormat = "<font color='#%s'>%s</font>"
+Configuration.PlayerMessage.TextFormat = "<font color='#%s'>%s</font>"
+
+-- System messages
+Configuration.SystemMessage = {}
+
+Configuration.SystemMessage.PrefixTextFormat = "<font color='%s'><b>%s</b></font>"
+Configuration.SystemMessage.TextFormat = "<font color='%s'>%s</font>"
+
+Configuration.SystemMessage.Prefix = {
+	Name = "System",
+	TagText = "[System]",
+	TagColor = Color3.fromHex("#af4448")
+}
+
+Configuration.SystemMessage.ChatColor = {
+	Name = "System",
+	Color = Color3.fromHex("#e57373")
+}
 
 -----------------------
 -- PRIVATE FUNCTIONS --
