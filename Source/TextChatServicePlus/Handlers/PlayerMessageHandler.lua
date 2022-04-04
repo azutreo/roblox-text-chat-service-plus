@@ -176,8 +176,6 @@ function PlayerMessageHandler:Success(message, properties)
 		)
 	end
 
-	message.TextChannel:DisplaySystemMessage(message.Text)
-
 	return properties
 end
 
