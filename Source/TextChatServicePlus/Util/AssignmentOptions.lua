@@ -43,8 +43,8 @@ export type CachedResult = {
 }
 
 export type GroupCachedResult = {
-	IsInGroup: boolean,
-	GroupRank: number,
+	IsInGroup: boolean?,
+	GroupRank: number?,
 	LastUpdate: number
 }
 
@@ -233,11 +233,11 @@ local function CheckGroupRank(player: Player, assignment: GroupAssignment): bool
 	if shouldUpdate then
 		playerCache[player].IsUpdating = true
 
-		local success1, _isInGroup = pcall(function()
+		local success1: boolean, _isInGroup: boolean? = pcall(function()
 			return player:IsInGroup(assignment.GroupId)
 		end)
 
-		local success2, _rankInGroup = pcall(function()
+		local success2: boolean, _rankInGroup: number? = pcall(function()
 			return player:GetRankInGroup(assignment.GroupId)
 		end)
 
@@ -309,7 +309,7 @@ local function CheckHasBadge(player: Player, assignment: BadgeAssignment): boole
 	if shouldUpdate then
 		playerCache[player].IsUpdating = true
 
-		local success, _hasBadge = pcall(function()
+		local success: boolean, _hasBadge: boolean? = pcall(function()
 			return BadgeService:UserHasBadgeAsync(player.UserId, assignment.BadgeId)
 		end)
 
