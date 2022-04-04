@@ -33,7 +33,7 @@ local PlayerMessageHandler = {}
 -- PRIVATE PROPERTIES --
 ------------------------
 
-local ClassicRobloxNameColors = Util.ClassicRobloxNameColors
+local ClassicNameColors = Util.ClassicNameColors
 
 local Prefixes = Configuration.Prefixes
 local NameColors = Configuration.NameColors
@@ -115,7 +115,7 @@ local function GetNameColorForPlayer(player: Player)
 	if NameColors.Configuration.UseClassicNameColor then
 		return {
 			Name = "Classic",
-			Color = ClassicRobloxNameColors(player)
+			Color = ClassicNameColors(player)
 		}
 	end
 
