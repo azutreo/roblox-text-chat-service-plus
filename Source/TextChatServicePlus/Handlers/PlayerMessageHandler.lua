@@ -42,7 +42,7 @@ local function GetPrefixForPlayer(player: Player)
 		return nil
 	end
 
-	local prefix = Util:CompareAssignments(player, Prefixes.Assignments, Prefixes.Options)
+	local prefix = Util.AssignmentOptions:CompareAssignments(player, Prefixes.Assignments, Prefixes.Options)
 
 	if typeof(prefix) == "table" then
 		return prefix
@@ -63,7 +63,7 @@ local function GetChatColorForPlayer(player: Player)
 		}
 	end
 
-	local chatColor = Util:CompareAssignments(player, ChatColors.Assignments, ChatColors.Options)
+	local chatColor = Util.AssignmentOptions:CompareAssignments(player, ChatColors.Assignments, ChatColors.Options)
 
 	if typeof(chatColor) == "table" then
 		return chatColor
@@ -87,7 +87,7 @@ local function GetNameColorForPlayer(player: Player)
 		}
 	end
 
-	local nameColor = Util:CompareAssignments(player, NameColors.Assignments, NameColors.Options)
+	local nameColor = Util.AssignmentOptions:CompareAssignments(player, NameColors.Assignments, NameColors.Options)
 
 	if typeof(nameColor) == "table" then
 		return nameColor
