@@ -54,8 +54,8 @@ Configuration.PlayerMessage.TextFormat = "<font color='#%s'>%s</font>"
 -- System messages
 Configuration.SystemMessage = {}
 
-Configuration.SystemMessage.PrefixTextFormat = "<font color='%s'><b>%s</b></font>"
-Configuration.SystemMessage.TextFormat = "<font color='%s'>%s</font>"
+Configuration.SystemMessage.PrefixTextFormat = "<font color='#%s'><b>%s</b></font>"
+Configuration.SystemMessage.TextFormat = "<font color='#%s'>%s</font>"
 
 Configuration.SystemMessage.Prefix = {
 	Name = "System",
