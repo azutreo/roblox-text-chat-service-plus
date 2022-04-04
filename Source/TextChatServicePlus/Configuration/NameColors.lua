@@ -20,7 +20,7 @@ MyNameColorModule.Configuration.UseTeamColor = true
 MyNameColorModule.Configuration.UseClassicNameColor = true
 MyNameColorModule.Configuration.DefaultColor = Color3.fromRGB(170, 170, 170)
 
-local Enums = require(script.Util.Enums)
+local Enums = require(script.Parent.Parent.Util.Enums)
 
 export type NameColor = {
 	NameColor: Color3,

@@ -24,7 +24,7 @@ export type ChatColor = {
 	Priority: number
 }
 
-local Enums = require(script.Util.Enums)
+local Enums = require(script.Parent.Parent.Util.Enums)
 
 MyChatColorModule.Options = {
 

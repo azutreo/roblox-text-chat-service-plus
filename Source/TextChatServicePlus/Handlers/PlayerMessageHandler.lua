@@ -1,7 +1,7 @@
-local Util = require(script.Util)
-local ClassicRobloxNameColors = require(script.Util.ClassicRobloxNameColors)
+local Util = require(script.Parent.Parent.Util)
+local ClassicRobloxNameColors = require(script.Parent.Parent.Util.ClassicRobloxNameColors)
 
-local Configration = require(script.Configuration)
+local Configration = require(script.Parent.Parent.Configuration)
 local Prefixes = Configration.Prefixes
 local NameColors = Configration.NameColors
 local ChatColors = Configration.ChatColors

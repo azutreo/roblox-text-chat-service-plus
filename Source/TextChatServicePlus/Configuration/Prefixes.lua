@@ -22,7 +22,7 @@ MyPrefixModule.Configuration.DefaultPrefix = {
 	Priority = 0
 }
 
-local Enums = require(script.Util.Enums)
+local Enums = require(script.Parent.Parent.Util.Enums)
 
 export type Prefix = {
 	Name: string,
