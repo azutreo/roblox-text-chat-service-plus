@@ -62,7 +62,7 @@ local function OnIncomingMessage(message: TextChatMessage): TextChatMessagePrope
 		return properties
 	end
 
-	return PlayerMessageHandler:ProcessMessage(player, message, properties)
+	return PlayerMessageHandler(player, message, properties)
 end
 
 ----------------------
