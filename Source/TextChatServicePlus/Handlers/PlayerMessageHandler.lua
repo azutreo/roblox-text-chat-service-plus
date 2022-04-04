@@ -68,8 +68,8 @@ local function GetChatColorForPlayer(player: Player)
 
 	if not Util.AssignmentOptions:CheckIsPlayerValid(player) then
 		return {
-			NameColor = ChatColors.Configuration.DefaultColor,
-			Priority = 0
+			Name = "Default",
+			Color = ChatColors.Configuration.DefaultColor
 		}
 	end
 
@@ -80,8 +80,8 @@ local function GetChatColorForPlayer(player: Player)
 	end
 
 	return {
-		NameColor = ChatColors.Configuration.DefaultColor,
-		Priority = 0
+		Name = "Default",
+		Color = ChatColors.Configuration.DefaultColor
 	}
 end
 
@@ -92,34 +92,36 @@ local function GetNameColorForPlayer(player: Player)
 
 	if not Util.AssignmentOptions:CheckIsPlayerValid(player) then
 		return {
-			NameColor = NameColors.Configuration.DefaultColor,
-			Priority = 0
+			Name = "Default",
+			Color = NameColors.Configuration.DefaultColor
 		}
 	end
 
-	local nameColor = Util.AssignmentOptions:CompareAssignments(player, NameColors.Assignments, NameColors.Options)
+	if NameColors.UseAssignedColor then
+		local nameColor = Util.AssignmentOptions:CompareAssignments(player, NameColors.Assignments, NameColors.Options)
 
-	if typeof(nameColor) == "table" then
-		return nameColor
+		if typeof(nameColor) == "table" then
+			return nameColor
+		end
 	end
 
 	if NameColors.Configuration.UseTeamColor and typeof(player.Team) ~= "nil" then
 		return {
-			NameColor = player.TeamColor.Color,
-			Priority = 0
+			Name = "Team",
+			Color = player.TeamColor.Color
 		}
 	end
 
-	if not NameColors.Configuration.UseClassicNameColor then
+	if NameColors.Configuration.UseClassicNameColor then
 		return {
-			NameColor = NameColors.Configuration.DefaultColor,
-			Priority = 0
+			Name = "Classic",
+			Color = ClassicRobloxNameColors(player)
 		}
 	end
 
 	return {
-		NameColor = ClassicRobloxNameColors(player),
-		Priority = 0
+		Name = "Default",
+		Color = NameColors.Configuration.DefaultColor
 	}
 end
 

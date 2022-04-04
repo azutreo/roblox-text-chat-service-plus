@@ -49,6 +49,9 @@ export type NameColor = {
 
 -- Configuration
 
+-- mainly for debugging, but also makes it so you don't have to delete everything to disable the assigned options
+NameColors.Configuration.UseAssignedColor = false
+
 NameColors.Configuration.UseTeamColor = true
 NameColors.Configuration.UseClassicNameColor = true
 NameColors.Configuration.DefaultColor = Color3.fromRGB(170, 170, 170)
