@@ -54,7 +54,7 @@ function SystemMessageHandler:Sending(message, properties)
 	properties.Text = string.format(
 		Configuration.SystemMessage.TextFormat,
 		Configuration.SystemMessage.ChatColor.Color:ToHex(),
-		string.rep("_", #message.Text)
+		message.Text
 	)
 
 	return properties
