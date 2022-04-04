@@ -71,7 +71,7 @@ export type GroupAssignment = {
 
 	GroupId: number,
 	Rank: number,
-	ComparrisonType: number
+	ComparisonType: number
 }
 
 export type BadgeAssignment = {
