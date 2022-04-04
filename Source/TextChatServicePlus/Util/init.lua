@@ -1,39 +1,18 @@
 --[[
 
 	UtilModule
-	- Shared/Modules
 	Azutreo : Nicholas Foreman
 
 	Utility functions to be used by the script and other modules
 
 --]]
 
----------------------
--- ROBLOX SERVICES --
----------------------
-
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local MarketplaceService = game:GetService("MarketplaceService")
 local CollectionService = game:GetService("CollectionService")
 local BadgeService = game:GetService("BadgeService")
 
----------------------------
--- KNIT AND DEPENDENCIES --
----------------------------
-
--- Commented since this is going to the public
--- local Knit = require(ReplicatedStorage.Packages.Knit)
-
--------------------
--- CREATE MODULE --
--------------------
-
 local MyUtilModule = {}
-
-------------------------
--- PRIVATE PROPERTIES --
-------------------------
 
 local CACHE_UPDATE_TIME = 30
 
@@ -103,28 +82,6 @@ export type AttributeReference = {
 }
 
 local playerCache = {}
-
------------------------
--- PUBLIC PROPERTIES --
------------------------
-
-MyUtilModule.GroupComparisonType = {
-	IS_IN_GROUP = 0,
-	IS_NOT_IN_GROUP = 1,
-
-	EQUAL_TO = 2,
-	NOT_EQUAL_TO = 3,
-
-	LESS_THAN = 4,
-	LESS_THAN_OR_EQUAL_TO = 5,
-
-	GREATER_THAN = 6,
-	GREATER_THAN_OR_EQUAL_TO = 7,
-}
-
------------------------
--- PRIVATE FUNCTIONS --
------------------------
 
 local function OnPlayerAdded(player: Player): nil
 	playerCache[player] = {
@@ -430,10 +387,6 @@ local function CheckAttribute(player: Player, reference: AttributeReference): bo
 	return false
 end
 
-----------------------
--- PUBLIC FUNCTIONS --
-----------------------
-
 function MyUtilModule:CheckIsPlayerValid(player: Player)
 	return typeof(player) == "Instance" and player:IsDescendantOf(Players)
 end
@@ -538,22 +491,11 @@ function MyUtilModule:CompareReferences(player: Player, references: {}, options:
 	return highestOption
 end
 
----------------------------
--- MODULE INITIALIZATION --
----------------------------
+Players.PlayerAdded:Connect(OnPlayerAdded)
+Players.PlayerRemoving:Connect(OnPlayerRemoving)
 
--- Commented for public module
---Knit.OnStart:andThen(function()
-	Players.PlayerAdded:Connect(OnPlayerAdded)
-	Players.PlayerRemoving:Connect(OnPlayerRemoving)
-
-	for _, player: Player in ipairs(Players:GetPlayers()) do
-		task.spawn(OnPlayerAdded, player)
-	end
--- end):catch(warn)
-
--------------------
--- RETURN MODULE --
--------------------
+for _, player: Player in ipairs(Players:GetPlayers()) do
+	task.spawn(OnPlayerAdded, player)
+end
 
 return MyUtilModule

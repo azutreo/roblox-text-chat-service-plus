@@ -22,10 +22,8 @@ local TextChatService = game:GetService("TextChatService")
 
 -- Commented since this is going to the public
 -- local Knit = require(ReplicatedStorage.Packages.Knit)
-local UtilModule = require(script.UtilModule)
-local PrefixModule = require(script.PrefixModule)
-local NameColorModule = require(script.NameColorModule)
-local ChatColorModule = require(script.ChatColorModule)
+local UtilModule = require(script.Util)
+local PlayerMessageHandler = require(script.Handlers.PlayerMessageHandler)
 
 -----------------------
 -- CREATE CONTROLLER --
@@ -39,11 +37,6 @@ local MyNewChatController = {} --[[Knit.CreateController {
 ------------------------
 -- PRIVATE PROPERTIES --
 ------------------------
-
-local FORMAT_PREFIX = "<font color='#%s'><b>%s</b></font> %s"
-local FORMAT_NAME = "[%s]"
-local FORMAT_NAME_COLOR = "<font color='#%s'>%s</font>"
-local FORMAT_CHAT_COLOR = "<font color='#%s'>%s</font>"
 
 -----------------------
 -- PUBLIC PROPERTIES --
@@ -69,26 +62,7 @@ local function OnIncomingMessage(message: TextChatMessage): TextChatMessagePrope
 		return properties
 	end
 
-	local prefix: {any}? = PrefixModule:GetPrefixForPlayer(player)
-	local nameColor: {any}? = NameColorModule:GetNameColorForPlayer(player)
-	local chatColor: {any}? = ChatColorModule:GetChatColorForPlayer(player)
-
-	properties.PrefixText = string.format(FORMAT_NAME, message.PrefixText)
-
-	if typeof(nameColor) == "table" and typeof(nameColor.NameColor) == "Color3" then
-		properties.PrefixText = string.format(FORMAT_NAME_COLOR, nameColor.NameColor:ToHex(), properties.PrefixText)
-	end
-
-	if typeof(prefix) == "table" and typeof(prefix.TagText) == "string" and typeof(prefix.TagColor) == "Color3" then
-		properties.PrefixText = string.format(FORMAT_PREFIX, prefix.TagColor:ToHex(), prefix.TagText, properties.PrefixText)
-	end
-
-	-- THIS IS VERY BROKEN. DISABLED BY DEFAULT. ENABLE IN ChatColorModule IF YOU WANT TO TRY IT.
-	if typeof(chatColor) == "table" and typeof(chatColor.ChatColor) == "Color3" then
-		properties.Text = string.format(FORMAT_CHAT_COLOR, chatColor.ChatColor:ToHex(), message.Text)
-	end
-
-	return properties
+	return PlayerMessageHandler:ProcessMessage(player, message, properties)
 end
 
 ----------------------

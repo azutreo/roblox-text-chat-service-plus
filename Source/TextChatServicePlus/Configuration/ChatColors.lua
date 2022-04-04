@@ -1,7 +1,6 @@
 --[[
 
-	ChatColorModule
-	- Shared/Modules
+	ChatColors
 	Azutreo : Nicholas Foreman
 
 	A list of options and how to assign them for chat colors
@@ -10,45 +9,22 @@
 
 --]]
 
----------------------
--- ROBLOX SERVICES --
----------------------
+local MyChatColorModule = {
+	IsEnabled = false,
+	Configuration = {},
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
+	Options = {},
+	Assignments = {}
+}
 
----------------------------
--- KNIT AND DEPENDENCIES --
----------------------------
-
--- Commented since this is going to the public
--- local Knit = require(ReplicatedStorage.Packages.Knit)
-local UtilModule = require(script.Parent.UtilModule)
-
--------------------
--- CREATE MODULE --
--------------------
-
-local MyChatColorModule = {}
-
-------------------------
--- PRIVATE PROPERTIES --
-------------------------
-
--- Roblox bubble chat does not support this very well due to rich text, so...
--- I wouldn't enable it unless you have your own solution :D
-local IS_ENABLED: boolean = false
-
--- Default chat color to be used if there is not one assigned to a player
-local COLOR_DEFAULT: Color3 = Color3.fromRGB(255, 255, 255)
+MyChatColorModule.Configuration.DefaultColor = Color3.fromRGB(255, 255, 255)
 
 export type ChatColor = {
 	ChatColor: Color3,
 	Priority: number
 }
 
------------------------
--- PUBLIC PROPERTIES --
------------------------
+local Enums = require(script.Util.Enums)
 
 MyChatColorModule.Options = {
 
@@ -120,9 +96,7 @@ MyChatColorModule.Options = {
 
 }
 
-MyChatColorModule.References = {}
-
-MyChatColorModule.References.Players = {
+MyChatColorModule.Assignments.Players = {
 
 	{
 		ReferenceName = "Contributor",
@@ -133,7 +107,7 @@ MyChatColorModule.References.Players = {
 
 }
 
-MyChatColorModule.References.Passes = {
+MyChatColorModule.Assignments.Passes = {
 
 	{
 		ReferenceName = "VIP",
@@ -144,14 +118,14 @@ MyChatColorModule.References.Passes = {
 
 }
 
-MyChatColorModule.References.Groups = {
+MyChatColorModule.Assignments.Groups = {
 
 	{
 		ReferenceName = "Owner",
 
 		GroupId = 14477910,
 		Rank = 255,
-		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
@@ -159,7 +133,7 @@ MyChatColorModule.References.Groups = {
 
 		GroupId = 14477910,
 		Rank = 250,
-		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
@@ -167,7 +141,7 @@ MyChatColorModule.References.Groups = {
 
 		GroupId = 14477910,
 		Rank = 225,
-		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
@@ -175,7 +149,7 @@ MyChatColorModule.References.Groups = {
 
 		GroupId = 14477910,
 		Rank = 200,
-		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
@@ -183,7 +157,7 @@ MyChatColorModule.References.Groups = {
 
 		GroupId = 14477910,
 		Rank = 175,
-		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
@@ -191,7 +165,7 @@ MyChatColorModule.References.Groups = {
 
 		GroupId = 14477910,
 		Rank = 150,
-		ComparisonType = UtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
+		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
@@ -199,12 +173,12 @@ MyChatColorModule.References.Groups = {
 
 		GroupId = 14477910,
 		Rank = 1,
-		ComparisonType = UtilModule.GroupComparisonType.IS_IN_GROUP
+		ComparisonType = Enums.GroupComparisonType.IS_IN_GROUP
 	},
 
 }
 
-MyChatColorModule.References.Badges = {
+MyChatColorModule.Assignments.Badges = {
 
 	{
 		ReferenceName = "VIP",
@@ -215,7 +189,7 @@ MyChatColorModule.References.Badges = {
 
 }
 
-MyChatColorModule.References.Teams = {
+MyChatColorModule.Assignments.Teams = {
 
 	{
 		ReferenceName = "Random for Testing Purposes",
@@ -226,7 +200,7 @@ MyChatColorModule.References.Teams = {
 
 }
 
-MyChatColorModule.References.CollectionTags = {
+MyChatColorModule.Assignments.CollectionTags = {
 
 	{
 		ReferenceName = "VIP",
@@ -237,7 +211,7 @@ MyChatColorModule.References.CollectionTags = {
 
 }
 
-MyChatColorModule.References.Attributes = {
+MyChatColorModule.Assignments.Attributes = {
 
 	{
 		ReferenceName = "VIP",
@@ -255,30 +229,6 @@ MyChatColorModule.References.Attributes = {
 ----------------------
 -- PUBLIC FUNCTIONS --
 ----------------------
-
-function MyChatColorModule:GetChatColorForPlayer(player: Player): ChatColor?
-	if not IS_ENABLED then
-		return nil
-	end
-
-	if not UtilModule:CheckIsPlayerValid(player) then
-		return {
-			NameColor = COLOR_DEFAULT,
-			Priority = 0
-		}
-	end
-
-	local chatColor = UtilModule:CompareReferences(player, MyChatColorModule.References, MyChatColorModule.Options)
-
-	if typeof(chatColor) == "table" then
-		return chatColor
-	end
-
-	return {
-		NameColor = COLOR_DEFAULT,
-		Priority = 0
-	}
-end
 
 ---------------------------
 -- MODULE INITIALIZATION --
