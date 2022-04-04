@@ -41,7 +41,7 @@ local ChatColors = {
 
 export type ChatColor = {
 	Name: string,
-	ChatColor: Color3
+	Color: Color3
 }
 
 -----------------------
@@ -58,17 +58,17 @@ ChatColors.Options = {
 
 	{
 		Name = "Roblox Employee",
-		ChatColor = Color3.fromRGB(255, 215, 0), -- Classic admin yellow
+		Color = Color3.fromRGB(255, 215, 0), -- Classic admin yellow
 	},
 
 	{
 		Name = "Roblox Intern",
-		ChatColor = Color3.fromRGB(175, 221, 255), -- Classic intern blue
+		Color = Color3.fromRGB(175, 221, 255), -- Classic intern blue
 	},
 
 	{
 		Name = "Roblox Quality Assurance",
-		ChatColor = Color3.fromRGB(175, 221, 255), -- Classic intern blue
+		Color = Color3.fromRGB(175, 221, 255), -- Classic intern blue
 	},
 
 }

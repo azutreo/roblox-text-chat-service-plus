@@ -40,7 +40,7 @@ local NameColors = {
 
 export type NameColor = {
 	Name: string,
-	NameColor: Color3
+	Color: Color3
 }
 
 -----------------------
@@ -59,62 +59,62 @@ NameColors.Options = {
 
 	{
 		Name = "Owner",
-		NameColor = Color3.fromHex("#af4448"), -- Dark pastel red
+		Color = Color3.fromHex("#af4448"), -- Dark pastel red
 	},
 
 	{
 		Name = "Administrator",
-		NameColor = Color3.fromHex("#e57373"), -- Light pastel red
+		Color = Color3.fromHex("#e57373"), -- Light pastel red
 	},
 
 	{
 		Name = "Developer",
-		NameColor = Color3.fromHex("#64b5f6"), -- Light pastel blue
+		Color = Color3.fromHex("#64b5f6"), -- Light pastel blue
 	},
 
 	{
 		Name = "Moderator",
-		NameColor = Color3.fromHex("#81c784"), -- Light pastel green
+		Color = Color3.fromHex("#81c784"), -- Light pastel green
 	},
 
 	{
 		Name = "Contributor",
-		NameColor = Color3.fromHex("#f06292"), -- Light pastel magenta
+		Color = Color3.fromHex("#f06292"), -- Light pastel magenta
 	},
 
 	{
 		Name = "Roblox Staff",
-		NameColor = Color3.fromHex("#e57373"), -- Light pastel red
+		Color = Color3.fromHex("#e57373"), -- Light pastel red
 	},
 
 	{
 		Name = "Roblox Intern",
-		NameColor = Color3.fromHex("#e57373"), -- Light pastel red
+		Color = Color3.fromHex("#e57373"), -- Light pastel red
 	},
 
 	{
 		Name = "Roblox Star",
-		NameColor = Color3.fromHex("#ffb74d"), -- Light pastel orange
+		Color = Color3.fromHex("#ffb74d"), -- Light pastel orange
 	},
 
 	{
 		Name = "Tester",
-		NameColor = Color3.fromRGB(172, 137, 228), -- Roblox QA Valiant pink (estimated)
+		Color = Color3.fromRGB(172, 137, 228), -- Roblox QA Valiant pink (estimated)
 	},
 
 	{
 		Name = "VIP",
-		NameColor = Color3.fromHex("#ffd54f"), -- Light pastel amber
+		Color = Color3.fromHex("#ffd54f"), -- Light pastel amber
 	},
 
 	{
 		Name = "Group Member",
-		NameColor = Color3.fromHex("#9e9e9e"), -- Light grey
+		Color = Color3.fromHex("#9e9e9e"), -- Light grey
 	},
 
 	{
 		Name = "Random for Example Purposes",
-		NameColor = Color3.fromHex("#f06292"), -- Light pastel magenta
+		Color = Color3.fromHex("#f06292"), -- Light pastel magenta
 	}
 
 }

@@ -39,8 +39,8 @@ local Prefixes = {
 
 export type Prefix = {
 	Name: string,
-	TagText: string,
-	TagColor: Color3
+	Text: string,
+	Color: Color3
 }
 
 -----------------------
@@ -52,8 +52,8 @@ export type Prefix = {
 Prefixes.Configuration.UseDefaultPrefix = true
 Prefixes.Configuration.DefaultPrefix = {
 	Name = "Default",
-	TagText = "[Player]",
-	TagColor = Color3.fromRGB(170, 170, 170),
+	Text = "[Player]",
+	Color = Color3.fromRGB(170, 170, 170),
 }
 
 -- Prefix Options
@@ -62,86 +62,86 @@ Prefixes.Options = {
 
 	{
 		Name = "Owner",
-		TagText = "[Owner]",
-		TagColor = Color3.fromHex("#af4448"), -- Dark pastel red
+		Text = "[Owner]",
+		Color = Color3.fromHex("#af4448"), -- Dark pastel red
 	},
 
 	{
 		Name = "Administrator",
-		TagText = "[Admin]",
-		TagColor = Color3.fromHex("#e57373"), -- Light pastel red
+		Text = "[Admin]",
+		Color = Color3.fromHex("#e57373"), -- Light pastel red
 	},
 
 	{
 		Name = "Developer",
-		TagText = "[Dev]",
-		TagColor = Color3.fromHex("#64b5f6"), -- Light pastel blue
+		Text = "[Dev]",
+		Color = Color3.fromHex("#64b5f6"), -- Light pastel blue
 	},
 
 	{
 		Name = "Moderator",
-		TagText = "[Mod]",
-		TagColor = Color3.fromHex("#81c784"), -- Light pastel green
+		Text = "[Mod]",
+		Color = Color3.fromHex("#81c784"), -- Light pastel green
 	},
 
 	{
 		Name = "Contributor",
-		TagText = "[Contributor]",
-		TagColor = Color3.fromHex("#f06292"), -- Light pastel magenta
+		Text = "[Contributor]",
+		Color = Color3.fromHex("#f06292"), -- Light pastel magenta
 	},
 
 	{
 		Name = "Content Creator",
-		TagText = "[Content Creator]",
-		TagColor = Color3.fromHex("#ffb74d"), -- Light pastel orange
+		Text = "[Content Creator]",
+		Color = Color3.fromHex("#ffb74d"), -- Light pastel orange
 	},
 
 	{
 		Name = "Tester",
-		TagText = "[Tester]",
-		TagColor = Color3.fromHex("#ac89e4"), -- Roblox QA Valiant pink (estimated)
+		Text = "[Tester]",
+		Color = Color3.fromHex("#ac89e4"), -- Roblox QA Valiant pink (estimated)
 	},
 
 	{
 		Name = "VIP",
-		TagText = "[VIP]",
-		TagColor = Color3.fromHex("#ffd54f"), -- Light pastel amber
+		Text = "[VIP]",
+		Color = Color3.fromHex("#ffd54f"), -- Light pastel amber
 	},
 
 	{
 		Name = "Group Member",
-		TagText = "[Member]",
-		TagColor = Color3.fromHex("#9e9e9e"), -- Light grey
+		Text = "[Member]",
+		Color = Color3.fromHex("#9e9e9e"), -- Light grey
 	},
 
 	{
 		Name = "Roblox Employee",
-		TagText = "[Roblox Employee]",
-		TagColor = Color3.fromHex("#e57373"), -- Light pastel red
+		Text = "[Roblox Employee]",
+		Color = Color3.fromHex("#e57373"), -- Light pastel red
 	},
 
 	{
 		Name = "Roblox Intern",
-		TagText = "[Roblox Intern]",
-		TagColor = Color3.fromRGB(175, 221, 255), -- Classic intern blue
+		Text = "[Roblox Intern]",
+		Color = Color3.fromRGB(175, 221, 255), -- Classic intern blue
 	},
 
 	{
 		Name = "Roblox Quality Assurance",
-		TagText = "[Roblox QA]",
-		TagColor = Color3.fromHex("#ac89e4"), -- Roblox QA Valiant Pink (estimated)
+		Text = "[Roblox QA]",
+		Color = Color3.fromHex("#ac89e4"), -- Roblox QA Valiant Pink (estimated)
 	},
 
 	{
 		Name = "Roblox Video Star",
-		TagText = "[Roblox Star]",
-		TagColor = Color3.fromHex("#ffb74d"), -- Light pastel amber
+		Text = "[Roblox Star]",
+		Color = Color3.fromHex("#ffb74d"), -- Light pastel amber
 	},
 
 	{
 		Name = "Random for Example Purposes",
-		TagText = "[Example]",
-		TagColor = Color3.fromHex("#f06292"), -- Light pastel magenta
+		Text = "[Example]",
+		Color = Color3.fromHex("#f06292"), -- Light pastel magenta
 	}
 
 }

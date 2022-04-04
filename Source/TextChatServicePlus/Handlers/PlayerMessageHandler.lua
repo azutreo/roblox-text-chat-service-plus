@@ -149,28 +149,28 @@ function PlayerMessageHandler:Success(message, properties)
 		message.PrefixText
 	)
 
-	if typeof(nameColor) == "table" and typeof(nameColor.NameColor) == "Color3" then
+	if typeof(nameColor) == "table" and typeof(nameColor.Color) == "Color3" then
 		properties.PrefixText = string.format(
 			Configuration.PlayerMessage.NameColorFormat,
-			nameColor.NameColor:ToHex(),
+			nameColor.Color:ToHex(),
 			properties.PrefixText
 		)
 	end
 
-	if typeof(prefix) == "table" and typeof(prefix.TagText) == "string" and typeof(prefix.TagColor) == "Color3" then
+	if typeof(prefix) == "table" and typeof(prefix.Text) == "string" and typeof(prefix.Color) == "Color3" then
 		properties.PrefixText = string.format(
 			Configuration.PlayerMessage.PrefixFormat,
-			prefix.TagColor:ToHex(),
-			prefix.TagText,
+			prefix.Color:ToHex(),
+			prefix.Text,
 			properties.PrefixText
 		)
 	end
 
 	-- THIS IS VERY BROKEN. DISABLED BY DEFAULT. ENABLE IN ChatColorModule IF YOU WANT TO TRY IT.
-	if typeof(chatColor) == "table" and typeof(chatColor.ChatColor) == "Color3" then
+	if typeof(chatColor) == "table" and typeof(chatColor.Color) == "Color3" then
 		properties.Text = string.format(
 			Configuration.PlayerMessage.TextFormat,
-			chatColor.ChatColor:ToHex(),
+			chatColor.Color:ToHex(),
 			message.Text
 		)
 	end
