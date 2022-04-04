@@ -45,18 +45,6 @@ local SystemMessageHandler = {}
 ----------------------
 
 function SystemMessageHandler:Sending(message, properties)
-	properties.PrefixText = string.format(
-		Configuration.SystemMessage.PrefixTextFormat,
-		Configuration.SystemMessage.Prefix.Color:ToHex(),
-		Configuration.SystemMessage.Prefix.Text
-	)
-
-	properties.Text = string.format(
-		Configuration.SystemMessage.TextFormat,
-		Configuration.SystemMessage.ChatColor.Color:ToHex(),
-		message.Text
-	)
-
 	return properties
 end
 
