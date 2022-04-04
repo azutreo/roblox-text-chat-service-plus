@@ -56,7 +56,7 @@ local function GetChatColorForPlayer(player: Player)
 		return nil
 	end
 
-	if not Util:CheckIsPlayerValid(player) then
+	if not Util.AssignmentOptions:CheckIsPlayerValid(player) then
 		return {
 			NameColor = ChatColors.Configuration.DefaultColor,
 			Priority = 0
@@ -80,7 +80,7 @@ local function GetNameColorForPlayer(player: Player)
 		return nil
 	end
 
-	if not Util:CheckIsPlayerValid(player) then
+	if not Util.AssignmentOptions:CheckIsPlayerValid(player) then
 		return {
 			NameColor = NameColors.Configuration.DefaultColor,
 			Priority = 0
@@ -119,7 +119,7 @@ end
 
 return function(message, properties)
 	local player: Player = Players:GetPlayerByUserId(message.TextSource.UserId)
-	if not Util:CheckIsPlayerValid(player) then
+	if not Util.AssignmentOptions:CheckIsPlayerValid(player) then
 		return properties
 	end
 
