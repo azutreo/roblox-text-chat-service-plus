@@ -1,14 +1,32 @@
 --[[
 
 	NameColors
-	Azutreo : Nicholas Foreman
+	- Module
+	Author: Nicholas Foreman (Azutreo - https://www.roblox.com/users/9221415/profile)
 
 	A list of options and how to assign them for name colors
 	Uses the old Roblox method of getting name color for classic purposes if desired
 
 --]]
 
-local MyNameColorModule = {
+---------------------
+-- ROBLOX SERVICES --
+---------------------
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+---------------------------
+-- KNIT AND DEPENDENCIES --
+---------------------------
+
+-- local Knit = require(ReplicatedStorage.Packages.Knit)
+local Enums = require(script.Parent.Parent.Util.Enums) -- Avoid cyclic table reference
+
+-------------------
+-- CREATE MODULE --
+-------------------
+
+local NameColors = {
 	IsEnabled = true,
 	Configuration = {},
 
@@ -16,18 +34,28 @@ local MyNameColorModule = {
 	Assignments = {}
 }
 
-MyNameColorModule.Configuration.UseTeamColor = true
-MyNameColorModule.Configuration.UseClassicNameColor = true
-MyNameColorModule.Configuration.DefaultColor = Color3.fromRGB(170, 170, 170)
-
-local Enums = require(script.Parent.Parent.Util.Enums)
+------------------------
+-- PRIVATE PROPERTIES --
+------------------------
 
 export type NameColor = {
 	Name: string,
 	NameColor: Color3
 }
 
-MyNameColorModule.Options = {
+-----------------------
+-- PUBLIC PROPERTIES --
+-----------------------
+
+-- Configuration
+
+NameColors.Configuration.UseTeamColor = true
+NameColors.Configuration.UseClassicNameColor = true
+NameColors.Configuration.DefaultColor = Color3.fromRGB(170, 170, 170)
+
+-- Name color options
+
+NameColors.Options = {
 
 	{
 		Name = "Owner",
@@ -91,7 +119,9 @@ MyNameColorModule.Options = {
 
 }
 
-MyNameColorModule.Assignments.Players = {
+-- Name color assignments
+
+NameColors.Assignments.Players = {
 
 	{
 		OptionName = "Contributor",
@@ -102,7 +132,7 @@ MyNameColorModule.Assignments.Players = {
 
 }
 
-MyNameColorModule.Assignments.Passes = {
+NameColors.Assignments.Passes = {
 
 	{
 		OptionName = "VIP",
@@ -113,7 +143,7 @@ MyNameColorModule.Assignments.Passes = {
 
 }
 
-MyNameColorModule.Assignments.Groups = {
+NameColors.Assignments.Groups = {
 
 	{
 		OptionName = "Owner",
@@ -173,7 +203,7 @@ MyNameColorModule.Assignments.Groups = {
 
 }
 
-MyNameColorModule.Assignments.Badges = {
+NameColors.Assignments.Badges = {
 
 	{
 		OptionName = "Random for Example Purposes",
@@ -184,7 +214,7 @@ MyNameColorModule.Assignments.Badges = {
 
 }
 
-MyNameColorModule.Assignments.Teams = {
+NameColors.Assignments.Teams = {
 
 	{
 		OptionName = "Random for Example Purposes",
@@ -195,7 +225,7 @@ MyNameColorModule.Assignments.Teams = {
 
 }
 
-MyNameColorModule.Assignments.CollectionTags = {
+NameColors.Assignments.CollectionTags = {
 
 	{
 		OptionName = "Random for Example Purposes",
@@ -206,7 +236,7 @@ MyNameColorModule.Assignments.CollectionTags = {
 
 }
 
-MyNameColorModule.Assignments.Attributes = {
+NameColors.Assignments.Attributes = {
 
 	{
 		OptionName = "Random for Example Purposes",
@@ -217,4 +247,20 @@ MyNameColorModule.Assignments.Attributes = {
 
 }
 
-return MyNameColorModule
+-----------------------
+-- PRIVATE FUNCTIONS --
+-----------------------
+
+----------------------
+-- PUBLIC FUNCTIONS --
+----------------------
+
+---------------------------
+-- MODULE INITIALIZATION --
+---------------------------
+
+-------------------
+-- RETURN MODULE --
+-------------------
+
+return NameColors

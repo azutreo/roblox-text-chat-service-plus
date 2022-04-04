@@ -1,10 +1,41 @@
-local Util = require(script.Parent.Parent.Util)
-local ClassicRobloxNameColors = require(script.Parent.Parent.Util.ClassicRobloxNameColors)
+--[[
 
+	PlayerMessageHandler
+	- Module
+	Author: Nicholas Foreman (Azutreo - https://www.roblox.com/users/9221415/profile)
+
+	Adds prefixes, name colors, and chat tags to player messages
+
+--]]
+
+---------------------
+-- ROBLOX SERVICES --
+---------------------
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+
+---------------------------
+-- KNIT AND DEPENDENCIES --
+---------------------------
+
+-- local Knit = require(ReplicatedStorage.Packages.Knit)
+local Util = require(script.Parent.Parent.Util)
 local Configuration = require(script.Parent.Parent.Configuration)
+
+------------------------
+-- PRIVATE PROPERTIES --
+------------------------
+
+local ClassicRobloxNameColors = Util.ClassicRobloxNameColors
+
 local Prefixes = Configuration.Prefixes
 local NameColors = Configuration.NameColors
 local ChatColors = Configuration.ChatColors
+
+-----------------------
+-- PRIVATE FUNCTIONS --
+-----------------------
 
 local function GetPrefixForPlayer(player: Player)
 	if not Prefixes.IsEnabled then
@@ -82,7 +113,16 @@ local function GetNameColorForPlayer(player: Player)
 	}
 end
 
-return function(player, message, properties)
+-----------------------------
+-- RETURN HANDLER FUNCTION --
+-----------------------------
+
+return function(message, properties)
+	local player: Player = Players:GetPlayerByUserId(message.TextSource.UserId)
+	if not Util:CheckIsPlayerValid(player) then
+		return properties
+	end
+
 	local prefix = GetPrefixForPlayer(player)
 	local nameColor = GetNameColorForPlayer(player)
 	local chatColor = GetChatColorForPlayer(player)

@@ -1,13 +1,31 @@
 --[[
 
 	Prefixes
-	Azutreo : Nicholas Foreman
+	- Module
+	Author: Nicholas Foreman (Azutreo - https://www.roblox.com/users/9221415/profile)
 
 	A list of options and how to assign them for prefixes
 
 --]]
 
-local MyPrefixModule = {
+---------------------
+-- ROBLOX SERVICES --
+---------------------
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+---------------------------
+-- KNIT AND DEPENDENCIES --
+---------------------------
+
+-- local Knit = require(ReplicatedStorage.Packages.Knit)
+local Enums = require(script.Parent.Parent.Util.Enums) -- Avoid cyclic table reference
+
+-------------------
+-- CREATE MODULE --
+-------------------
+
+local Prefixes = {
 	IsEnabled = true,
 	Configuration = {},
 
@@ -15,14 +33,9 @@ local MyPrefixModule = {
 	Assignments = {}
 }
 
-MyPrefixModule.Configuration.UseDefaultPrefix = true
-MyPrefixModule.Configuration.DefaultPrefix = {
-	Name = "Default",
-	TagText = "[Player]",
-	TagColor = Color3.fromRGB(170, 170, 170),
-}
-
-local Enums = require(script.Parent.Parent.Util.Enums)
+------------------------
+-- PRIVATE PROPERTIES --
+------------------------
 
 export type Prefix = {
 	Name: string,
@@ -30,7 +43,22 @@ export type Prefix = {
 	TagColor: Color3
 }
 
-MyPrefixModule.Options = {
+-----------------------
+-- PUBLIC PROPERTIES --
+-----------------------
+
+-- Configuration
+
+Prefixes.Configuration.UseDefaultPrefix = true
+Prefixes.Configuration.DefaultPrefix = {
+	Name = "Default",
+	TagText = "[Player]",
+	TagColor = Color3.fromRGB(170, 170, 170),
+}
+
+-- Prefix Options
+
+Prefixes.Options = {
 
 	{
 		Name = "Owner",
@@ -118,7 +146,9 @@ MyPrefixModule.Options = {
 
 }
 
-MyPrefixModule.Assignments.Players = {
+-- Prefix Assignments
+
+Prefixes.Assignments.Players = {
 
 	{
 		OptionName = "Contributor",
@@ -129,7 +159,7 @@ MyPrefixModule.Assignments.Players = {
 
 }
 
-MyPrefixModule.Assignments.Passes = {
+Prefixes.Assignments.Passes = {
 
 	{
 		OptionName = "VIP",
@@ -140,7 +170,7 @@ MyPrefixModule.Assignments.Passes = {
 
 }
 
-MyPrefixModule.Assignments.Groups = {
+Prefixes.Assignments.Groups = {
 
 	{
 		OptionName = "Owner",
@@ -200,7 +230,7 @@ MyPrefixModule.Assignments.Groups = {
 
 }
 
-MyPrefixModule.Assignments.Badges = {
+Prefixes.Assignments.Badges = {
 
 	{
 		OptionName = "Random for Example Purposes",
@@ -211,7 +241,7 @@ MyPrefixModule.Assignments.Badges = {
 
 }
 
-MyPrefixModule.Assignments.Teams = {
+Prefixes.Assignments.Teams = {
 
 	{
 		OptionName = "Random for Example Purposes",
@@ -222,7 +252,7 @@ MyPrefixModule.Assignments.Teams = {
 
 }
 
-MyPrefixModule.Assignments.CollectionTags = {
+Prefixes.Assignments.CollectionTags = {
 
 	{
 		OptionName = "Random for Example Purposes",
@@ -233,7 +263,7 @@ MyPrefixModule.Assignments.CollectionTags = {
 
 }
 
-MyPrefixModule.Assignments.Attributes = {
+Prefixes.Assignments.Attributes = {
 
 	{
 		OptionName = "Random for Example Purposes",
@@ -244,4 +274,20 @@ MyPrefixModule.Assignments.Attributes = {
 
 }
 
-return MyPrefixModule
+-----------------------
+-- PRIVATE FUNCTIONS --
+-----------------------
+
+----------------------
+-- PUBLIC FUNCTIONS --
+----------------------
+
+---------------------------
+-- MODULE INITIALIZATION --
+---------------------------
+
+-------------------
+-- RETURN MODULE --
+-------------------
+
+return Prefixes

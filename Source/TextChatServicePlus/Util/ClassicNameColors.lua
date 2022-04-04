@@ -1,6 +1,31 @@
+--[[
+
+	UtilModule
+	- Module
+	Author: Nicholas Foreman (Azutreo - https://www.roblox.com/users/9221415/profile)
+
+	The algorithm used by Roblox circa TextChatService
+
+--]]
+
+---------------------
+-- ROBLOX SERVICES --
+---------------------
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 
--- Used for classic roblox name colors
+---------------------------
+-- KNIT AND DEPENDENCIES --
+---------------------------
+
+-- local Knit = require(ReplicatedStorage.Packages.Knit)
+
+------------------------
+-- PRIVATE PROPERTIES --
+------------------------
+
+-- List of classic roblox name colors
 local CLASSIC_NAME_COLORS: { Color3 } = {
 	Color3.new(253/255, 41/255, 67/255), -- BrickColor.new("Bright red").Color,
 	Color3.new(1/255, 162/255, 255/255), -- BrickColor.new("Bright blue").Color,
@@ -11,10 +36,16 @@ local CLASSIC_NAME_COLORS: { Color3 } = {
 	BrickColor.new("Light reddish violet").Color,
 	BrickColor.new("Brick yellow").Color,
 }
+
+-- The offset used for the algorithm; has historically always been 0
 local CLASSIC_COLOR_OFFSET: number = 0
 
 -- Caching classic roblox name colors for efficiency so the algorithm isn't being run every message 🧍‍♀️
 local classicNameColorCache = {}
+
+-----------------------
+-- PRIVATE FUNCTIONS --
+-----------------------
 
 local function GetClassicNameValue(playerName: string): number
 	local value: number = 0
@@ -37,21 +68,21 @@ local function GetClassicNameValue(playerName: string): number
 	return value
 end
 
-local function ComputeRobloxNameColor(playerName: string): Color3
+local function ComputeClassicNameColor(playerName: string): Color3
 	return CLASSIC_NAME_COLORS[((GetClassicNameValue(playerName) + CLASSIC_COLOR_OFFSET) % #CLASSIC_NAME_COLORS) + 1]
 end
 
-local function OnPlayerAdded(player: Player): nil
-	classicNameColorCache[player] = ComputeRobloxNameColor(player.Name)
-
-	return nil
+local function OnPlayerAdded(player: Player)
+	classicNameColorCache[player] = ComputeClassicNameColor(player.Name)
 end
 
-local function OnPlayerRemoving(player: Player): nil
+local function OnPlayerRemoving(player: Player)
 	classicNameColorCache[player] = nil
-
-	return nil
 end
+
+---------------------------
+-- MODULE INITIALIZATION --
+---------------------------
 
 Players.PlayerAdded:Connect(OnPlayerAdded)
 Players.PlayerRemoving:Connect(OnPlayerRemoving)
@@ -60,9 +91,13 @@ for _, player: Player in ipairs(Players:GetPlayers()) do
 	task.spawn(OnPlayerAdded, player)
 end
 
+-------------------------
+-- RETURN GET FUNCTION --
+-------------------------
+
 return function(player)
 	if not classicNameColorCache[player] then
-		classicNameColorCache[player] = ComputeRobloxNameColor(player.Name)
+		classicNameColorCache[player] = ComputeClassicNameColor(player.Name)
 	end
 
 	return classicNameColorCache[player]

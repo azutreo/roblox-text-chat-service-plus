@@ -1,7 +1,8 @@
 --[[
 
 	ChatColors
-	Azutreo : Nicholas Foreman
+	- Module
+	Author: Nicholas Foreman (Azutreo - https://www.roblox.com/users/9221415/profile)
 
 	A list of options and how to assign them for chat colors
 	Doesn't work well with the new Roblox chat system YET due to chat bubbles
@@ -9,7 +10,24 @@
 
 --]]
 
-local MyChatColorModule = {
+---------------------
+-- ROBLOX SERVICES --
+---------------------
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+---------------------------
+-- KNIT AND DEPENDENCIES --
+---------------------------
+
+-- local Knit = require(ReplicatedStorage.Packages.Knit)
+local Enums = require(script.Parent.Parent.Util.Enums) -- Avoid cyclic table reference
+
+-------------------
+-- CREATE MODULE --
+-------------------
+
+local ChatColors = {
 	IsEnabled = false,
 	Configuration = {},
 
@@ -17,16 +35,26 @@ local MyChatColorModule = {
 	Assignments = {}
 }
 
-MyChatColorModule.Configuration.DefaultColor = Color3.fromRGB(255, 255, 255)
+------------------------
+-- PRIVATE PROPERTIES --
+------------------------
 
 export type ChatColor = {
 	Name: string,
 	ChatColor: Color3
 }
 
-local Enums = require(script.Parent.Parent.Util.Enums)
+-----------------------
+-- PUBLIC PROPERTIES --
+-----------------------
 
-MyChatColorModule.Options = {
+-- Configuration
+
+ChatColors.Configuration.DefaultColor = Color3.fromRGB(255, 255, 255)
+
+-- Chat color options
+
+ChatColors.Options = {
 
 	{
 		Name = "Roblox Employee",
@@ -45,15 +73,17 @@ MyChatColorModule.Options = {
 
 }
 
-MyChatColorModule.Assignments.Players = {
+-- Chat color assignments
+
+ChatColors.Assignments.Players = {
 
 }
 
-MyChatColorModule.Assignments.Passes = {
+ChatColors.Assignments.Passes = {
 
 }
 
-MyChatColorModule.Assignments.Groups = {
+ChatColors.Assignments.Groups = {
 
 	{
 		OptionName = "Roblox Employee",
@@ -89,20 +119,36 @@ MyChatColorModule.Assignments.Groups = {
 
 }
 
-MyChatColorModule.Assignments.Badges = {
+ChatColors.Assignments.Badges = {
 
 }
 
-MyChatColorModule.Assignments.Teams = {
+ChatColors.Assignments.Teams = {
 
 }
 
-MyChatColorModule.Assignments.CollectionTags = {
+ChatColors.Assignments.CollectionTags = {
 
 }
 
-MyChatColorModule.Assignments.Attributes = {
+ChatColors.Assignments.Attributes = {
 
 }
 
-return MyChatColorModule
+-----------------------
+-- PRIVATE FUNCTIONS --
+-----------------------
+
+----------------------
+-- PUBLIC FUNCTIONS --
+----------------------
+
+---------------------------
+-- MODULE INITIALIZATION --
+---------------------------
+
+-------------------
+-- RETURN MODULE --
+-------------------
+
+return ChatColors

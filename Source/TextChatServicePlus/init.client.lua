@@ -1,10 +1,12 @@
 --[[
 
-	NewChatController
-	- Client/Shared
-	Azutreo : Nicholas Foreman
+	TextChatServicePlus
+	- Client
+	Author: Nicholas Foreman (Azutreo - https://www.roblox.com/users/9221415/profile)
+	Version: dev1.1.0
 
 	Handles prefixes, name colors, and chat colors for the new TextChatService
+	Plans for future updates to include more features
 
 --]]
 
@@ -13,23 +15,21 @@
 ---------------------
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Players = game:GetService("Players")
 local TextChatService = game:GetService("TextChatService")
 
 ---------------------------
 -- KNIT AND DEPENDENCIES --
 ---------------------------
 
--- Commented since this is going to the public
+-- Uncomment if using Knit
 -- local Knit = require(ReplicatedStorage.Packages.Knit)
-local UtilModule = require(script.Util)
 local PlayerMessageHandler = require(script.Handlers.PlayerMessageHandler)
 
 -----------------------
 -- CREATE CONTROLLER --
 -----------------------
 
--- Also commented since this is going to the public
+-- Replace if using Knit
 local MyNewChatController = {} --[[Knit.CreateController {
 	Name = "NewChatController"
 }]]
@@ -49,20 +49,34 @@ local MyNewChatController = {} --[[Knit.CreateController {
 local function OnIncomingMessage(message: TextChatMessage): TextChatMessageProperties
 	local properties = Instance.new("TextChatMessageProperties")
 
-	if not message.TextSource then
-		return properties
+	local handlerFunction: (any) -> (any)
+
+	if message.TextSource then
+		-- Player message
+		handlerFunction = PlayerMessageHandler
+	else
+		-- System message
+		handlerFunction = nil -- I will handle this in the future
 	end
+
+	-- Player messages
 
 	if message.Status ~= Enum.TextChatMessageStatus.Success then
+		properties.PrefixText = ""
+		properties.Text = ""
+		return properties
+	elseif typeof(handlerFunction) ~= "function" then
 		return properties
 	end
 
-	local player: Player = Players:GetPlayerByUserId(message.TextSource.UserId)
-	if not UtilModule:CheckIsPlayerValid(player) then
+	local success, result = pcall(PlayerMessageHandler, message, properties)
+
+	if success then
+		return result
+	else
+		warn(result)
 		return properties
 	end
-
-	return PlayerMessageHandler(player, message, properties)
 end
 
 ----------------------
@@ -73,22 +87,20 @@ end
 -- INITIALIZE AND START CONTROLLER --
 -------------------------------------
 
-function MyNewChatController:KnitStart(): nil
+function MyNewChatController:KnitStart()
 	TextChatService.OnIncomingMessage = OnIncomingMessage
-
-	return nil
 end
 
-function MyNewChatController:KnitInit(): nil
-	return nil
+function MyNewChatController:KnitInit()
+
 end
 
 -------------------------------
 -- RETURN CONTROLLER TO KNIT --
 -------------------------------
 
-MyNewChatController:KnitInit()
-MyNewChatController:KnitStart()
+MyNewChatController:KnitInit() -- Remove if using Knit
+MyNewChatController:KnitStart() -- Remove if using Knit
 
--- Commented for public module
+-- Uncomment if using Knit
 -- return MyNewChatController
