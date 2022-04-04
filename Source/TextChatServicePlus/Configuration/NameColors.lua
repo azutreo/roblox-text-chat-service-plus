@@ -23,82 +23,70 @@ MyNameColorModule.Configuration.DefaultColor = Color3.fromRGB(170, 170, 170)
 local Enums = require(script.Parent.Parent.Util.Enums)
 
 export type NameColor = {
-	NameColor: Color3,
-	Priority: number
+	Name: string,
+	NameColor: Color3
 }
 
 MyNameColorModule.Options = {
 
-	["Owner"] = {
+	{
+		Name = "Owner",
 		NameColor = Color3.fromHex("#af4448"), -- Dark pastel red
-
-		Priority = 1
 	},
 
-	["Administrator"] = {
+	{
+		Name = "Administrator",
 		NameColor = Color3.fromHex("#e57373"), -- Light pastel red
-
-		Priority = 2
 	},
 
-	["Developer"] = {
+	{
+		Name = "Developer",
 		NameColor = Color3.fromHex("#64b5f6"), -- Light pastel blue
-
-		Priority = 3
 	},
 
-	["Moderator"] = {
+	{
+		Name = "Moderator",
 		NameColor = Color3.fromHex("#81c784"), -- Light pastel green
-
-		Priority = 4
 	},
 
-	["Contributor"] = {
+	{
+		Name = "Contributor",
 		NameColor = Color3.fromHex("#f06292"), -- Light pastel magenta
-
-		Priority = 5
 	},
 
-	["Roblox Staff"] = {
+	{
+		Name = "Roblox Staff",
 		NameColor = Color3.fromHex("#e57373"), -- Light pastel red
-
-		Priority = 6
 	},
 
-	["Roblox Intern"] = {
+	{
+		Name = "Roblox Intern",
 		NameColor = Color3.fromHex("#e57373"), -- Light pastel red
-
-		Priority = 7
 	},
 
-	["Roblox Star"] = {
+	{
+		Name = "Roblox Star",
 		NameColor = Color3.fromHex("#ffb74d"), -- Light pastel orange
-
-		Priority = 8
 	},
 
-	["Tester"] = {
-		NameColor = Color3.fromRGB(172, 137, 228), -- Roblox QA Valiant Pink (estimated)
-
-		Priority = 9
+	{
+		Name = "Tester",
+		NameColor = Color3.fromRGB(172, 137, 228), -- Roblox QA Valiant pink (estimated)
 	},
 
-	["VIP"] = {
+	{
+		Name = "VIP",
 		NameColor = Color3.fromHex("#ffd54f"), -- Light pastel amber
-
-		Priority = 10
 	},
 
-	["Group Member"] = {
+	{
+		Name = "Group Member",
 		NameColor = Color3.fromHex("#9e9e9e"), -- Light grey
-
-		Priority = 11
 	},
 
-	["Random for Testing Purposes"] = {
+	{
+		Name = "Random for Example Purposes",
 		NameColor = Color3.fromHex("#f06292"), -- Light pastel magenta
-
-		Priority = 12
 	}
 
 }
@@ -106,9 +94,9 @@ MyNameColorModule.Options = {
 MyNameColorModule.Assignments.Players = {
 
 	{
-		ReferenceName = "Contributor",
+		OptionName = "Contributor",
 
-		UserId = 9221415,
+		UserId = 9221415, -- https://www.roblox.com/users/9221415/profile
 		IsPlayer = true
 	},
 
@@ -117,9 +105,9 @@ MyNameColorModule.Assignments.Players = {
 MyNameColorModule.Assignments.Passes = {
 
 	{
-		ReferenceName = "VIP",
+		OptionName = "VIP",
 
-		GamePassId = 37639178, -- Put your VIP pass id here
+		GamePassId = 37639178, -- https://www.roblox.com/game-pass/37639178/Sample-Pass
 		HasPass = true
 	},
 
@@ -128,57 +116,57 @@ MyNameColorModule.Assignments.Passes = {
 MyNameColorModule.Assignments.Groups = {
 
 	{
-		ReferenceName = "Owner",
+		OptionName = "Owner",
 
-		GroupId = 14477910,
+		GroupId = 14477910, -- https://www.roblox.com/groups/14477910/Sample-Group-With-Ranks
 		Rank = 255,
 		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
-		ReferenceName = "Administrator",
+		OptionName = "Administrator",
 
-		GroupId = 14477910,
+		GroupId = 14477910, -- https://www.roblox.com/groups/14477910/Sample-Group-With-Ranks
 		Rank = 250,
 		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
-		ReferenceName = "Developer",
+		OptionName = "Developer",
 
-		GroupId = 14477910,
+		GroupId = 14477910, -- https://www.roblox.com/groups/14477910/Sample-Group-With-Ranks
 		Rank = 225,
 		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
-		ReferenceName = "Contributor",
+		OptionName = "Contributor",
 
-		GroupId = 14477910,
+		GroupId = 14477910, -- https://www.roblox.com/groups/14477910/Sample-Group-With-Ranks
 		Rank = 200,
 		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
-		ReferenceName = "Moderator",
+		OptionName = "Moderator",
 
-		GroupId = 14477910,
+		GroupId = 14477910, -- https://www.roblox.com/groups/14477910/Sample-Group-With-Ranks
 		Rank = 175,
 		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
-		ReferenceName = "Tester",
+		OptionName = "Tester",
 
-		GroupId = 14477910,
+		GroupId = 14477910, -- https://www.roblox.com/groups/14477910/Sample-Group-With-Ranks
 		Rank = 150,
 		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
-		ReferenceName = "Member",
+		OptionName = "Member",
 
-		GroupId = 14477910,
+		GroupId = 14477910, -- https://www.roblox.com/groups/14477910/Sample-Group-With-Ranks
 		Rank = 1,
 		ComparisonType = Enums.GroupComparisonType.IS_IN_GROUP
 	},
@@ -188,9 +176,9 @@ MyNameColorModule.Assignments.Groups = {
 MyNameColorModule.Assignments.Badges = {
 
 	{
-		ReferenceName = "VIP",
+		OptionName = "Random for Example Purposes",
 
-		BadgeId = 9249849654,
+		BadgeId = 9249849654, -- https://www.roblox.com/badges/2125764099/Sample-Badge
 		HasBadge = true
 	},
 
@@ -199,9 +187,9 @@ MyNameColorModule.Assignments.Badges = {
 MyNameColorModule.Assignments.Teams = {
 
 	{
-		ReferenceName = "Random for Testing Purposes",
+		OptionName = "Random for Example Purposes",
 
-		TeamName = "Random Team for Testing Purposes",
+		TeamName = "Random for Example Purposes",
 		IsOnTeam = true
 	},
 
@@ -210,9 +198,9 @@ MyNameColorModule.Assignments.Teams = {
 MyNameColorModule.Assignments.CollectionTags = {
 
 	{
-		ReferenceName = "VIP",
+		OptionName = "Random for Example Purposes",
 
-		CollectionTagName = "VIP",
+		CollectionTagName = "RandomExampleTag",
 		HasTag = true
 	},
 
@@ -221,9 +209,9 @@ MyNameColorModule.Assignments.CollectionTags = {
 MyNameColorModule.Assignments.Attributes = {
 
 	{
-		ReferenceName = "VIP",
+		OptionName = "Random for Example Purposes",
 
-		AttributeName = "IsVIP",
+		AttributeName = "RandomExampleAttribute",
 		AttributeValue = true
 	},
 

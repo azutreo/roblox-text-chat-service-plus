@@ -110,12 +110,6 @@ local function AssertAssignment(player: Player, assignment: Assignment): any
 	return true, ""
 end
 
-local function CheckAssignment(assignment: Assignment, options: {})
-	assert(typeof(assignment.OptionName) == "string", "Assignment missing a name")
-
-	return options[assignment.OptionName]
-end
-
 local function CheckIsPlayer(player: Player, assignment: PlayerAssignment): boolean?
 	assert(AssertAssignment(player, assignment))
 	assert(typeof(assignment.UserId) == "number", "Player Assignment must contain a UserId")
@@ -387,37 +381,49 @@ local function CheckAttribute(player: Player, assignment: AttributeAssignment): 
 	return false
 end
 
+local function GetOption(assignment: Assignment, options: {})
+	assert(typeof(assignment.OptionName) == "string", "Assignment missing a name")
+
+	for index, option in ipairs(options) do
+		if option.Name == assignment.OptionName then
+			return index, option
+		end
+	end
+end
+
 function MyUtilModule:CheckIsPlayerValid(player: Player)
 	return typeof(player) == "Instance" and player:IsDescendantOf(Players)
 end
 
-function MyUtilModule:GetHighestOption(
+function MyUtilModule:GetCurrentOption(
 		assignmentType: string,
 		player: Player,
 		assignments: {PlayerAssignment},
-		options: {},
-		highestOption: table?
+		options: {any},
+		currentIndex: number,
+		currentOption: {any}?
 	): {any}?
 
 	assert(AssertAssignment(player, assignments))
 	assert(typeof(assignmentType) == "string", "Assignment type must be a string")
 
-	local function CheckOption(option: {any}): nil
-		if typeof(highestOption) == "table" then
-			if option.Priority < highestOption.Priority then
-				highestOption = option
+	local function CheckOption(index: number, option: {any}): nil
+		if typeof(currentOption) == "table" then
+			if index < currentIndex then
+				currentOption = option
+				currentIndex = index
 			end
 		else
-			highestOption = option
+			currentOption = option
 		end
 
 		return nil
 	end
 
 	local function CheckAssignmentType(assignment: Assignment): {any}?
-		local option = CheckAssignment(assignment, options)
-		if not option then
-			return nil
+		local index, option = GetOption(assignment, options)
+		if not index or not option then
+			return nil, nil
 		end
 
 		while playerCache[player] and playerCache[player].IsUpdating do
@@ -443,52 +449,53 @@ function MyUtilModule:GetHighestOption(
 		end
 
 		if hasOption then
-			return option
+			return index, option
 		end
 
-		return nil
+		return nil, nil
 	end
 
 	for _, assignment: Assignment in ipairs(assignments) do
-		local option: {any} = CheckAssignmentType(assignment)
+		local index: number, option: {any} = CheckAssignmentType(assignment)
 
 		if typeof(option) == "table" then
-			CheckOption(option)
+			CheckOption(index, option)
 		end
 	end
 
-	return highestOption
+	return currentIndex, currentOption
 end
 
-function MyUtilModule:CompareAssignments(player: Player, assignments: {}, options: {}): table?
+function MyUtilModule:CompareAssignments(player: Player, assignments: {any}, options: {any}): {any}?
 	assert(AssertAssignment(player, assignments))
 	assert(typeof(options) == "table", "Options must be a table")
 
-	local highestOption: table?
+	local currentIndex: number = math.huge
+	local currentOption: {any}? = nil
 
 	if assignments.Players then
-		highestOption = self:GetHighestOption("Players", player, assignments.Players, options, highestOption)
+		currentIndex, currentOption = self:GetCurrentOption("Players", player, assignments.Players, options, currentIndex, currentOption)
 	end
 	if assignments.Passes then
-		highestOption = self:GetHighestOption("Passes", player, assignments.Passes, options, highestOption)
+		currentIndex, currentOption = self:GetCurrentOption("Passes", player, assignments.Passes, options, currentIndex, currentOption)
 	end
 	if assignments.Groups then
-		highestOption = self:GetHighestOption("Groups", player, assignments.Groups, options, highestOption)
+		currentIndex, currentOption = self:GetCurrentOption("Groups", player, assignments.Groups, options, currentIndex, currentOption)
 	end
 	if assignments.Badges then
-		highestOption = self:GetHighestOption("Badges", player, assignments.Badges, options, highestOption)
+		currentIndex, currentOption = self:GetCurrentOption("Badges", player, assignments.Badges, options, currentIndex, currentOption)
 	end
 	if assignments.Teams then
-		highestOption = self:GetHighestOption("Teams", player, assignments.Teams, options, highestOption)
+		currentIndex, currentOption = self:GetCurrentOption("Teams", player, assignments.Teams, options, currentIndex, currentOption)
 	end
 	if assignments.CollectionTags then
-		highestOption = self:GetHighestOption("CollectionTags", player, assignments.CollectionTags, options, highestOption)
+		currentIndex, currentOption = self:GetCurrentOption("CollectionTags", player, assignments.CollectionTags, options, currentIndex, currentOption)
 	end
 	if assignments.Attributes then
-		highestOption = self:GetHighestOption("Attributes", player, assignments.Attributes, options, highestOption)
+		currentIndex, currentOption = self:GetCurrentOption("Attributes", player, assignments.Attributes, options, currentIndex, currentOption)
 	end
 
-	return highestOption
+	return currentOption
 end
 
 Players.PlayerAdded:Connect(OnPlayerAdded)

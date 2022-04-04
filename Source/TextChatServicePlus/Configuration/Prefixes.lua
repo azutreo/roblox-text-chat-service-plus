@@ -17,16 +17,15 @@ local MyPrefixModule = {
 
 MyPrefixModule.Configuration.UseDefaultPrefix = true
 MyPrefixModule.Configuration.DefaultPrefix = {
+	Name = "Default",
 	TagText = "[Player]",
-	TagColor = Color3.fromHex("#ffffff"),
-	Priority = 0
+	TagColor = Color3.fromRGB(170, 170, 170),
 }
 
 local Enums = require(script.Parent.Parent.Util.Enums)
 
 export type Prefix = {
 	Name: string,
-
 	TagText: string,
 	TagColor: Color3
 }
@@ -35,93 +34,86 @@ MyPrefixModule.Options = {
 
 	{
 		Name = "Owner",
-
 		TagText = "[Owner]",
 		TagColor = Color3.fromHex("#af4448"), -- Dark pastel red
 	},
 
 	{
 		Name = "Administrator",
-
 		TagText = "[Admin]",
 		TagColor = Color3.fromHex("#e57373"), -- Light pastel red
 	},
 
 	{
 		Name = "Developer",
-
 		TagText = "[Dev]",
 		TagColor = Color3.fromHex("#64b5f6"), -- Light pastel blue
 	},
 
 	{
 		Name = "Moderator",
-
 		TagText = "[Mod]",
 		TagColor = Color3.fromHex("#81c784"), -- Light pastel green
 	},
 
 	{
 		Name = "Contributor",
-
 		TagText = "[Contributor]",
 		TagColor = Color3.fromHex("#f06292"), -- Light pastel magenta
 	},
 
 	{
 		Name = "Content Creator",
-
 		TagText = "[Content Creator]",
 		TagColor = Color3.fromHex("#ffb74d"), -- Light pastel orange
 	},
 
 	{
 		Name = "Tester",
-
 		TagText = "[Tester]",
-		TagColor = Color3.fromRGB(172, 137, 228), -- Roblox QA Valiant Pink (estimated)
+		TagColor = Color3.fromHex("#ac89e4"), -- Roblox QA Valiant pink (estimated)
 	},
 
 	{
 		Name = "VIP",
-
 		TagText = "[VIP]",
 		TagColor = Color3.fromHex("#ffd54f"), -- Light pastel amber
 	},
 
 	{
 		Name = "Group Member",
-
 		TagText = "[Member]",
 		TagColor = Color3.fromHex("#9e9e9e"), -- Light grey
 	},
 
 	{
 		Name = "Roblox Employee",
-
 		TagText = "[Roblox Employee]",
 		TagColor = Color3.fromHex("#e57373"), -- Light pastel red
 	},
 
 	{
 		Name = "Roblox Intern",
-
 		TagText = "[Roblox Intern]",
-		TagColor = Color3.fromRGB(175, 221, 255), -- Light blue
+		TagColor = Color3.fromRGB(175, 221, 255), -- Classic intern blue
 	},
 
 	{
 		Name = "Roblox Quality Assurance",
-
 		TagText = "[Roblox QA]",
 		TagColor = Color3.fromHex("#ac89e4"), -- Roblox QA Valiant Pink (estimated)
 	},
 
 	{
 		Name = "Roblox Video Star",
-
 		TagText = "[Roblox Star]",
-		TagColor = Color3.fromHex("#ffb74d"), -- Valiant pink/purple
+		TagColor = Color3.fromHex("#ffb74d"), -- Light pastel amber
+	},
+
+	{
+		Name = "Random for Example Purposes",
+		TagText = "[Example]",
+		TagColor = Color3.fromHex("#f06292"), -- Light pastel magenta
 	}
 
 }
@@ -131,7 +123,7 @@ MyPrefixModule.Assignments.Players = {
 	{
 		OptionName = "Contributor",
 
-		UserId = 9221415,
+		UserId = 9221415, -- https://www.roblox.com/users/9221415/profile
 		IsPlayer = true
 	},
 
@@ -142,7 +134,7 @@ MyPrefixModule.Assignments.Passes = {
 	{
 		OptionName = "VIP",
 
-		GamePassId = 37639178, -- Put your VIP pass id here
+		GamePassId = 37639178, -- https://www.roblox.com/game-pass/37639178/Sample-Pass
 		HasPass = true
 	},
 
@@ -153,56 +145,56 @@ MyPrefixModule.Assignments.Groups = {
 	{
 		OptionName = "Owner",
 
-		GroupId = 14477910,
-		Rank = 255,
+		GroupId = 14477910, -- https://www.roblox.com/groups/14477910/Sample-Group-With-Ranks
+		Rank = 255, -- 255 Owner
 		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
 		OptionName = "Administrator",
 
-		GroupId = 14477910,
-		Rank = 250,
+		GroupId = 14477910, -- https://www.roblox.com/groups/14477910/Sample-Group-With-Ranks
+		Rank = 250, -- 250 Administrator
 		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
 		OptionName = "Developer",
 
-		GroupId = 14477910,
-		Rank = 225,
+		GroupId = 14477910, -- https://www.roblox.com/groups/14477910/Sample-Group-With-Ranks
+		Rank = 225, -- 225 Developer
 		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
 		OptionName = "Contributor",
 
-		GroupId = 14477910,
-		Rank = 200,
+		GroupId = 14477910, -- https://www.roblox.com/groups/14477910/Sample-Group-With-Ranks
+		Rank = 200, -- 200 Contributor
 		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
 		OptionName = "Moderator",
 
-		GroupId = 14477910,
-		Rank = 175,
+		GroupId = 14477910, -- https://www.roblox.com/groups/14477910/Sample-Group-With-Ranks
+		Rank = 175, -- 175 Moderator
 		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
 		OptionName = "Tester",
 
-		GroupId = 14477910,
-		Rank = 150,
+		GroupId = 14477910, -- https://www.roblox.com/groups/14477910/Sample-Group-With-Ranks
+		Rank = 150, -- 150 Tester
 		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
 		OptionName = "Member",
 
-		GroupId = 14477910,
-		Rank = 1,
+		GroupId = 14477910, -- https://www.roblox.com/groups/14477910/Sample-Group-With-Ranks
+		Rank = 1, -- 001 Member
 		ComparisonType = Enums.GroupComparisonType.IS_IN_GROUP
 	},
 
@@ -211,9 +203,9 @@ MyPrefixModule.Assignments.Groups = {
 MyPrefixModule.Assignments.Badges = {
 
 	{
-		OptionName = "VIP",
+		OptionName = "Random for Example Purposes",
 
-		BadgeId = 9249849654,
+		BadgeId = 9249849654, -- https://www.roblox.com/badges/2125764099/Sample-Badge
 		HasBadge = true
 	},
 
@@ -222,9 +214,9 @@ MyPrefixModule.Assignments.Badges = {
 MyPrefixModule.Assignments.Teams = {
 
 	{
-		OptionName = "Random for Testing Purposes",
+		OptionName = "Random for Example Purposes",
 
-		TeamName = "Random Team for Testing Purposes",
+		TeamName = "Random for Example Purposes",
 		IsOnTeam = true
 	},
 
@@ -233,9 +225,9 @@ MyPrefixModule.Assignments.Teams = {
 MyPrefixModule.Assignments.CollectionTags = {
 
 	{
-		OptionName = "VIP",
+		OptionName = "Random for Example Purposes",
 
-		CollectionTagName = "VIP",
+		CollectionTagName = "RandomExampleTag",
 		HasTag = true
 	},
 
@@ -244,9 +236,9 @@ MyPrefixModule.Assignments.CollectionTags = {
 MyPrefixModule.Assignments.Attributes = {
 
 	{
-		OptionName = "VIP",
+		OptionName = "Random for Example Purposes",
 
-		AttributeName = "IsVIP",
+		AttributeName = "RandomExampleAttribute",
 		AttributeValue = true
 	},
 

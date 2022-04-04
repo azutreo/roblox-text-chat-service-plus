@@ -20,227 +20,89 @@ local MyChatColorModule = {
 MyChatColorModule.Configuration.DefaultColor = Color3.fromRGB(255, 255, 255)
 
 export type ChatColor = {
-	ChatColor: Color3,
-	Priority: number
+	Name: string,
+	ChatColor: Color3
 }
 
 local Enums = require(script.Parent.Parent.Util.Enums)
 
 MyChatColorModule.Options = {
 
-	["Owner"] = {
-		ChatColor = Color3.fromHex("#af4448"), -- Dark pastel red
-
-		Priority = 1
+	{
+		Name = "Roblox Employee",
+		ChatColor = Color3.fromRGB(255, 215, 0), -- Classic admin yellow
 	},
 
-	["Administrator"] = {
-		ChatColor = Color3.fromHex("#e57373"), -- Light pastel red
-
-		Priority = 2
+	{
+		Name = "Roblox Intern",
+		ChatColor = Color3.fromRGB(175, 221, 255), -- Classic intern blue
 	},
 
-	["Developer"] = {
-		ChatColor = Color3.fromHex("#64b5f6"), -- Light pastel blue
-
-		Priority = 3
+	{
+		Name = "Roblox Quality Assurance",
+		ChatColor = Color3.fromRGB(175, 221, 255), -- Classic intern blue
 	},
-
-	["Moderator"] = {
-		ChatColor = Color3.fromHex("#81c784"), -- Light pastel green
-
-		Priority = 4
-	},
-
-	["Contributor"] = {
-		ChatColor = Color3.fromHex("#f06292"), -- Light pastel magenta
-
-		Priority = 5
-	},
-
-	["Roblox Staff"] = {
-		ChatColor = Color3.fromHex("#e57373"), -- Light pastel red
-
-		Priority = 6
-	},
-
-	["Roblox Intern"] = {
-		ChatColor = Color3.fromHex("#e57373"), -- Light pastel red
-
-		Priority = 7
-	},
-
-	["Roblox Star"] = {
-		ChatColor = Color3.fromHex("#ffb74d"), -- Light pastel orange
-
-		Priority = 8
-	},
-
-	["Tester"] = {
-		ChatColor = Color3.fromRGB(172, 137, 228), -- Roblox QA Valiant Pink (estimated)
-
-		Priority = 9
-	},
-
-	["VIP"] = {
-		ChatColor = Color3.fromHex("#ffd54f"), -- Light pastel amber
-
-		Priority = 10
-	},
-
-	["Group Member"] = {
-		ChatColor = Color3.fromHex("#9e9e9e"), -- Light grey
-
-		Priority = 11
-	}
 
 }
 
 MyChatColorModule.Assignments.Players = {
 
-	{
-		ReferenceName = "Contributor",
-
-		UserId = 9221415,
-		IsPlayer = true
-	},
-
 }
 
 MyChatColorModule.Assignments.Passes = {
-
-	{
-		ReferenceName = "VIP",
-
-		GamePassId = 37639178, -- Put your VIP pass id here
-		HasPass = true
-	},
 
 }
 
 MyChatColorModule.Assignments.Groups = {
 
 	{
-		ReferenceName = "Owner",
+		OptionName = "Roblox Employee",
 
-		GroupId = 14477910,
-		Rank = 255,
+		GroupId = 1200769, -- https://www.roblox.com/groups/1200769/Official-Group-of-Roblox
+		Rank = 71, -- Employee
 		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
-		ReferenceName = "Administrator",
+		OptionName = "Roblox Intern",
 
-		GroupId = 14477910,
-		Rank = 250,
+		GroupId = 1200769, -- https://www.roblox.com/groups/1200769/Official-Group-of-Roblox
+		Rank = 1, -- Intern
 		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
-		ReferenceName = "Developer",
+		OptionName = "Roblox Intern",
 
-		GroupId = 14477910,
-		Rank = 225,
+		GroupId = 2868472, -- https://www.roblox.com/groups/2868472/Roblox-Interns
+		Rank = 106, -- Accelerator
 		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
 	},
 
 	{
-		ReferenceName = "Contributor",
+		OptionName = "Roblox Quality Assurance",
 
-		GroupId = 14477910,
-		Rank = 200,
+		GroupId = 3055661, -- https://www.roblox.com/groups/3055661/Roblox-Community-QA-Team
+		Rank = 1, -- Verified Tester
 		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
-	},
-
-	{
-		ReferenceName = "Moderator",
-
-		GroupId = 14477910,
-		Rank = 175,
-		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
-	},
-
-	{
-		ReferenceName = "Tester",
-
-		GroupId = 14477910,
-		Rank = 150,
-		ComparisonType = Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO
-	},
-
-	{
-		ReferenceName = "Member",
-
-		GroupId = 14477910,
-		Rank = 1,
-		ComparisonType = Enums.GroupComparisonType.IS_IN_GROUP
 	},
 
 }
 
 MyChatColorModule.Assignments.Badges = {
 
-	{
-		ReferenceName = "VIP",
-
-		BadgeId = 9249849654,
-		HasBadge = true
-	},
-
 }
 
 MyChatColorModule.Assignments.Teams = {
-
-	{
-		ReferenceName = "Random for Testing Purposes",
-
-		TeamName = "Random Team for Testing Purposes",
-		IsOnTeam = true
-	},
 
 }
 
 MyChatColorModule.Assignments.CollectionTags = {
 
-	{
-		ReferenceName = "VIP",
-
-		CollectionTagName = "VIP",
-		HasTag = true
-	},
-
 }
 
 MyChatColorModule.Assignments.Attributes = {
 
-	{
-		ReferenceName = "VIP",
-
-		AttributeName = "IsVIP",
-		AttributeValue = true
-	},
-
 }
-
------------------------
--- PRIVATE FUNCTIONS --
------------------------
-
-----------------------
--- PUBLIC FUNCTIONS --
-----------------------
-
----------------------------
--- MODULE INITIALIZATION --
----------------------------
-
--- Commented for public module
---[[Knit.OnStart:andThen(function()
-	-- Do stuff
-end):catch(warn)]]
-
--------------------
--- RETURN MODULE --
--------------------
 
 return MyChatColorModule
