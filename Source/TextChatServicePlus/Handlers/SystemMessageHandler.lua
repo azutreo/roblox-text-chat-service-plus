@@ -19,7 +19,6 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 ---------------------------
 
 -- local Knit = require(ReplicatedStorage.Packages.Knit)
-local Util = require(script.Parent.Parent.Util)
 local Configuration = require(script.Parent.Parent.Configuration)
 
 ---------------------

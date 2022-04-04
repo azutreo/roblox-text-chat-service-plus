@@ -97,7 +97,7 @@ local function GetNameColorForPlayer(player: Player)
 		}
 	end
 
-	if NameColors.UseAssignedColor then
+	if NameColors.Configuration.UseAssignedColor then
 		local nameColor = Util.AssignmentOptions:CompareAssignments(player, NameColors.Assignments, NameColors.Options)
 
 		if typeof(nameColor) == "table" then

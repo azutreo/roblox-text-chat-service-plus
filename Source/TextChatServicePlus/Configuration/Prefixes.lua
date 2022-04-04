@@ -49,7 +49,7 @@ export type Prefix = {
 
 -- Configuration
 
-Prefixes.Configuration.UseDefaultPrefix = true
+Prefixes.Configuration.UseDefaultPrefix = false
 Prefixes.Configuration.DefaultPrefix = {
 	Name = "Default",
 	Text = "[Player]",
