@@ -60,14 +60,14 @@ local function OnIncomingMessage(message: TextChatMessage): TextChatMessagePrope
 	local handler: Handler?
 
 	if message.TextSource then
+		print("Printing message.Status for player message:", message.Status)
 		handler = PlayerMessageHandler -- Player message
 	else
+		print("Printing message.Status for system message:", message.Status)
 		handler = SystemMessageHandler -- System message
 	end
 
 	local handlerFunction: Function
-
-	print("Printing message.Status:", message.Status)
 
 	if typeof(handler) ~= "table" then
 		return properties
