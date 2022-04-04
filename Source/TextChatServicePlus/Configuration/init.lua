@@ -36,6 +36,9 @@ local Configuration = {}
 
 Configuration.Version = "1.1.0" -- do not edit <3
 
+Configuration.SystemMessageFormat = "%s"
+Configuration.SystemMessagePrefix = "<font color='#af4448'><b>[System]</b></font>"
+
 Configuration.NameFormat = "[%s]"
 
 Configuration.PrefixFormat = "<font color='#%s'><b>%s</b></font> %s"

@@ -1,6 +1,6 @@
 --[[
 
-	PlayerMessageHandler
+	SystemMessageHandler
 	- Module
 	Author: Nicholas Foreman (Azutreo - https://www.roblox.com/users/9221415/profile)
 
@@ -13,7 +13,6 @@
 ---------------------
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Players = game:GetService("Players")
 
 ---------------------------
 -- KNIT AND DEPENDENCIES --
@@ -27,7 +26,7 @@ local Configuration = require(script.Parent.Parent.Configuration)
 -- MODULE CREATION --
 ---------------------
 
-local PlayerMessageHandler = {}
+local SystemMessageHandler = {}
 
 ------------------------
 -- PRIVATE PROPERTIES --
@@ -45,15 +44,16 @@ local PlayerMessageHandler = {}
 -- PUBLIC FUNCTIONS --
 ----------------------
 
-function PlayerMessageHandler:Sending(message, properties)
-	properties.PrefixText = string.format(Configuration.NameFormat, message.PrefixText)
-	properties.Text = string.rep("_", #message.Text)
+function SystemMessageHandler:Sending(message, properties)
+	properties.PrefixText = Configuration.SystemMessagePrefix
+	properties.Text = string.format(Configuration.SystemMessageFormat, string.rep("_", #message.Text))
 
 	return properties
 end
 
-function PlayerMessageHandler:Success(message, properties)
-	-- properties.Text = message.Text
+function SystemMessageHandler:Success(message, properties)
+	properties.PrefixText = Configuration.SystemMessagePrefix
+	properties.Text = string.format(Configuration.SystemMessageFormat, message.Text)
 
 	return properties
 end
@@ -62,4 +62,4 @@ end
 -- RETURN HANDLER --
 --------------------
 
-return PlayerMessageHandler
+return SystemMessageHandler

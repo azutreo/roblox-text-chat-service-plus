@@ -24,7 +24,7 @@ local TextChatService = game:GetService("TextChatService")
 -- Uncomment if using Knit
 -- local Knit = require(ReplicatedStorage.Packages.Knit)
 local PlayerMessageHandler = require(script.Handlers.PlayerMessageHandler)
-local ServerMessageHandler = require(script.Handlers.ServerMessageHandler)
+local SystemMessageHandler = require(script.Handlers.SystemMessageHandler)
 
 -----------------------
 -- CREATE CONTROLLER --
@@ -60,11 +60,9 @@ local function OnIncomingMessage(message: TextChatMessage): TextChatMessagePrope
 	local handler: Handler?
 
 	if message.TextSource then
-		-- Player message
-		handler = PlayerMessageHandler
+		handler = PlayerMessageHandler -- Player message
 	else
-		-- System message
-		handler = ServerMessageHandler
+		handler = SystemMessageHandler -- System message
 	end
 
 	local handlerFunction: Function
