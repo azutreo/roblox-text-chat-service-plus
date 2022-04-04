@@ -67,6 +67,8 @@ local function OnIncomingMessage(message: TextChatMessage): TextChatMessagePrope
 
 	local handlerFunction: Function
 
+	print("Printing message.Status:", message.Status)
+
 	if typeof(handler) ~= "table" then
 		return properties
 	elseif message.Status == Enum.TextChatMessageStatus.Success then

@@ -65,7 +65,7 @@ Configuration.SystemMessage.Prefix = {
 
 Configuration.SystemMessage.ChatColor = {
 	Name = "System",
-	Color = Color3.fromHex("#e57373")
+	Color = Color3.fromHex("#ffffff"), -- Color3.fromHex("#e57373"),
 }
 
 -----------------------
