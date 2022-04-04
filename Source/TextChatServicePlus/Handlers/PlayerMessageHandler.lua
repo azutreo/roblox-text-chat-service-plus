@@ -11,7 +11,7 @@ local function GetPrefixForPlayer(player: Player)
 		return nil
 	end
 
-	local prefix = Util:CompareReferences(player, Prefixes.References, Prefixes.Options)
+	local prefix = Util:CompareAssignments(player, Prefixes.Assignments, Prefixes.Options)
 
 	if typeof(prefix) == "table" then
 		return prefix

@@ -27,26 +27,26 @@ export type GroupCachedResult = {
 	LastUpdate: number
 }
 
-export type Reference = {
-	ReferenceName: string
+export type Assignment = {
+	OptionName: string
 }
 
 export type PlayerReference = {
-	ReferenceName: string,
+	OptionName: string,
 
 	UserId: number,
 	IsPlayer: boolean -- if true, will give if matches; if false, if false, then will give if it DOESN'T match
 }
 
 export type PassReference = {
-	ReferenceName: string,
+	OptionName: string,
 
 	GamePassId: number,
 	HasPass: boolean -- if true, will give if matches; if false, if false, then will give if it DOESN'T match
 }
 
 export type GroupReference = {
-	ReferenceName: string,
+	OptionName: string,
 
 	GroupId: number,
 	Rank: number,
@@ -54,28 +54,28 @@ export type GroupReference = {
 }
 
 export type BadgeReference = {
-	ReferenceName: string,
+	OptionName: string,
 
 	BadgeId: number,
 	HasBadge: boolean -- if true, will give if matches; if false, then will give if it DOESN'T match
 }
 
 export type TeamReference = {
-	ReferenceName: string,
+	OptionName: string,
 
 	TeamName: string,
 	IsOnTeam: boolean -- if true, will give if player is on team; if false, will give if NOT on team
 }
 
 export type CollectionTagReference = {
-	ReferenceName: string,
+	OptionName: string,
 
 	CollectionTagName: string,
 	HasTag: boolean -- if true, will give if matches; if false, then will give if it DOESN'T match
 }
 
 export type AttributeReference = {
-	ReferenceName: string,
+	OptionName: string,
 
 	AttributeName: string,
 	AttributeValue: any -- value to compare to
@@ -100,44 +100,44 @@ local function OnPlayerRemoving(player: Player): nil
 	return nil
 end
 
-local function AssertReference(player: Player, reference: Reference): any
+local function AssertReference(player: Player, assignment: Assignment): any
 	if not MyUtilModule:CheckIsPlayerValid(player) then
 		return false, "Player must be a Player Instance"
-	elseif typeof(reference) ~= "table" then
-		return false, "Reference must be a Reference table"
+	elseif typeof(assignment) ~= "table" then
+		return false, "Assignment must be a Assignment table"
 	end
 
 	return true, ""
 end
 
-local function CheckReference(reference: Reference, options: {})
-	assert(typeof(reference.ReferenceName) == "string", "Reference missing a name")
+local function CheckReference(assignment: Assignment, options: {})
+	assert(typeof(assignment.OptionName) == "string", "Assignment missing a name")
 
-	return options[reference.ReferenceName]
+	return options[assignment.OptionName]
 end
 
-local function CheckIsPlayer(player: Player, reference: PlayerReference): boolean?
-	assert(AssertReference(player, reference))
-	assert(typeof(reference.UserId) == "number", "Player Reference must contain a UserId")
+local function CheckIsPlayer(player: Player, assignment: PlayerReference): boolean?
+	assert(AssertReference(player, assignment))
+	assert(typeof(assignment.UserId) == "number", "Player Assignment must contain a UserId")
 
-	if player.UserId == reference.UserId then
-		if reference.IsPlayer then
+	if player.UserId == assignment.UserId then
+		if assignment.IsPlayer then
 			return true
 		else
 			return false
 		end
-	elseif not reference.IsPlayer then
+	elseif not assignment.IsPlayer then
 		return true
 	end
 
 	return false
 end
 
-local function CheckHasPass(player: Player, reference: PassReference): boolean?
-	assert(AssertReference(player, reference))
-	assert(typeof(reference.GamePassId) == "number", "Pass Reference must contain a GamePassId")
+local function CheckHasPass(player: Player, assignment: PassReference): boolean?
+	assert(AssertReference(player, assignment))
+	assert(typeof(assignment.GamePassId) == "number", "Pass Assignment must contain a GamePassId")
 
-	local cachedResult: CachedResult? = playerCache[player].Passes[reference.GamePassId]
+	local cachedResult: CachedResult? = playerCache[player].Passes[assignment.GamePassId]
 
 	local shouldUpdate: boolean = true
 	local hasPass: boolean = false
@@ -150,11 +150,11 @@ local function CheckHasPass(player: Player, reference: PassReference): boolean?
 		playerCache[player].IsUpdating = true
 
 		local success, _hasPass = pcall(function()
-			return MarketplaceService:UserOwnsGamePassAsync(player.UserId, reference.GamePassId)
+			return MarketplaceService:UserOwnsGamePassAsync(player.UserId, assignment.GamePassId)
 		end)
 
 		if not success then
-			playerCache[player].Passes[reference.GamePassId] = {
+			playerCache[player].Passes[assignment.GamePassId] = {
 				Value = false,
 				LastUpdate = time()
 			}
@@ -170,7 +170,7 @@ local function CheckHasPass(player: Player, reference: PassReference): boolean?
 			Value = _hasPass,
 			LastUpdate = time()
 		}
-		playerCache[player].Passes[reference.GamePassId] = cachedResult
+		playerCache[player].Passes[assignment.GamePassId] = cachedResult
 
 		playerCache[player].IsUpdating = false
 		hasPass = cachedResult.Value
@@ -179,25 +179,25 @@ local function CheckHasPass(player: Player, reference: PassReference): boolean?
 	end
 
 	if hasPass then
-		if reference.HasPass then
+		if assignment.HasPass then
 			return true
 		else
 			return false
 		end
-	elseif not reference.HasPass then
+	elseif not assignment.HasPass then
 		return true
 	end
 
 	return false
 end
 
-local function CheckGroupRank(player: Player, reference: GroupReference): boolean?
-	assert(AssertReference(player, reference))
-	assert(typeof(reference.GroupId) == "number", "Group Reference must contain a GroupId")
-	assert(typeof(reference.Rank) == "number", "Group Reference must contain a Rank")
-	assert(typeof(reference.ComparisonType) == "number", "Group Reference must contain a ComparisonType")
+local function CheckGroupRank(player: Player, assignment: GroupReference): boolean?
+	assert(AssertReference(player, assignment))
+	assert(typeof(assignment.GroupId) == "number", "Group Assignment must contain a GroupId")
+	assert(typeof(assignment.Rank) == "number", "Group Assignment must contain a Rank")
+	assert(typeof(assignment.ComparisonType) == "number", "Group Assignment must contain a ComparisonType")
 
-	local cachedResult: GroupCachedResult? = playerCache[player].Groups[reference.GroupId]
+	local cachedResult: GroupCachedResult? = playerCache[player].Groups[assignment.GroupId]
 
 	local shouldUpdate: boolean = true
 	local isInGroup: boolean = false
@@ -211,15 +211,15 @@ local function CheckGroupRank(player: Player, reference: GroupReference): boolea
 		playerCache[player].IsUpdating = true
 
 		local success1, _isInGroup = pcall(function()
-			return player:IsInGroup(reference.GroupId)
+			return player:IsInGroup(assignment.GroupId)
 		end)
 
 		local success2, _rankInGroup = pcall(function()
-			return player:GetRankInGroup(reference.GroupId)
+			return player:GetRankInGroup(assignment.GroupId)
 		end)
 
 		if not success1 or not success2 then
-			playerCache[player].Groups[reference.GroupId] = {
+			playerCache[player].Groups[assignment.GroupId] = {
 				IsInGroup = (success1 and _isInGroup) or false,
 				RankInGroup = (success2 and _rankInGroup) or 0,
 				LastUpdate = time()
@@ -237,7 +237,7 @@ local function CheckGroupRank(player: Player, reference: GroupReference): boolea
 			RankInGroup = _rankInGroup,
 			LastUpdate = time()
 		}
-		playerCache[player].Groups[reference.GroupId] = cachedResult
+		playerCache[player].Groups[assignment.GroupId] = cachedResult
 
 		playerCache[player].IsUpdating = false
 		isInGroup = cachedResult.IsInGroup
@@ -247,34 +247,34 @@ local function CheckGroupRank(player: Player, reference: GroupReference): boolea
 		rankInGroup = cachedResult.RankInGroup
 	end
 
-	if reference.ComparisonType == MyUtilModule.GroupComparisonType.IS_IN_GROUP then
+	if assignment.ComparisonType == MyUtilModule.GroupComparisonType.IS_IN_GROUP then
 		return isInGroup
-	elseif reference.ComparisonType == MyUtilModule.GroupComparisonType.IS_NOT_IN_GROUP then
+	elseif assignment.ComparisonType == MyUtilModule.GroupComparisonType.IS_NOT_IN_GROUP then
 		return not isInGroup
 	end
 
-	if reference.ComparisonType == MyUtilModule.GroupComparisonType.EQUAL_TO then
-		return rankInGroup == reference.Rank
-	elseif reference.ComparisonType == MyUtilModule.GroupComparisonType.NOT_EQUAL_TO then
-		return rankInGroup ~= reference.Rank
-	elseif reference.ComparisonType == MyUtilModule.GroupComparisonType.LESS_THAN then
-		return rankInGroup < reference.Rank
-	elseif reference.ComparisonType == MyUtilModule.GroupComparisonType.LESS_THAN_OR_EQUAL_TO then
-		return rankInGroup <= reference.Rank
-	elseif reference.ComparisonType == MyUtilModule.GroupComparisonType.GREATER_THAN then
-		return rankInGroup > reference.Rank
-	elseif reference.ComparisonType == MyUtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO then
-		return rankInGroup >= reference.Rank
+	if assignment.ComparisonType == MyUtilModule.GroupComparisonType.EQUAL_TO then
+		return rankInGroup == assignment.Rank
+	elseif assignment.ComparisonType == MyUtilModule.GroupComparisonType.NOT_EQUAL_TO then
+		return rankInGroup ~= assignment.Rank
+	elseif assignment.ComparisonType == MyUtilModule.GroupComparisonType.LESS_THAN then
+		return rankInGroup < assignment.Rank
+	elseif assignment.ComparisonType == MyUtilModule.GroupComparisonType.LESS_THAN_OR_EQUAL_TO then
+		return rankInGroup <= assignment.Rank
+	elseif assignment.ComparisonType == MyUtilModule.GroupComparisonType.GREATER_THAN then
+		return rankInGroup > assignment.Rank
+	elseif assignment.ComparisonType == MyUtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO then
+		return rankInGroup >= assignment.Rank
 	end
 
 	return false
 end
 
-local function CheckHasBadge(player: Player, reference: BadgeReference): boolean?
-	assert(AssertReference(player, reference))
-	assert(typeof(reference.BadgeId) == "number", "Badge Reference must contain a BadgeId")
+local function CheckHasBadge(player: Player, assignment: BadgeReference): boolean?
+	assert(AssertReference(player, assignment))
+	assert(typeof(assignment.BadgeId) == "number", "Badge Assignment must contain a BadgeId")
 
-	local cachedResult: CachedResult? = playerCache[player].Badges[reference.BadgeId]
+	local cachedResult: CachedResult? = playerCache[player].Badges[assignment.BadgeId]
 
 	local shouldUpdate: boolean = true
 	local hasBadge: boolean = false
@@ -287,11 +287,11 @@ local function CheckHasBadge(player: Player, reference: BadgeReference): boolean
 		playerCache[player].IsUpdating = true
 
 		local success, _hasBadge = pcall(function()
-			return BadgeService:UserHasBadgeAsync(player.UserId, reference.BadgeId)
+			return BadgeService:UserHasBadgeAsync(player.UserId, assignment.BadgeId)
 		end)
 
 		if not success then
-			playerCache[player].Badges[reference.BadgeId] = {
+			playerCache[player].Badges[assignment.BadgeId] = {
 				Value = false,
 				LastUpdate = time()
 			}
@@ -307,7 +307,7 @@ local function CheckHasBadge(player: Player, reference: BadgeReference): boolean
 			Value = _hasBadge,
 			LastUpdate = time()
 		}
-		playerCache[player].Badges[reference.BadgeId] = cachedResult
+		playerCache[player].Badges[assignment.BadgeId] = cachedResult
 
 		playerCache[player].IsUpdating = false
 		hasBadge = cachedResult.Value
@@ -316,71 +316,71 @@ local function CheckHasBadge(player: Player, reference: BadgeReference): boolean
 	end
 
 	if hasBadge then
-		if reference.HasBadge then
+		if assignment.HasBadge then
 			return true
 		else
 			return false
 		end
-	elseif not reference.HasBadge then
+	elseif not assignment.HasBadge then
 		return true
 	end
 
 	return false
 end
 
-local function CheckTeam(player: Player, reference: TeamReference): boolean?
-	assert(AssertReference(player, reference))
-	assert(typeof(reference.TeamName) == "string", "Team Reference must contain a TeamName")
+local function CheckTeam(player: Player, assignment: TeamReference): boolean?
+	assert(AssertReference(player, assignment))
+	assert(typeof(assignment.TeamName) == "string", "Team Assignment must contain a TeamName")
 
 	if typeof(player.Team) == "nil" then
-		return not reference.IsOnTeam
+		return not assignment.IsOnTeam
 	end
 
-	if player.Team.Name == reference.TeamName then
-		if reference.IsOnTeam then
+	if player.Team.Name == assignment.TeamName then
+		if assignment.IsOnTeam then
 			return true
 		else
 			return false
 		end
-	elseif not reference.IsOnTeam then
+	elseif not assignment.IsOnTeam then
 		return true
 	end
 
 	return false
 end
 
-local function CheckHasTag(player: Player, reference: CollectionTagReference): boolean?
-	assert(AssertReference(player, reference))
-	assert(typeof(reference.CollectionTagName) == "string", "CollectionTag Reference must contain a CollectionTagName")
+local function CheckHasTag(player: Player, assignment: CollectionTagReference): boolean?
+	assert(AssertReference(player, assignment))
+	assert(typeof(assignment.CollectionTagName) == "string", "CollectionTag Assignment must contain a CollectionTagName")
 
-	local hasTag = CollectionService:HasTag(player, reference.CollectionTagName)
+	local hasTag = CollectionService:HasTag(player, assignment.CollectionTagName)
 
 	if hasTag then
-		if reference.HasTag then
+		if assignment.HasTag then
 			return true
 		else
 			return false
 		end
-	elseif not reference.HasTag then
+	elseif not assignment.HasTag then
 		return true
 	end
 
 	return false
 end
 
-local function CheckAttribute(player: Player, reference: AttributeReference): boolean?
-	assert(AssertReference(player, reference))
-	assert(typeof(reference.AttributeName) == "string", "Attribute Reference must contain a AttributeName")
+local function CheckAttribute(player: Player, assignment: AttributeReference): boolean?
+	assert(AssertReference(player, assignment))
+	assert(typeof(assignment.AttributeName) == "string", "Attribute Assignment must contain a AttributeName")
 
-	local attributeValue = player:GetAttribute(reference.AttributeName)
+	local attributeValue = player:GetAttribute(assignment.AttributeName)
 
-	if attributeValue == reference.AttributeValue then
-		if reference.HasTag then
+	if attributeValue == assignment.AttributeValue then
+		if assignment.HasTag then
 			return true
 		else
 			return false
 		end
-	elseif not reference.HasTag then
+	elseif not assignment.HasTag then
 		return true
 	end
 
@@ -400,7 +400,7 @@ function MyUtilModule:GetHighestOption(
 	): {any}?
 
 	assert(AssertReference(player, references))
-	assert(typeof(referenceType) == "string", "Reference type must be a string")
+	assert(typeof(referenceType) == "string", "Assignment type must be a string")
 
 	local function CheckOption(option: {any}): nil
 		if typeof(highestOption) == "table" then
@@ -414,8 +414,8 @@ function MyUtilModule:GetHighestOption(
 		return nil
 	end
 
-	local function CheckReferenceType(reference: Reference): {any}?
-		local option = CheckReference(reference, options)
+	local function CheckReferenceType(assignment: Assignment): {any}?
+		local option = CheckReference(assignment, options)
 		if not option then
 			return nil
 		end
@@ -427,19 +427,19 @@ function MyUtilModule:GetHighestOption(
 		local hasOption = false
 
 		if referenceType == "Players" then
-			hasOption = CheckIsPlayer(player, reference)
+			hasOption = CheckIsPlayer(player, assignment)
 		elseif referenceType == "Passes" then
-			hasOption = CheckHasPass(player, reference)
+			hasOption = CheckHasPass(player, assignment)
 		elseif referenceType == "Groups" then
-			hasOption = CheckGroupRank(player, reference)
+			hasOption = CheckGroupRank(player, assignment)
 		elseif referenceType == "Badges" then
-			hasOption = CheckHasBadge(player, reference)
+			hasOption = CheckHasBadge(player, assignment)
 		elseif referenceType == "Teams" then
-			hasOption = CheckTeam(player, reference)
+			hasOption = CheckTeam(player, assignment)
 		elseif referenceType == "CollectionTags" then
-			hasOption = CheckHasTag(player, reference)
+			hasOption = CheckHasTag(player, assignment)
 		elseif referenceType == "Attributes" then
-			hasOption = CheckAttribute(player, reference)
+			hasOption = CheckAttribute(player, assignment)
 		end
 
 		if hasOption then
@@ -449,8 +449,8 @@ function MyUtilModule:GetHighestOption(
 		return nil
 	end
 
-	for _, reference: Reference in ipairs(references) do
-		local option: {any} = CheckReferenceType(reference)
+	for _, assignment: Assignment in ipairs(references) do
+		local option: {any} = CheckReferenceType(assignment)
 
 		if typeof(option) == "table" then
 			CheckOption(option)
