@@ -398,16 +398,10 @@ local function CheckAttribute(player: Player, assignment: AttributeAssignment): 
 	local attributeValue = player:GetAttribute(assignment.AttributeName)
 
 	if attributeValue == assignment.AttributeValue then
-		if assignment.HasTag then
-			return true
-		else
-			return false
-		end
-	elseif not assignment.HasTag then
 		return true
+	else
+		return false
 	end
-
-	return false
 end
 
 local function GetOption(assignment: Assignment, options: {any})
