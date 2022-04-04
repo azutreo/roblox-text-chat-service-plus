@@ -129,7 +129,6 @@ end
 
 function PlayerMessageHandler:Sending(message, properties)
 	properties.PrefixText = string.format(Configuration.PlayerMessage.NameFormat, message.PrefixText)
-	properties.Text = message.Text
 
 	return properties
 end
