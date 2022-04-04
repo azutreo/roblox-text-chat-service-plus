@@ -38,6 +38,13 @@ local MyNewChatController = {} --[[Knit.CreateController {
 -- PRIVATE PROPERTIES --
 ------------------------
 
+type Function = (any) -> (any)
+
+type Handler = {
+	Sending: Function,
+	Success: Function
+}
+
 -----------------------
 -- PUBLIC PROPERTIES --
 -----------------------
@@ -49,27 +56,29 @@ local MyNewChatController = {} --[[Knit.CreateController {
 local function OnIncomingMessage(message: TextChatMessage): TextChatMessageProperties
 	local properties = Instance.new("TextChatMessageProperties")
 
-	local handlerFunction: (any) -> (any)
+	local handler: Handler?
 
 	if message.TextSource then
 		-- Player message
-		handlerFunction = PlayerMessageHandler
+		handler = PlayerMessageHandler
 	else
 		-- System message
-		handlerFunction = nil -- I will handle this in the future
+		handler = nil -- I will handle this in the future
 	end
 
 	-- Player messages
 
-	if message.Status ~= Enum.TextChatMessageStatus.Success then
-		properties.PrefixText = ""
-		properties.Text = ""
+	local handlerFunction: Function
+
+	if typeof(handler) ~= "table" then
 		return properties
-	elseif typeof(handlerFunction) ~= "function" then
-		return properties
+	elseif message.Status == Enum.TextChatMessageStatus.Success then
+		handlerFunction = handler.Success
+	else
+		handlerFunction = handler.Sending
 	end
 
-	local success, result = pcall(PlayerMessageHandler, message, properties)
+	local success, result = pcall(handlerFunction, handler, message, properties)
 
 	if success then
 		return result

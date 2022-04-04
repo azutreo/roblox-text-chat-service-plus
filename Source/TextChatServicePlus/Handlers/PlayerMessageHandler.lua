@@ -23,6 +23,12 @@ local Players = game:GetService("Players")
 local Util = require(script.Parent.Parent.Util)
 local Configuration = require(script.Parent.Parent.Configuration)
 
+---------------------
+-- MODULE CREATION --
+---------------------
+
+local PlayerMessageHandler = {}
+
 ------------------------
 -- PRIVATE PROPERTIES --
 ------------------------
@@ -32,6 +38,10 @@ local ClassicRobloxNameColors = Util.ClassicRobloxNameColors
 local Prefixes = Configuration.Prefixes
 local NameColors = Configuration.NameColors
 local ChatColors = Configuration.ChatColors
+
+-----------------------
+-- PUBLIC PROPERTIES --
+-----------------------
 
 -----------------------
 -- PRIVATE FUNCTIONS --
@@ -113,11 +123,18 @@ local function GetNameColorForPlayer(player: Player)
 	}
 end
 
------------------------------
--- RETURN HANDLER FUNCTION --
------------------------------
+----------------------
+-- PUBLIC FUNCTIONS --
+----------------------
 
-return function(message, properties)
+function PlayerMessageHandler:Sending(message, properties)
+	properties.PrefixText = " "
+	properties.Text = " "
+
+	return properties
+end
+
+function PlayerMessageHandler:Success(message, properties)
 	local player: Player = Players:GetPlayerByUserId(message.TextSource.UserId)
 	if not Util.AssignmentOptions:CheckIsPlayerValid(player) then
 		return properties
@@ -144,3 +161,9 @@ return function(message, properties)
 
 	return properties
 end
+
+--------------------
+-- RETURN HANDLER --
+--------------------
+
+return PlayerMessageHandler
