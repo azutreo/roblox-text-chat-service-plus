@@ -128,8 +128,8 @@ end
 ----------------------
 
 function PlayerMessageHandler:Sending(message, properties)
-	properties.PrefixText = " "
-	properties.Text = " "
+	properties.PrefixText = string.format(Configuration.NameFormat, message.PrefixText)
+	properties.Text = string.rep("_", #message.Text)
 
 	return properties
 end
@@ -158,6 +158,8 @@ function PlayerMessageHandler:Success(message, properties)
 	if typeof(chatColor) == "table" and typeof(chatColor.ChatColor) == "Color3" then
 		properties.Text = string.format(Configuration.ChatColorFormat, chatColor.ChatColor:ToHex(), message.Text)
 	end
+
+	message.TextChannel:DisplaySystemMessage(message.Text)
 
 	return properties
 end
