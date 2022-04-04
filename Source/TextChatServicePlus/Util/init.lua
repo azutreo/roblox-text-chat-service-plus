@@ -14,6 +14,8 @@ local BadgeService = game:GetService("BadgeService")
 
 local MyUtilModule = {}
 
+local Enums = require(script.Enums)
+
 local CACHE_UPDATE_TIME = 30
 
 export type CachedResult = {
@@ -241,23 +243,23 @@ local function CheckGroupRank(player: Player, assignment: GroupAssignment): bool
 		rankInGroup = cachedResult.RankInGroup
 	end
 
-	if assignment.ComparisonType == MyUtilModule.GroupComparisonType.IS_IN_GROUP then
+	if assignment.ComparisonType == Enums.GroupComparisonType.IS_IN_GROUP then
 		return isInGroup
-	elseif assignment.ComparisonType == MyUtilModule.GroupComparisonType.IS_NOT_IN_GROUP then
+	elseif assignment.ComparisonType == Enums.GroupComparisonType.IS_NOT_IN_GROUP then
 		return not isInGroup
 	end
 
-	if assignment.ComparisonType == MyUtilModule.GroupComparisonType.EQUAL_TO then
+	if assignment.ComparisonType == Enums.GroupComparisonType.EQUAL_TO then
 		return rankInGroup == assignment.Rank
-	elseif assignment.ComparisonType == MyUtilModule.GroupComparisonType.NOT_EQUAL_TO then
+	elseif assignment.ComparisonType == Enums.GroupComparisonType.NOT_EQUAL_TO then
 		return rankInGroup ~= assignment.Rank
-	elseif assignment.ComparisonType == MyUtilModule.GroupComparisonType.LESS_THAN then
+	elseif assignment.ComparisonType == Enums.GroupComparisonType.LESS_THAN then
 		return rankInGroup < assignment.Rank
-	elseif assignment.ComparisonType == MyUtilModule.GroupComparisonType.LESS_THAN_OR_EQUAL_TO then
+	elseif assignment.ComparisonType == Enums.GroupComparisonType.LESS_THAN_OR_EQUAL_TO then
 		return rankInGroup <= assignment.Rank
-	elseif assignment.ComparisonType == MyUtilModule.GroupComparisonType.GREATER_THAN then
+	elseif assignment.ComparisonType == Enums.GroupComparisonType.GREATER_THAN then
 		return rankInGroup > assignment.Rank
-	elseif assignment.ComparisonType == MyUtilModule.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO then
+	elseif assignment.ComparisonType == Enums.GroupComparisonType.GREATER_THAN_OR_EQUAL_TO then
 		return rankInGroup >= assignment.Rank
 	end
 
@@ -381,7 +383,7 @@ local function CheckAttribute(player: Player, assignment: AttributeAssignment): 
 	return false
 end
 
-local function GetOption(assignment: Assignment, options: {})
+local function GetOption(assignment: Assignment, options: {any})
 	assert(typeof(assignment.OptionName) == "string", "Assignment missing a name")
 
 	for index, option in ipairs(options) do
@@ -389,6 +391,8 @@ local function GetOption(assignment: Assignment, options: {})
 			return index, option
 		end
 	end
+
+	return nil, nil
 end
 
 function MyUtilModule:CheckIsPlayerValid(player: Player)
@@ -402,23 +406,10 @@ function MyUtilModule:GetCurrentOption(
 		options: {any},
 		currentIndex: number,
 		currentOption: {any}?
-	): {any}?
+	)
 
 	assert(AssertAssignment(player, assignments))
 	assert(typeof(assignmentType) == "string", "Assignment type must be a string")
-
-	local function CheckOption(index: number, option: {any}): nil
-		if typeof(currentOption) == "table" then
-			if index < currentIndex then
-				currentOption = option
-				currentIndex = index
-			end
-		else
-			currentOption = option
-		end
-
-		return nil
-	end
 
 	local function CheckAssignmentType(assignment: Assignment): {any}?
 		local index, option = GetOption(assignment, options)
@@ -453,6 +444,19 @@ function MyUtilModule:GetCurrentOption(
 		end
 
 		return nil, nil
+	end
+
+	local function CheckOption(index: number, option: {any}): nil
+		if typeof(currentOption) == "table" then
+			if index < currentIndex then
+				currentOption = option
+				currentIndex = index
+			end
+		else
+			currentOption = option
+		end
+
+		return nil
 	end
 
 	for _, assignment: Assignment in ipairs(assignments) do
