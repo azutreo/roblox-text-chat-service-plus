@@ -31,21 +31,21 @@ export type Assignment = {
 	OptionName: string
 }
 
-export type PlayerReference = {
+export type PlayerAssignment = {
 	OptionName: string,
 
 	UserId: number,
 	IsPlayer: boolean -- if true, will give if matches; if false, if false, then will give if it DOESN'T match
 }
 
-export type PassReference = {
+export type PassAssignment = {
 	OptionName: string,
 
 	GamePassId: number,
 	HasPass: boolean -- if true, will give if matches; if false, if false, then will give if it DOESN'T match
 }
 
-export type GroupReference = {
+export type GroupAssignment = {
 	OptionName: string,
 
 	GroupId: number,
@@ -53,28 +53,28 @@ export type GroupReference = {
 	ComparrisonType: number
 }
 
-export type BadgeReference = {
+export type BadgeAssignment = {
 	OptionName: string,
 
 	BadgeId: number,
 	HasBadge: boolean -- if true, will give if matches; if false, then will give if it DOESN'T match
 }
 
-export type TeamReference = {
+export type TeamAssignment = {
 	OptionName: string,
 
 	TeamName: string,
 	IsOnTeam: boolean -- if true, will give if player is on team; if false, will give if NOT on team
 }
 
-export type CollectionTagReference = {
+export type CollectionTagAssignment = {
 	OptionName: string,
 
 	CollectionTagName: string,
 	HasTag: boolean -- if true, will give if matches; if false, then will give if it DOESN'T match
 }
 
-export type AttributeReference = {
+export type AttributeAssignment = {
 	OptionName: string,
 
 	AttributeName: string,
@@ -100,7 +100,7 @@ local function OnPlayerRemoving(player: Player): nil
 	return nil
 end
 
-local function AssertReference(player: Player, assignment: Assignment): any
+local function AssertAssignment(player: Player, assignment: Assignment): any
 	if not MyUtilModule:CheckIsPlayerValid(player) then
 		return false, "Player must be a Player Instance"
 	elseif typeof(assignment) ~= "table" then
@@ -110,14 +110,14 @@ local function AssertReference(player: Player, assignment: Assignment): any
 	return true, ""
 end
 
-local function CheckReference(assignment: Assignment, options: {})
+local function CheckAssignment(assignment: Assignment, options: {})
 	assert(typeof(assignment.OptionName) == "string", "Assignment missing a name")
 
 	return options[assignment.OptionName]
 end
 
-local function CheckIsPlayer(player: Player, assignment: PlayerReference): boolean?
-	assert(AssertReference(player, assignment))
+local function CheckIsPlayer(player: Player, assignment: PlayerAssignment): boolean?
+	assert(AssertAssignment(player, assignment))
 	assert(typeof(assignment.UserId) == "number", "Player Assignment must contain a UserId")
 
 	if player.UserId == assignment.UserId then
@@ -133,8 +133,8 @@ local function CheckIsPlayer(player: Player, assignment: PlayerReference): boole
 	return false
 end
 
-local function CheckHasPass(player: Player, assignment: PassReference): boolean?
-	assert(AssertReference(player, assignment))
+local function CheckHasPass(player: Player, assignment: PassAssignment): boolean?
+	assert(AssertAssignment(player, assignment))
 	assert(typeof(assignment.GamePassId) == "number", "Pass Assignment must contain a GamePassId")
 
 	local cachedResult: CachedResult? = playerCache[player].Passes[assignment.GamePassId]
@@ -191,8 +191,8 @@ local function CheckHasPass(player: Player, assignment: PassReference): boolean?
 	return false
 end
 
-local function CheckGroupRank(player: Player, assignment: GroupReference): boolean?
-	assert(AssertReference(player, assignment))
+local function CheckGroupRank(player: Player, assignment: GroupAssignment): boolean?
+	assert(AssertAssignment(player, assignment))
 	assert(typeof(assignment.GroupId) == "number", "Group Assignment must contain a GroupId")
 	assert(typeof(assignment.Rank) == "number", "Group Assignment must contain a Rank")
 	assert(typeof(assignment.ComparisonType) == "number", "Group Assignment must contain a ComparisonType")
@@ -270,8 +270,8 @@ local function CheckGroupRank(player: Player, assignment: GroupReference): boole
 	return false
 end
 
-local function CheckHasBadge(player: Player, assignment: BadgeReference): boolean?
-	assert(AssertReference(player, assignment))
+local function CheckHasBadge(player: Player, assignment: BadgeAssignment): boolean?
+	assert(AssertAssignment(player, assignment))
 	assert(typeof(assignment.BadgeId) == "number", "Badge Assignment must contain a BadgeId")
 
 	local cachedResult: CachedResult? = playerCache[player].Badges[assignment.BadgeId]
@@ -328,8 +328,8 @@ local function CheckHasBadge(player: Player, assignment: BadgeReference): boolea
 	return false
 end
 
-local function CheckTeam(player: Player, assignment: TeamReference): boolean?
-	assert(AssertReference(player, assignment))
+local function CheckTeam(player: Player, assignment: TeamAssignment): boolean?
+	assert(AssertAssignment(player, assignment))
 	assert(typeof(assignment.TeamName) == "string", "Team Assignment must contain a TeamName")
 
 	if typeof(player.Team) == "nil" then
@@ -349,8 +349,8 @@ local function CheckTeam(player: Player, assignment: TeamReference): boolean?
 	return false
 end
 
-local function CheckHasTag(player: Player, assignment: CollectionTagReference): boolean?
-	assert(AssertReference(player, assignment))
+local function CheckHasTag(player: Player, assignment: CollectionTagAssignment): boolean?
+	assert(AssertAssignment(player, assignment))
 	assert(typeof(assignment.CollectionTagName) == "string", "CollectionTag Assignment must contain a CollectionTagName")
 
 	local hasTag = CollectionService:HasTag(player, assignment.CollectionTagName)
@@ -368,8 +368,8 @@ local function CheckHasTag(player: Player, assignment: CollectionTagReference): 
 	return false
 end
 
-local function CheckAttribute(player: Player, assignment: AttributeReference): boolean?
-	assert(AssertReference(player, assignment))
+local function CheckAttribute(player: Player, assignment: AttributeAssignment): boolean?
+	assert(AssertAssignment(player, assignment))
 	assert(typeof(assignment.AttributeName) == "string", "Attribute Assignment must contain a AttributeName")
 
 	local attributeValue = player:GetAttribute(assignment.AttributeName)
@@ -392,15 +392,15 @@ function MyUtilModule:CheckIsPlayerValid(player: Player)
 end
 
 function MyUtilModule:GetHighestOption(
-		referenceType: string,
+		assignmentType: string,
 		player: Player,
-		references: {PlayerReference},
+		assignments: {PlayerAssignment},
 		options: {},
 		highestOption: table?
 	): {any}?
 
-	assert(AssertReference(player, references))
-	assert(typeof(referenceType) == "string", "Assignment type must be a string")
+	assert(AssertAssignment(player, assignments))
+	assert(typeof(assignmentType) == "string", "Assignment type must be a string")
 
 	local function CheckOption(option: {any}): nil
 		if typeof(highestOption) == "table" then
@@ -414,8 +414,8 @@ function MyUtilModule:GetHighestOption(
 		return nil
 	end
 
-	local function CheckReferenceType(assignment: Assignment): {any}?
-		local option = CheckReference(assignment, options)
+	local function CheckAssignmentType(assignment: Assignment): {any}?
+		local option = CheckAssignment(assignment, options)
 		if not option then
 			return nil
 		end
@@ -426,19 +426,19 @@ function MyUtilModule:GetHighestOption(
 
 		local hasOption = false
 
-		if referenceType == "Players" then
+		if assignmentType == "Players" then
 			hasOption = CheckIsPlayer(player, assignment)
-		elseif referenceType == "Passes" then
+		elseif assignmentType == "Passes" then
 			hasOption = CheckHasPass(player, assignment)
-		elseif referenceType == "Groups" then
+		elseif assignmentType == "Groups" then
 			hasOption = CheckGroupRank(player, assignment)
-		elseif referenceType == "Badges" then
+		elseif assignmentType == "Badges" then
 			hasOption = CheckHasBadge(player, assignment)
-		elseif referenceType == "Teams" then
+		elseif assignmentType == "Teams" then
 			hasOption = CheckTeam(player, assignment)
-		elseif referenceType == "CollectionTags" then
+		elseif assignmentType == "CollectionTags" then
 			hasOption = CheckHasTag(player, assignment)
-		elseif referenceType == "Attributes" then
+		elseif assignmentType == "Attributes" then
 			hasOption = CheckAttribute(player, assignment)
 		end
 
@@ -449,8 +449,8 @@ function MyUtilModule:GetHighestOption(
 		return nil
 	end
 
-	for _, assignment: Assignment in ipairs(references) do
-		local option: {any} = CheckReferenceType(assignment)
+	for _, assignment: Assignment in ipairs(assignments) do
+		local option: {any} = CheckAssignmentType(assignment)
 
 		if typeof(option) == "table" then
 			CheckOption(option)
@@ -460,32 +460,32 @@ function MyUtilModule:GetHighestOption(
 	return highestOption
 end
 
-function MyUtilModule:CompareReferences(player: Player, references: {}, options: {}): table?
-	assert(AssertReference(player, references))
+function MyUtilModule:CompareAssignments(player: Player, assignments: {}, options: {}): table?
+	assert(AssertAssignment(player, assignments))
 	assert(typeof(options) == "table", "Options must be a table")
 
 	local highestOption: table?
 
-	if references.Players then
-		highestOption = self:GetHighestOption("Players", player, references.Players, options, highestOption)
+	if assignments.Players then
+		highestOption = self:GetHighestOption("Players", player, assignments.Players, options, highestOption)
 	end
-	if references.Passes then
-		highestOption = self:GetHighestOption("Passes", player, references.Passes, options, highestOption)
+	if assignments.Passes then
+		highestOption = self:GetHighestOption("Passes", player, assignments.Passes, options, highestOption)
 	end
-	if references.Groups then
-		highestOption = self:GetHighestOption("Groups", player, references.Groups, options, highestOption)
+	if assignments.Groups then
+		highestOption = self:GetHighestOption("Groups", player, assignments.Groups, options, highestOption)
 	end
-	if references.Badges then
-		highestOption = self:GetHighestOption("Badges", player, references.Badges, options, highestOption)
+	if assignments.Badges then
+		highestOption = self:GetHighestOption("Badges", player, assignments.Badges, options, highestOption)
 	end
-	if references.Teams then
-		highestOption = self:GetHighestOption("Teams", player, references.Teams, options, highestOption)
+	if assignments.Teams then
+		highestOption = self:GetHighestOption("Teams", player, assignments.Teams, options, highestOption)
 	end
-	if references.CollectionTags then
-		highestOption = self:GetHighestOption("CollectionTags", player, references.CollectionTags, options, highestOption)
+	if assignments.CollectionTags then
+		highestOption = self:GetHighestOption("CollectionTags", player, assignments.CollectionTags, options, highestOption)
 	end
-	if references.Attributes then
-		highestOption = self:GetHighestOption("Attributes", player, references.Attributes, options, highestOption)
+	if assignments.Attributes then
+		highestOption = self:GetHighestOption("Attributes", player, assignments.Attributes, options, highestOption)
 	end
 
 	return highestOption
