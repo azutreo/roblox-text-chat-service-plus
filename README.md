@@ -8,4 +8,4 @@ Documentation: TODO
 
 Roblox Library Model Link: [https://www.roblox.com/library/9263079051/TextChatService](https://www.roblox.com/library/9263079051/TextChatService)  
 DevForum Post: [https://devforum.roblox.com/t/textchatservice/1741085](https://devforum.roblox.com/t/textchatservice/1741085)  
-Quick YouTube Demonstration Video: [https://www.youtube.com/watch?v=Pts8qQdvAsM](https://www.youtube.com/watch?v=Pts8qQdvAsM)
+Quick YouTube Demonstration Video: [https://youtu.be/hv4e-0EuAqU](https://youtu.be/hv4e-0EuAqU)
