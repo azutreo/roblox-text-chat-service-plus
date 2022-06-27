@@ -35,7 +35,7 @@ local AssignmentOptions = {}
 -- PRIVATE PROPERTIES --
 ------------------------
 
-local CACHE_UPDATE_TIME = 30
+local CACHE_UPDATE_LIMIT = 5
 
 export type CachedResult = {
 	Value: any,
@@ -165,7 +165,7 @@ local function CheckHasPass(player: Player, assignment: PassAssignment): boolean
 	local shouldUpdate: boolean = true
 	local hasPass: boolean = false
 
-	if typeof(cachedResult) ~= "table" or ((cachedResult.LastUpdate - time()) >= CACHE_UPDATE_TIME) then
+	if typeof(cachedResult) ~= "table" or ((cachedResult.LastUpdate - time()) >= CACHE_UPDATE_LIMIT) then
 		shouldUpdate = true
 	end
 
@@ -226,7 +226,7 @@ local function CheckGroupRank(player: Player, assignment: GroupAssignment): bool
 	local isInGroup: boolean = false
 	local rankInGroup: number = 0
 
-	if typeof(cachedResult) ~= "table" or ((cachedResult.LastUpdate - time()) >= CACHE_UPDATE_TIME) then
+	if typeof(cachedResult) ~= "table" or ((cachedResult.LastUpdate - time()) >= CACHE_UPDATE_LIMIT) then
 		shouldUpdate = true
 	end
 
@@ -302,7 +302,7 @@ local function CheckHasBadge(player: Player, assignment: BadgeAssignment): boole
 	local shouldUpdate: boolean = true
 	local hasBadge: boolean = false
 
-	if typeof(cachedResult) ~= "table" or ((cachedResult.LastUpdate - time()) >= CACHE_UPDATE_TIME) then
+	if typeof(cachedResult) ~= "table" or ((cachedResult.LastUpdate - time()) >= CACHE_UPDATE_LIMIT) then
 		shouldUpdate = true
 	end
 

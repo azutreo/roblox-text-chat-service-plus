@@ -36,7 +36,9 @@ local Configuration = {}
 
 -- Global configuration
 
-Configuration.Version = "1.1.0"
+Configuration.Version = "1.2.0"
+
+Configuration.CacheUpdateTime = 10 -- The interval in which cache will update
 
 Configuration.Prefixes = require(script.Prefixes)
 Configuration.NameColors = require(script.NameColors)

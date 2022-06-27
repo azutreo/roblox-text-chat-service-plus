@@ -47,84 +47,6 @@ local ChatColors = Configuration.ChatColors
 -- PRIVATE FUNCTIONS --
 -----------------------
 
-local function GetPrefixForPlayer(player: Player)
-	if not Prefixes.IsEnabled then
-		return nil
-	end
-
-	local prefix = Util.AssignmentOptions:CompareAssignments(player, Prefixes.Assignments, Prefixes.Options)
-
-	if typeof(prefix) == "table" then
-		return prefix
-	end
-
-	return Prefixes.Configuration.UseDefaultPrefix and Prefixes.Configuration.DefaultPrefix or nil
-end
-
-local function GetChatColorForPlayer(player: Player)
-	if not ChatColors.IsEnabled then
-		return nil
-	end
-
-	if not Util.AssignmentOptions:CheckIsPlayerValid(player) then
-		return {
-			Name = "Default",
-			Color = ChatColors.Configuration.DefaultColor
-		}
-	end
-
-	local chatColor = Util.AssignmentOptions:CompareAssignments(player, ChatColors.Assignments, ChatColors.Options)
-
-	if typeof(chatColor) == "table" then
-		return chatColor
-	end
-
-	return {
-		Name = "Default",
-		Color = ChatColors.Configuration.DefaultColor
-	}
-end
-
-local function GetNameColorForPlayer(player: Player)
-	if not NameColors.IsEnabled then
-		return nil
-	end
-
-	if not Util.AssignmentOptions:CheckIsPlayerValid(player) then
-		return {
-			Name = "Default",
-			Color = NameColors.Configuration.DefaultColor
-		}
-	end
-
-	if NameColors.Configuration.UseAssignedColor then
-		local nameColor = Util.AssignmentOptions:CompareAssignments(player, NameColors.Assignments, NameColors.Options)
-
-		if typeof(nameColor) == "table" then
-			return nameColor
-		end
-	end
-
-	if NameColors.Configuration.UseTeamColor and typeof(player.Team) ~= "nil" then
-		return {
-			Name = "Team",
-			Color = player.TeamColor.Color
-		}
-	end
-
-	if NameColors.Configuration.UseClassicNameColor then
-		return {
-			Name = "Classic",
-			Color = ClassicNameColors(player)
-		}
-	end
-
-	return {
-		Name = "Default",
-		Color = NameColors.Configuration.DefaultColor
-	}
-end
-
 ----------------------
 -- PUBLIC FUNCTIONS --
 ----------------------
@@ -141,9 +63,9 @@ function PlayerMessageHandler:Success(message, properties)
 		return properties
 	end
 
-	local prefix = GetPrefixForPlayer(player)
-	local nameColor = GetNameColorForPlayer(player)
-	local chatColor = GetChatColorForPlayer(player)
+	local prefix = player:GetAttribute("ChatData_Prefix")
+	local nameColor = player:GetAttribute("ChatData_NameColor")
+	local chatColor = player:GetAttribute("ChatData_ChatColor")
 
 	properties.PrefixText = string.format(
 		Configuration.PlayerMessage.NameFormat,

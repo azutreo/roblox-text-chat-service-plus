@@ -16,6 +16,9 @@
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TextChatService = game:GetService("TextChatService")
+local RunService = game:GetService("RunService")
+local CollectionService = game:GetService("CollectionService")
+local Players = game:GetService("Players")
 
 ---------------------------
 -- KNIT AND DEPENDENCIES --
@@ -23,15 +26,22 @@ local TextChatService = game:GetService("TextChatService")
 
 -- Uncomment if using Knit
 -- local Knit = require(ReplicatedStorage.Packages.Knit)
+local Configuration = require(script.Configuration)
+
 local PlayerMessageHandler = require(script.Handlers.PlayerMessageHandler)
 local SystemMessageHandler = require(script.Handlers.SystemMessageHandler)
+local AssignChatDataHandler = require(script.Handlers.AssignChatDataHandler)
+
+local Prefixes = Configuration.Prefixes
+local NameColors = Configuration.NameColors
+local ChatColors = Configuration.ChatColors
 
 -----------------------
 -- CREATE CONTROLLER --
 -----------------------
 
 -- Replace if using Knit
-local MyNewChatController = {} --[[Knit.CreateController {
+local MyTextChatServicePlusController = {} --[[Knit.CreateController {
 	Name = "NewChatController"
 }]]
 
@@ -45,6 +55,10 @@ type Handler = {
 	Sending: Function,
 	Success: Function
 }
+
+local lastUpdate: number = time()
+
+local collectionTagsTracked: {string} = {}
 
 -----------------------
 -- PUBLIC PROPERTIES --
@@ -85,19 +99,82 @@ local function OnIncomingMessage(message: TextChatMessage): TextChatMessagePrope
 	end
 end
 
+local function OnPlayerAdded(player: Player)
+	task.spawn(AssignChatDataHandler.UpdateForPlayer, AssignChatDataHandler, player)
+
+	player:GetPropertyChangedSignal("TeamColor"):Connect(function()
+		AssignChatDataHandler:UpdateForPlayer(player)
+	end)
+
+	player.AttributeChanged:Connect(function(attribute)
+		AssignChatDataHandler:UpdateForPlayer(player)
+	end)
+end
+
+local function TrackCollectionTag(collectionTagName: string)
+	if table.find(collectionTagsTracked, collectionTagName) then
+		return
+	end
+	table.insert(collectionTagsTracked, collectionTagName)
+
+	CollectionService:GetInstanceAddedSignal(collectionTagName):Connect(function()
+		MyTextChatServicePlusController:UpdatePlayers()
+	end)
+
+	CollectionService:GetInstanceRemovedSignal(collectionTagName):Connect(function()
+		MyTextChatServicePlusController:UpdatePlayers()
+	end)
+end
+
+local function TrackCollectionTagsFor(assignments: {any})
+	for _, assignment: {any} in ipairs(assignments) do
+		if assignment.CollectionTagName then
+			TrackCollectionTag(assignment.CollectionTagName)
+		end
+	end
+end
+
+local function TrackCollectionTags()
+	TrackCollectionTagsFor(Prefixes.Assignments.CollectionTags)
+	TrackCollectionTagsFor(NameColors.Assignments.CollectionTags)
+	TrackCollectionTagsFor(ChatColors.Assignments.CollectionTags)
+end
+
 ----------------------
 -- PUBLIC FUNCTIONS --
 ----------------------
+
+function MyTextChatServicePlusController:UpdatePlayers(deltaTime: number)
+	for _, player: Player in ipairs(Players:GetPlayers()) do
+		task.spawn(AssignChatDataHandler.UpdateForPlayer, AssignChatDataHandler, player)
+	end
+end
 
 -------------------------------------
 -- INITIALIZE AND START CONTROLLER --
 -------------------------------------
 
-function MyNewChatController:KnitStart()
+function MyTextChatServicePlusController:KnitStart()
 	TextChatService.OnIncomingMessage = OnIncomingMessage
+
+	Players.PlayerAdded:Connect(OnPlayerAdded)
+	for _, player: Player in ipairs(Players:GetPlayers()) do
+		OnPlayerAdded(player)
+	end
+
+	RunService.Stepped:Connect(function(totalTime: number, deltaTime: number)
+		if (time() - lastUpdate) < Configuration.CacheUpdateTime then
+			return
+		end
+		lastUpdate = time()
+
+		self:UpdatePlayers()
+	end)
+
+	TrackCollectionTags()
 end
 
-function MyNewChatController:KnitInit()
+function MyTextChatServicePlusController:KnitInit()
 
 end
 
@@ -105,8 +182,8 @@ end
 -- RETURN CONTROLLER TO KNIT --
 -------------------------------
 
-MyNewChatController:KnitInit() -- Remove if using Knit
-MyNewChatController:KnitStart() -- Remove if using Knit
+MyTextChatServicePlusController:KnitInit() -- Remove if using Knit
+MyTextChatServicePlusController:KnitStart() -- Remove if using Knit
 
 -- Uncomment if using Knit
--- return MyNewChatController
+-- return MyTextChatServicePlusController
