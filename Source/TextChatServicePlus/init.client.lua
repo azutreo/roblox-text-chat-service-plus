@@ -52,8 +52,7 @@ local MyTextChatServicePlusController = {} --[[Knit.CreateController {
 type Function = (any) -> (any)
 
 type Handler = {
-	Sending: Function,
-	Success: Function
+	ProcessMessage: Function
 }
 
 local lastUpdate: number = time()
@@ -142,7 +141,7 @@ end
 -- PUBLIC FUNCTIONS --
 ----------------------
 
-function MyTextChatServicePlusController:UpdatePlayers(deltaTime: number)
+function MyTextChatServicePlusController:UpdatePlayers()
 	for _, player: Player in ipairs(Players:GetPlayers()) do
 		-- I would normally do this async, however I want to
 		-- update everyone before restarting the cache update timer :D
