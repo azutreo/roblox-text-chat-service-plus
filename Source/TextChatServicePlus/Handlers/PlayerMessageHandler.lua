@@ -33,12 +33,6 @@ local PlayerMessageHandler = {}
 -- PRIVATE PROPERTIES --
 ------------------------
 
-local ClassicNameColors = Util.ClassicNameColors
-
-local Prefixes = Configuration.Prefixes
-local NameColors = Configuration.NameColors
-local ChatColors = Configuration.ChatColors
-
 -----------------------
 -- PUBLIC PROPERTIES --
 -----------------------
@@ -63,7 +57,8 @@ function PlayerMessageHandler:Success(message, properties)
 		return properties
 	end
 
-	local prefix = player:GetAttribute("ChatData_Prefix")
+	local prefixText = player:GetAttribute("ChatData_PrefixText")
+	local prefixColor = player:GetAttribute("ChatData_PrefixColor")
 	local nameColor = player:GetAttribute("ChatData_NameColor")
 	local chatColor = player:GetAttribute("ChatData_ChatColor")
 
@@ -72,28 +67,27 @@ function PlayerMessageHandler:Success(message, properties)
 		message.PrefixText
 	)
 
-	if typeof(nameColor) == "table" and typeof(nameColor.Color) == "Color3" then
+	if typeof(chatColor) == "string" then
 		properties.PrefixText = string.format(
 			Configuration.PlayerMessage.NameColorFormat,
-			nameColor.Color:ToHex(),
+			nameColor,
 			properties.PrefixText
 		)
 	end
 
-	if typeof(prefix) == "table" and typeof(prefix.Text) == "string" and typeof(prefix.Color) == "Color3" then
+	if typeof(chatColor) == "string" then
 		properties.PrefixText = string.format(
 			Configuration.PlayerMessage.PrefixFormat,
-			prefix.Color:ToHex(),
-			prefix.Text,
+			prefixColor,
+			prefixText,
 			properties.PrefixText
 		)
 	end
 
-	-- THIS IS VERY BROKEN. DISABLED BY DEFAULT. ENABLE IN ChatColorModule IF YOU WANT TO TRY IT.
-	if typeof(chatColor) == "table" and typeof(chatColor.Color) == "Color3" then
+	if typeof(chatColor) == "string" then
 		properties.Text = string.format(
 			Configuration.PlayerMessage.TextFormat,
-			chatColor.Color:ToHex(),
+			chatColor,
 			message.Text
 		)
 	end
