@@ -83,10 +83,8 @@ local function OnIncomingMessage(message: TextChatMessage): TextChatMessagePrope
 
 	if typeof(handler) ~= "table" then
 		return properties
-	elseif message.Status == Enum.TextChatMessageStatus.Success then
-		handlerFunction = handler.Success
 	else
-		handlerFunction = handler.Sending
+		handlerFunction = handler.ProcessMessage
 	end
 
 	local success, result = pcall(handlerFunction, handler, message, properties)

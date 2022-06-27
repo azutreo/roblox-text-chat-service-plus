@@ -45,13 +45,7 @@ local PlayerMessageHandler = {}
 -- PUBLIC FUNCTIONS --
 ----------------------
 
-function PlayerMessageHandler:Sending(message, properties)
-	properties.PrefixText = string.format(Configuration.PlayerMessage.NameFormat, message.PrefixText)
-
-	return properties
-end
-
-function PlayerMessageHandler:Success(message, properties)
+function PlayerMessageHandler:ProcessMessage(message, properties)
 	local player: Player = Players:GetPlayerByUserId(message.TextSource.UserId)
 	if not Util.AssignmentOptions:CheckIsPlayerValid(player) then
 		return properties

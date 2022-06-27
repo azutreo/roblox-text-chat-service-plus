@@ -43,11 +43,7 @@ local SystemMessageHandler = {}
 -- PUBLIC FUNCTIONS --
 ----------------------
 
-function SystemMessageHandler:Sending(message, properties)
-	return properties
-end
-
-function SystemMessageHandler:Success(message, properties)
+function SystemMessageHandler:ProcessMessage(message, properties)
 	properties.PrefixText = string.format(
 		Configuration.SystemMessage.PrefixTextFormat,
 		Configuration.SystemMessage.Prefix.Color:ToHex(),
