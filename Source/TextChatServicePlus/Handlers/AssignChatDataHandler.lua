@@ -137,6 +137,10 @@ function AssignChatDataHandler:UpdateForPlayer(player: Player)
 	local nameColor = GetNameColorForPlayer(player)
 	local chatColor = GetChatColorForPlayer(player)
 
+	if not Util.AssignmentOptions:CheckIsPlayerValid(player) then
+		return
+	end
+
 	if typeof(prefix) == "table" and typeof(prefix.Text) == "string" and typeof(prefix.Color) == "Color3" then
 		player:SetAttribute("ChatData_PrefixColor", prefix.Color:ToHex())
 		player:SetAttribute("ChatData_PrefixText", prefix.Text)

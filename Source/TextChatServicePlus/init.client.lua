@@ -146,7 +146,9 @@ end
 
 function MyTextChatServicePlusController:UpdatePlayers(deltaTime: number)
 	for _, player: Player in ipairs(Players:GetPlayers()) do
-		task.spawn(AssignChatDataHandler.UpdateForPlayer, AssignChatDataHandler, player)
+		-- I would normally do this async, however I want to
+		-- update everyone before restarting the cache update timer :D
+		AssignChatDataHandler:UpdateForPlayer(player)
 	end
 end
 
@@ -166,9 +168,11 @@ function MyTextChatServicePlusController:KnitStart()
 		if (time() - lastUpdate) < Configuration.CacheUpdateTime then
 			return
 		end
-		lastUpdate = time()
+		lastUpdate = time() + 30
 
 		self:UpdatePlayers()
+
+		lastUpdate = time()
 	end)
 
 	TrackCollectionTags()
