@@ -62,14 +62,12 @@ function PlayerMessageHandler:Success(message, properties)
 	local nameColor = player:GetAttribute("ChatData_NameColor")
 	local chatColor = player:GetAttribute("ChatData_ChatColor")
 
-	print(prefixColor)
-
 	properties.PrefixText = string.format(
 		Configuration.PlayerMessage.NameFormat,
 		message.PrefixText
 	)
 
-	if typeof(chatColor) == "string" then
+	if typeof(nameColor) == "string" then
 		properties.PrefixText = string.format(
 			Configuration.PlayerMessage.NameColorFormat,
 			nameColor,
@@ -77,7 +75,7 @@ function PlayerMessageHandler:Success(message, properties)
 		)
 	end
 
-	if typeof(chatColor) == "string" then
+	if typeof(prefixText) == "string" and typeof(prefixColor) == "string" then
 		properties.PrefixText = string.format(
 			Configuration.PlayerMessage.PrefixFormat,
 			prefixColor,
