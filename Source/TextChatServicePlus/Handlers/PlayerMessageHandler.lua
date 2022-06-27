@@ -62,6 +62,8 @@ function PlayerMessageHandler:Success(message, properties)
 	local nameColor = player:GetAttribute("ChatData_NameColor")
 	local chatColor = player:GetAttribute("ChatData_ChatColor")
 
+	print(prefixColor)
+
 	properties.PrefixText = string.format(
 		Configuration.PlayerMessage.NameFormat,
 		message.PrefixText
