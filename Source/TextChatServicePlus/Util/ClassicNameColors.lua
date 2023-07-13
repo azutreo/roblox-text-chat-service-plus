@@ -74,6 +74,11 @@ end
 
 local function OnPlayerAdded(player: Player)
 	classicNameColorCache[player] = ComputeClassicNameColor(player.Name)
+	player:GetAttributeChangedSignal("ChatData_CustomName"):Connect(function()
+		if player:GetAttribute("ChatData_CustomName") ~= "" then
+			classicNameColorCache[player] = ComputeClassicNameColor(player:GetAttribute("ChatData_CustomName"))
+		end
+	end
 end
 
 local function OnPlayerRemoving(player: Player)

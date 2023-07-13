@@ -55,10 +55,11 @@ function PlayerMessageHandler:ProcessMessage(message, properties)
 	local prefixColor = player:GetAttribute("ChatData_PrefixColor")
 	local nameColor = player:GetAttribute("ChatData_NameColor")
 	local chatColor = player:GetAttribute("ChatData_ChatColor")
+	local customName = player:GetAttribute("ChatData_CustomName")
 
 	properties.PrefixText = string.format(
 		Configuration.PlayerMessage.NameFormat,
-		message.PrefixText
+		customName ~= "" and customName or message.PrefixText
 	)
 
 	if typeof(nameColor) == "string" then
